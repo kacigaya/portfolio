@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+  <img src="public/logo_light.svg" alt="Logo" width="120">
+</p>
+
+<h1 align="center">gaya kaci — portfolio</h1>
+
+<p align="center">
+   <strong>Minimalist developer portfolio. Terminal-inspired, black & white.</strong><br>
+   <em>Built with Next.js 16 and Tailwind CSS 4.</em>
+</p>
+
+## Features
+
+- Single-page scroll layout with anchor navigation
+- Terminal-inspired UI with prompt aesthetics
+- Blinking cursor and scroll-triggered fade-in animations
+- 9 featured open-source projects
+- Categorized skills from security to AI/ML
+- Fully responsive and keyboard-accessible
+- Self-hosted JetBrains Nerd Font
+
+## Tech Stack
+
+- **Framework:** Next.js 16
+- **UI:** React 19, Tailwind CSS 4
+- **Icons:** Lucide React
+- **Font:** JetBrains Nerd Font (self-hosted via `next/font/local`)
+- **Language:** TypeScript
+- **Package Manager:** Bun
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 20+ or Bun
+
+### Installation
 
 ```bash
-npm run dev
+bun install
 # or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+bun dev
+# or
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-## Learn More
+### Project Structure
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/            # Next.js App Router pages, layout, fonts and global styles
+components/     # Reusable UI components (Nav, Caret, Reveal, icons)
+sections/       # Page sections (Hero, About, Projects, Skills, Contact)
+lib/            # Static data (projects, socials)
+public/         # Logo SVGs and self-hosted font files
+```
