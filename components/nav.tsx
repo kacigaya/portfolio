@@ -10,7 +10,7 @@ const links = [
 
 export function Nav() {
   return (
-    <header className="fixed top-0 inset-x-0 z-40 border-b bg-black/80 backdrop-blur">
+    <header className="fixed top-0 inset-x-0 z-40 bg-black/80 backdrop-blur">
       <div className="mx-auto max-w-3xl px-6 md:px-8 h-14 flex items-center justify-between text-sm">
         <Link href="#top" aria-label="home" className="flex items-center gap-2">
           <Image
