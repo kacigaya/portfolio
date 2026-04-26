@@ -2,7 +2,7 @@
   <img src="public/logo_light.svg" alt="Logo" width="120">
 </p>
 
-<h1 align="center">gaya kaci — portfolio</h1>
+<h1 align="center">Portfolio</h1>
 
 <p align="center">
    <strong>Minimalist developer portfolio. Terminal-inspired, black & white.</strong><br>
