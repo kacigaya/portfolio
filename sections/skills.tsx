@@ -17,9 +17,9 @@ const groups: Group[] = [
   {
     label: "dev",
     items: [
+      "rust",
       "python",
       "c",
-      "pascal",
       "asm",
       "javascript",
       "typescript",
@@ -63,7 +63,7 @@ const groups: Group[] = [
   },
   {
     label: "os",
-    items: ["debian", "arch", "kali", "macos", "windows", "android"],
+    items: ["debian", "arch", "kali", "macos", "windows", "android", "ios"],
   },
 ];
 
