@@ -14,6 +14,12 @@ export const projects: Project[] = [
     stack: ["rust", "tui", "llm", "security"],
   },
   {
+    name: "pdfcmprs",
+    desc: "Compress, merge, and split your PDFs directly in the browser. No server upload, fully offline",
+    url: "https://github.com/kacigaya/pdfcmprs",
+    stack: ["typescript", "next.js"],
+  },
+  {
     name: "lightchat",
     desc: "Minimalist AI chat. 17 LLM providers via Vercel AI SDK, keys stay in the browser.",
     url: "https://github.com/kacigaya/lightchat",
