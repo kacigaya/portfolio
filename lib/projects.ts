@@ -8,6 +8,12 @@ type Project = {
 
 export const projects: Project[] = [
   {
+    name: "teensy-reverse-shell",
+    desc: "BadUSB POC. Teensy 3.2 deploys a fileless PowerShell reverse shell on Windows via HID injection.",
+    url: "https://github.com/kacigaya/teensy-reverse-shell",
+    stack: ["c++", "powershell", "badusb", "security"],
+  },
+  {
     name: "ghostpwn",
     desc: "Autonomous pentest agent. Interactive TUI with multi-provider LLM backends.",
     url: "https://github.com/GhostPWN/ghostpwn",
