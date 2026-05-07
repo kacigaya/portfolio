@@ -1,5 +1,5 @@
 ---
-title: "Skia Graphite Compositing Bug — Chromium on macOS"
+title: "Skia Graphite Compositing Bug: Chromium on macOS"
 date: "2026-05-06"
 description: "A GPU rendering synchronization bug causing visual corruption on macOS, and how to fix it."
 tags: ["macos", "chromium", "gpu", "electron"]
@@ -80,7 +80,7 @@ do shell script "open -n -a Codex --args --disable-features=SkiaGraphite"
 4. Save it as `Codex Fixed.app` in `/Applications` or `~/Applications`.
 5. Launch `Codex Fixed.app` instead of editing `Codex.app`.
 
-### Codex — persistent system launcher fix
+### Codex: persistent system launcher fix
 
 The Chrome policy mechanism does not apply to Electron apps like Codex. The reliable fix is replacing the Codex launcher binary with a thin shell shim that forwards `--disable-features=SkiaGraphite` to the original executable, which is renamed `Codex.real`:
 
@@ -100,7 +100,7 @@ sudo chmod 755 "$BIN"
 sudo codesign --force --deep --sign - "$APP"
 ```
 
-Quit Codex fully, then reopen from `/Applications/Codex.app` normally. The `codesign` step re-signs with an ad-hoc signature since the bundle was modified — a Codex update can overwrite the shim, so rerun after updating if the issue returns.
+Quit Codex fully, then reopen from `/Applications/Codex.app` normally. The `codesign` step re-signs with an ad-hoc signature since the bundle was modified; a Codex update can overwrite the shim, so rerun after updating if the issue returns.
 
 To roll back without reinstalling:
 
@@ -113,7 +113,7 @@ sudo codesign --force --deep --sign - "$APP"
 
 ### System-wide (Chrome-family browsers)
 
-For managed Chrome-family browsers, set the Chromium policy file. This is a browser policy path — it does **not** apply to Codex or generic Electron apps.
+For managed Chrome-family browsers, set the Chromium policy file. This is a browser policy path; it does **not** apply to Codex or generic Electron apps.
 
 ```bash
 mkdir -p "/Library/Application Support/Google/Chrome/policies/managed"
@@ -140,7 +140,7 @@ When the upstream fix lands (Chromium 14x), reset the flag to `Default` and remo
 
 ## Sources
 
-- [Chromium command-line flags](https://www.chromium.org/developers/how-tos/run-chromium-with-flags) — Chromium project docs
-- [Electron command-line switches API](https://www.electronjs.org/docs/latest/api/command-line-switches) — `--disable-features` flag reference
-- [Electron environment variables](https://www.electronjs.org/docs/latest/api/environment-variables) — `ELECTRON_EXTRA_LAUNCH_ARGS` docs
-- [Chrome enterprise policy list](https://chromeenterprise.google/policies/) — `DisabledFeatures` policy reference
+- [Chromium command-line flags](https://www.chromium.org/developers/how-tos/run-chromium-with-flags): Chromium project docs
+- [Electron command-line switches API](https://www.electronjs.org/docs/latest/api/command-line-switches): `--disable-features` flag reference
+- [Electron environment variables](https://www.electronjs.org/docs/latest/api/environment-variables): `ELECTRON_EXTRA_LAUNCH_ARGS` docs
+- [Chrome enterprise policy list](https://chromeenterprise.google/policies/): `DisabledFeatures` policy reference
