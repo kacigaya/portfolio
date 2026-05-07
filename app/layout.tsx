@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={jetbrains.variable}>
+    <html lang="en" className={jetbrains.variable} data-scroll-behavior="smooth">
       <body className="min-h-dvh">{children}</body>
     </html>
   );

@@ -2,17 +2,18 @@ import Image from "next/image";
 import Link from "next/link";
 
 const links = [
-  { href: "#about", label: "~/about" },
-  { href: "#projects", label: "~/projects" },
-  { href: "#skills", label: "~/skills" },
-  { href: "#contact", label: "~/contact" },
+  { href: "/#about", label: "~/about" },
+  { href: "/#projects", label: "~/projects" },
+  { href: "/blog", label: "~/blog" },
+  { href: "/#skills", label: "~/skills" },
+  { href: "/#contact", label: "~/contact" },
 ];
 
 export function Nav() {
   return (
     <header className="fixed top-0 inset-x-0 z-40 bg-black/80 backdrop-blur">
       <div className="mx-auto max-w-3xl px-6 md:px-8 h-14 flex items-center justify-between text-sm">
-        <Link href="#top" aria-label="home" className="flex items-center gap-2">
+        <Link href="/#top" aria-label="home" className="flex items-center gap-2">
           <Image
             src="/logo_dark.svg"
             alt="Logo"
