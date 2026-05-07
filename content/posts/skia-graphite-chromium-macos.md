@@ -1,6 +1,6 @@
 ---
 title: "Skia Graphite Compositing Bug — Chromium on macOS"
-date: "2026-05-07"
+date: "2026-05-06"
 description: "A GPU rendering synchronization bug causing visual corruption on macOS, and how to fix it."
 tags: ["macos", "chromium", "gpu", "electron"]
 repo: "https://github.com/kacigaya/skia-graphite-openai"
