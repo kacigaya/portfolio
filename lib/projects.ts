@@ -8,6 +8,25 @@ type Project = {
 
 export const projects: Project[] = [
   {
+    name: "webskrap",
+    desc: "Python web-scraping framework built on Playwright.",
+    url: "https://github.com/kacigaya/webskrap",
+    homepage: "https://kacigaya.github.io/webskrap/",
+    stack: ["python", "playwright", "scraping"],
+  },
+  {
+    name: "deepseek-pi-oauth",
+    desc: "DeepSeek web-login/OAuth bridge installer for Raspberry Pi.",
+    url: "https://github.com/kacigaya/deepseek-pi-oauth",
+    stack: ["bash", "oauth", "raspberry-pi"],
+  },
+  {
+    name: "minimax-pi-oauth",
+    desc: "MiniMax OAuth bridge installer for Raspberry Pi.",
+    url: "https://github.com/kacigaya/minimax-pi-oauth",
+    stack: ["bash", "oauth", "raspberry-pi"],
+  },
+  {
     name: "teensy-reverse-shell",
     desc: "BadUSB POC. Teensy 3.2 deploys a fileless PowerShell reverse shell on Windows via HID injection.",
     url: "https://github.com/kacigaya/teensy-reverse-shell",
