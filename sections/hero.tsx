@@ -15,10 +15,13 @@ export function Hero() {
         cybersecurity student · web developer · automation
       </p>
       <p className="mt-6 max-w-2xl leading-relaxed">
-        Master&apos;s student at <span className="text-white">ESGI Paris</span>.
-        Currently web dev / cybersecurity at{" "}
-        <span className="text-white">Société Générale Assurance</span> —
-        building Python automation, scrapers, and security tooling.
+        Master&apos;s student at{" "}
+        <span className="text-white">
+          Efrei Paris Panthéon-Assas Université
+        </span>
+        . Currently web dev / cybersecurity at{" "}
+        <span className="text-white">Société Générale Assurance</span> building
+        Python automation, scrapers, and security tooling.
       </p>
       <p className="mt-6 text-sm text-muted">
         <span aria-hidden>$</span> pwd

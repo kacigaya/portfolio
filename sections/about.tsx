@@ -25,8 +25,8 @@ export function About() {
             <span className="text-white">role</span> · web dev · cybersecurity
           </li>
           <li>
-            <span className="text-white">degree</span> · M. cybersecurity, ESGI
-            Paris
+            <span className="text-white">degree</span> · M. cybersecurity, Efrei
+            Paris Panthéon-Assas Université
           </li>
           <li>
             <span className="text-white">location</span> · Paris, FR
