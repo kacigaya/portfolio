@@ -17,7 +17,7 @@ export function Projects() {
               href={p.url}
               target="_blank"
               rel="noreferrer"
-              className="group block h-full border p-4 transition-colors hover:bg-white hover:text-black"
+              className="group flex h-full flex-col border p-4 transition-colors hover:bg-white hover:text-black"
             >
               <div className="flex items-start justify-between gap-3">
                 <span className="font-bold">[ {p.name} ]</span>
@@ -28,7 +28,7 @@ export function Projects() {
                 />
               </div>
               <p className="mt-2 text-sm leading-relaxed">{p.desc}</p>
-              <p className="mt-3 text-xs text-muted group-hover:text-black">
+              <p className="mt-auto pt-3 text-xs text-muted group-hover:text-black">
                 {p.stack.map((s) => `[${s}]`).join(" ")}
               </p>
             </a>
