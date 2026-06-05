@@ -16,15 +16,15 @@ export const projects: Project[] = [
   },
   {
     name: "deepseek-pi-oauth",
-    desc: "DeepSeek web-login/OAuth bridge installer for Raspberry Pi.",
+    desc: "DeepSeek web-login/OAuth bridge installer for Pi from pi.dev.",
     url: "https://github.com/kacigaya/deepseek-pi-oauth",
-    stack: ["bash", "oauth", "raspberry-pi"],
+    stack: ["bash", "oauth", "pi.dev"],
   },
   {
     name: "minimax-pi-oauth",
-    desc: "MiniMax OAuth bridge installer for Raspberry Pi.",
+    desc: "MiniMax OAuth bridge installer for Pi from pi.dev.",
     url: "https://github.com/kacigaya/minimax-pi-oauth",
-    stack: ["bash", "oauth", "raspberry-pi"],
+    stack: ["bash", "oauth", "pi.dev"],
   },
   {
     name: "teensy-reverse-shell",
