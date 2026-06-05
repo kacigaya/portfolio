@@ -1,14 +1,14 @@
 ---
 title: "Passing Bot Detection in Headless Chrome"
 date: "2026-06-03"
-description: "Making headless Chromium clear the same bot-detection suite as headed mode — using a simulated screen and a masked user agent, no JavaScript spoofing."
+description: "Making headless Chromium clear the same bot-detection suite as headed mode with a simulated screen and a masked user agent, no JavaScript spoofing."
 tags: ["browser-automation", "stealth", "playwright", "chromium"]
 repo: "https://github.com/kacigaya/webskrap"
 ---
 
-Headed Chrome driven by [patchright](https://github.com/Kaliiiiiiiiii-Vinyzu/patchright) (a CDP-leak-free Playwright fork) already clears the public bot-detection demos: reCAPTCHA v3, Cloudflare Turnstile, BrowserScan, FingerprintJS, CreepJS, Sannysoft, Incolumitas. Headless mode does not. This is the story of closing that gap on **WebSkrap** without a single line of JavaScript fingerprint spoofing — because broad JS patches register as *tampering*, which is itself a detection signal.
+Headed Chrome driven by [patchright](https://github.com/Kaliiiiiiiiii-Vinyzu/patchright), a CDP-leak-free Playwright fork, already clears the public bot-detection demos: reCAPTCHA v3, Cloudflare Turnstile, BrowserScan, FingerprintJS, CreepJS, Sannysoft, Incolumitas. Headless mode does not. I wanted WebSkrap to close that gap without JavaScript fingerprint spoofing, because broad JS patches register as tampering, and tampering is its own detection signal.
 
-Constraint: native only. No `Xvfb`, no `xfce`, no Docker — the host is macOS, which has no X server, so virtual-framebuffer tricks are off the table. Every fix had to be browser-level.
+Constraint: native only. No `Xvfb`, no `xfce`, no Docker. The host is macOS, which has no X server, so virtual-framebuffer tricks are off the table. Every fix had to happen at the browser level.
 
 ## The two surviving tells
 
@@ -27,7 +27,7 @@ window.outerHeight  // 0
 
 A real desktop never reports a 0-pixel outer window. BrowserScan's navigator check, Sannysoft's resolution row, and CreepJS all key on this.
 
-**Fix:** configure a virtual screen at launch via Chrome's own flags — not JS.
+Fix: configure a virtual screen at launch through Chrome's own flags, not JS.
 
 ```
 --window-size=1366,768
@@ -40,7 +40,7 @@ A real desktop never reports a 0-pixel outer window. BrowserScan's navigator che
 ```js
 screen.width        // 1366
 window.outerWidth   // 1366
-window.innerHeight  // 695   (minus chrome — coherent)
+window.innerHeight  // 695   (minus chrome, coherent)
 devicePixelRatio    // 1
 ```
 
@@ -55,25 +55,25 @@ Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
 
 CreepJS flags `hasHeadlessUA` and `hasHeadlessWorkerUA`; `arh.antoinevastel.com` reports "You are Chrome headless"; `deviceandbrowserinfo` sets `isHeadlessChrome`.
 
-**Fix:** probe the real UA once, rewrite `HeadlessChrome` → `Chrome`, and re-apply it via Chrome's `--user-agent` launch flag. Browser-level, native client hints left intact, no JS getter overrides.
+Fix: probe the real UA once, rewrite `HeadlessChrome` to `Chrome`, and re-apply it through Chrome's `--user-agent` launch flag. This stays at the browser level. Native client hints remain intact, and there are no JS getter overrides.
 
 ## The SharedWorker trap
 
-The obvious move is Playwright's context `user_agent` option, which sets a CDP UA override. It covers the page, dedicated workers, module workers, and service workers. It does **not** cover `SharedWorker` — that runs in its own process, outside the page's CDP session — so CreepJS's `hasHeadlessWorkerUA` stays `true`:
+The obvious move is Playwright's context `user_agent` option, which sets a CDP UA override. It covers the page, dedicated workers, module workers, and service workers. It does not cover `SharedWorker`. That runs in its own process, outside the page's CDP session, so CreepJS's `hasHeadlessWorkerUA` stays `true`:
 
 | worker type      | context override | `--user-agent` flag |
 |------------------|:----------------:|:-------------------:|
 | dedicated / blob | clean            | clean               |
 | module / nested  | clean            | clean               |
-| **SharedWorker** | **still leaks**  | clean               |
+| SharedWorker     | still leaks      | clean               |
 
-The `--user-agent` launch flag is process-wide, so it cleans SharedWorker too. So drop the context override entirely and rely on the flag alone — which also avoids a CDP injection per frame.
+The `--user-agent` launch flag is process wide, so it cleans SharedWorker too. Drop the context override and rely on the flag alone. That also avoids a CDP injection per frame.
 
 ## The reCAPTCHA red herring
 
-With the screen and UA fixed, eight of nine tests passed. reCAPTCHA v3 timed out — but only under `pytest-asyncio`. The exact same code under `asyncio.run()` scored **0.9** every time. Same browser, same config, same machine.
+With the screen and UA fixed, eight of nine tests passed. reCAPTCHA v3 timed out, but only under `pytest-asyncio`. The exact same code under `asyncio.run()` scored 0.9 every time. Same browser, same config, same machine.
 
-Logging the network made the failure concrete: the demo's verify request fired with an **empty token**.
+Logging the network made the failure concrete: the demo's verify request fired with an empty token.
 
 ```
 GET /recaptcha-v3-verify.php?action=examples/v3scores&token=
@@ -82,11 +82,11 @@ GET /recaptcha-v3-verify.php?action=examples/v3scores&token=
 
 `grecaptcha.execute()` was resolving with nothing. Bisecting the difference:
 
-- plain headless, no masking → token issued (0.9)
-- `--user-agent` set via `launch_args`, no probe → token issued (0.9)
-- masking enabled (probe + flag) → empty token
+- plain headless, no masking: token issued (0.9)
+- `--user-agent` set via `launch_args`, no probe: token issued (0.9)
+- masking enabled (probe + flag): empty token
 
-The culprit was not the UA at all — it was the **probe**. Determining the real UA meant launching a throwaway browser, reading `navigator.userAgent`, and closing it right before the real launch. Two headless Chrome instances opening and closing within milliseconds, from one IP, tripped reCAPTCHA's risk scoring. `asyncio.run()` happened to sequence the teardown with more slack; `pytest-asyncio`'s loop did not.
+The culprit was not the UA. It was the probe. Determining the real UA meant launching a throwaway browser, reading `navigator.userAgent`, and closing it right before the real launch. Two headless Chrome instances opening and closing within milliseconds, from one IP, tripped reCAPTCHA's risk scoring. `asyncio.run()` happened to sequence the teardown with more slack; `pytest-asyncio`'s loop did not.
 
 A 2-second settle after closing the probe browser lets the prior session fully tear down before the real launch. Token issued, score 0.9, deterministic.
 
@@ -121,9 +121,9 @@ config = SessionConfig(
 
 ## Takeaways
 
-- **Don't lie in JavaScript.** Every spoofed getter is a `toString` mismatch or proxy that CreepJS detects as tampering. Configure the real browser instead — launch flags, not `Object.defineProperty`.
-- **The UA override has to be process-wide.** Per-context CDP overrides miss SharedWorker. The command-line flag does not.
-- **Your test runner is part of the environment.** A reCAPTCHA failure that reproduces under `pytest-asyncio` but not `asyncio.run()` is not a flake — here it was event-loop timing on a throwaway browser's teardown leaking into a third-party risk score.
+- Don't lie in JavaScript. Every spoofed getter is a `toString` mismatch or proxy that CreepJS detects as tampering. Configure the real browser with launch flags instead of `Object.defineProperty`.
+- The UA override has to be process wide. Per-context CDP overrides miss SharedWorker. The command-line flag does not.
+- Your test runner is part of the environment. A reCAPTCHA failure that reproduces under `pytest-asyncio` but not `asyncio.run()` is not a flake. Here it was event-loop timing on a throwaway browser's teardown leaking into a third-party risk score.
 
 ## Sources
 

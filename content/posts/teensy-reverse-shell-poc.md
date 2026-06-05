@@ -1,5 +1,5 @@
 ---
-title: "Teensy BadUSB Reverse Shell POC"
+title: "Teensy BadUSB reverse shell POC"
 date: "2026-05-07"
 description: "HID keyboard injection on a Teensy 3.2 chains into a fileless PowerShell reverse shell on Windows."
 tags: ["badusb", "powershell", "windows", "red-team"]
@@ -8,7 +8,7 @@ repo: "https://github.com/kacigaya/teensy-reverse-shell"
 
 For authorized testing only. Do not run against systems you do not own.
 
-## Threat Model
+## Threat model
 
 Physical access to an unlocked Windows host for under 10 seconds. Goal: interactive shell back to the attacker without dropping artifacts on disk.
 
@@ -19,9 +19,9 @@ Two parts:
 1. `stager/stager.ino`: Teensy 3.2 sketch that acts as a USB HID keyboard.
 2. `shell.ps1`: PowerShell reverse shell, hosted over HTTP on the attacker box.
 
-The Teensy registers as a generic keyboard, no driver prompt, no AV trigger from the device itself. Windows treats keystrokes from it as user input.
+The Teensy registers as a generic keyboard. There is no driver prompt and no AV trigger from the device itself. Windows treats keystrokes from it as user input.
 
-## Stage 1: HID Injection
+## Stage 1: HID injection
 
 USB type set to `Keyboard + Mouse + Joystick` in Teensyduino. On plug-in:
 
@@ -49,7 +49,7 @@ Flags:
 
 `DownloadString` returns the body as a string. `IEX` evaluates it in the current PowerShell session. The script never touches the filesystem, so AMSI string inspection is the main detection surface, not on-disk scanning.
 
-## Stage 2: Reverse Shell
+## Stage 2: Reverse shell
 
 `shell.ps1` opens a TCP socket to the attacker IP and port, then loops:
 
@@ -66,7 +66,7 @@ while (($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0) {
 }
 ```
 
-Connection is outbound from the victim. Egress filtering, not inbound rules, is what blocks this. On a flat home or coffee shop network, port 6969 outbound is almost always allowed.
+Connection is outbound from the victim. Egress filtering, not inbound rules, is what blocks this. On a flat home or coffee shop network, port 6969 outbound is usually allowed.
 
 `Invoke-Expression` runs the received string in the current session, so it inherits the user token, working directory, and PowerShell modules.
 
@@ -79,7 +79,7 @@ After the shell connects, the Teensy injects a second Run command that wipes two
 
 Removal is silent and non-blocking. The shell session is unaffected because it runs under a separate `powershell.exe` process spawned by the first Run command.
 
-## Attack Chain
+## Attack chain
 
 ```
 Teensy plugged in
@@ -94,18 +94,18 @@ Teensy plugged in
 
 Total time from plug-in to shell: about 6 seconds.
 
-## Detection Surface
+## Detection surface
 
 What flags this in a defended environment:
 
-- AMSI: scans the script body after `DownloadString` returns. Plain `IEX` of a known reverse-shell pattern is fingerprinted by Defender.
+- AMSI scans the script body after `DownloadString` returns. Plain `IEX` of a known reverse-shell pattern is fingerprinted by Defender.
 - EDR: parent-child anomaly. `explorer.exe` spawning `powershell.exe` with `-w h -nop -ExecutionPolicy Bypass` and an `IEX` + `DownloadString` argument is a high-confidence signature.
 - USB device control: enterprise endpoints often whitelist HID by VID/PID. A Teensy 3.2 reports as `0x16C0:0x0483`, which is not on standard vendor lists.
 - Network: outbound connection to a non-RFC1918 IP on a high port from `powershell.exe` is logged by Sysmon event 3.
 
-## Hardening Notes for Defenders
+## Hardening notes for defenders
 
-- Enable Constrained Language Mode for non-admin users. Breaks `Invoke-Expression` on arbitrary script bodies.
+- Enable Constrained Language Mode for non-admin users. It breaks `Invoke-Expression` on arbitrary script bodies.
 - Set `Set-PSReadLineOption -HistorySaveStyle SaveNothing` for high-risk hosts, or audit the file.
 - Block Run dialog via `NoRun` group policy on kiosk and shared workstations.
 - USB HID device control via Intune or third-party agent.
