@@ -21,7 +21,7 @@ export async function generateMetadata({
   const post = getPost(slug);
   if (!post) return {};
   return {
-    title: `${post.title} — Gaya KACI`,
+    title: `${post.title} | Gaya KACI`,
     description: post.description,
     openGraph: {
       title: post.title,
@@ -84,7 +84,7 @@ export default async function BlogPost({
         </p>
       </main>
       <footer className="mx-auto max-w-3xl px-6 md:px-8 pb-10 text-xs text-muted">
-        <span aria-hidden>$</span> exit 0 — built with next.js ·{" "}
+        <span aria-hidden>$</span> exit 0 | built with next.js ·{" "}
         {new Date().getFullYear()}
       </footer>
     </>

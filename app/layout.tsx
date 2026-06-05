@@ -3,14 +3,14 @@ import { jetbrains } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Gaya KACI — Cybersecurity & Web",
+  title: "Gaya KACI | Cybersecurity and web",
   description:
-    "Cybersecurity student at ESGI Paris. Web developer, automation and security tooling.",
+    "Cybersecurity student at Efrei Paris Pantheon-Assas. Web development, automation, and security tooling.",
   metadataBase: new URL("https://gayakaci.vercel.app/"),
   openGraph: {
     title: "Gaya KACI",
     description:
-      "Cybersecurity student at ESGI Paris. Web dev, automation, security tooling.",
+      "Cybersecurity student at Efrei Paris Pantheon-Assas. Web development, automation, and security tooling.",
     type: "website",
   },
 };

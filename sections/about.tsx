@@ -6,19 +6,19 @@ export function About() {
       </h2>
       <div className="mt-4 space-y-4 leading-relaxed max-w-2xl">
         <p>
-          Cybersecurity-focused developer, dual background in network/system
-          administration and modern web development.
+          Cybersecurity-focused developer with a background in network and
+          system administration, plus web development.
         </p>
         <p>
           Day job at{" "}
           <span className="text-white">Société Générale Assurance</span>: Python
           automation against complex web targets, session and identity
-          management, Cloud provisioning across Azure and AWS.
+          management, and cloud provisioning across Azure and AWS.
         </p>
         <p>
-          Off-hours: building small CLIs, browser tools, and AI side projects.
-          Comfortable across Linux, macOS, and Windows. Always reading source
-          over docs.
+          Outside work, I build small CLIs, browser tools, and AI side projects.
+          Comfortable across Linux, macOS, and Windows. I usually read source
+          before docs.
         </p>
         <ul className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-sm text-muted">
           <li>

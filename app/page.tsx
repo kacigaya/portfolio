@@ -36,7 +36,7 @@ export default function Page() {
         </Reveal>
       </main>
       <footer className="mx-auto max-w-3xl px-6 md:px-8 pb-10 text-xs text-muted">
-        <span aria-hidden>$</span> exit 0 — built with next.js ·{" "}
+        <span aria-hidden>$</span> exit 0 | built with next.js ·{" "}
         {new Date().getFullYear()}
       </footer>
     </>
