@@ -12,7 +12,7 @@ export function Hero() {
         <Caret />
       </h1>
       <p className="mt-4 text-base md:text-lg text-muted">
-        cybersecurity student · web developer · automation builder
+        cybersecurity student · web security researcher
       </p>
       <p className="mt-6 max-w-2xl leading-relaxed">
         Master&apos;s student at{" "}
@@ -20,8 +20,8 @@ export function Hero() {
           Efrei Paris Panthéon-Assas Université
         </span>
         . Currently working in web development and cybersecurity at{" "}
-        <span className="text-white">Société Générale Assurance</span> building
-        Python automation, scrapers, and security tooling.
+        <span className="text-white">Société Générale Assurance</span> doing web
+        security research and building security tooling.
       </p>
       <p className="mt-6 text-sm text-muted">
         <span aria-hidden>$</span> pwd

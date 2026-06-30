@@ -11,9 +11,9 @@ export function About() {
         </p>
         <p>
           Day job at{" "}
-          <span className="text-white">Société Générale Assurance</span>: Python
-          automation against complex web targets, session and identity
-          management, and cloud provisioning across Azure and AWS.
+          <span className="text-white">Société Générale Assurance</span>: web
+          security research against complex web targets, reverse-engineering
+          anti-bot and bot-detection systems, and browser fingerprinting.
         </p>
         <p>
           Outside work, I build small CLIs, browser tools, and AI side projects.
