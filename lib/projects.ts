@@ -97,12 +97,6 @@ export const projects: Project[] = [
     stack: ["javascript", "snippet"],
   },
   {
-    name: "brave-origin-bypass",
-    desc: "Flips Brave Origin's purchase check to validated by editing its Local State file.",
-    url: "https://github.com/kacigaya/brave-origin-bypass",
-    stack: ["typescript", "shell"],
-  },
-  {
     name: "noskrap",
     desc: "TypeScript bot-risk framework for Next.js apps.",
     url: "https://github.com/kacigaya/noskrap",
