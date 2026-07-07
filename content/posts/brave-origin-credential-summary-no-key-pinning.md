@@ -5,7 +5,7 @@ description: "The Android Origin gate verifies subscription credentials against 
 tags: ["brave", "voprf", "reverse-engineering", "android", "security-research"]
 ---
 
-Security research on hardware I own. This is a writeup of how the gate works and where it is weak, reported to Brave before publishing. It is not a how-to for evading payment.
+Security research on hardware I own. This targets a payment gate, which Brave's bug bounty puts out of scope, so there is no vendor process to route it through. Published as research, not as a how-to for evading payment.
 
 ## The question
 
