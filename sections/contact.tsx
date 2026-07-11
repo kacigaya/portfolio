@@ -1,5 +1,5 @@
 import { Mail } from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "@/components/icons";
+import { GithubIcon, LinkedinIcon, XIcon } from "@/components/icons";
 import { socials } from "@/lib/socials";
 
 const lines = [
@@ -20,6 +20,12 @@ const lines = [
     label: "in  ",
     value: socials.linkedinLabel,
     href: socials.linkedin,
+  },
+  {
+    icon: XIcon,
+    label: "x   ",
+    value: socials.xLabel,
+    href: socials.x,
   },
 ];
 

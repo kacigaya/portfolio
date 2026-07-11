@@ -24,3 +24,11 @@ export function LinkedinIcon({ size = 16, ...rest }: { size?: number } & SVGProp
     </svg>
   );
 }
+
+export function XIcon({ size = 16, ...rest }: { size?: number } & SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...baseProps(size)} {...rest}>
+      <path d="M18.9 1.2h3.7l-8.1 9.2L24 22.8h-7.4l-5.8-7.6-6.7 7.6H.4L9.1 13 0 1.2h7.6l5.2 6.9 6.1-6.9Zm-1.3 19.4h2L6.5 3.3H4.4l13.2 17.3Z" />
+    </svg>
+  );
+}
