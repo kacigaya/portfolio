@@ -21,12 +21,15 @@ export async function generateMetadata({
   const post = getPost(slug);
   if (!post) return {};
   return {
-    title: `${post.title} | Gaya KACI`,
+    title: post.title,
     description: post.description,
+    alternates: { canonical: `/blog/${slug}` },
     openGraph: {
       title: post.title,
       description: post.description,
       type: "article",
+      url: `/blog/${slug}`,
+      images: ["/opengraph-image"],
     },
   };
 }
@@ -48,11 +51,11 @@ export default async function BlogPost({
           <span aria-hidden>$</span> cat ~/blog/{post.slug}.md
         </p>
         <header className="mt-6 border-b pb-6">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight">
+          <h1 className="text-3xl md:text-4xl font-bold leading-tight text-balance">
             {post.title}
           </h1>
           <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
-            <span>{post.date}</span>
+            <span className="tabular-nums">{post.date}</span>
             {post.tags && post.tags.length > 0 && (
               <span>{post.tags.map((t) => `[${t}]`).join(" ")}</span>
             )}
@@ -64,6 +67,7 @@ export default async function BlogPost({
                 className="inline-flex items-center gap-1 hover:text-white"
               >
                 source repo
+                <span className="sr-only">(opens in new tab)</span>
                 <ArrowUpRight size={12} aria-hidden />
               </a>
             )}

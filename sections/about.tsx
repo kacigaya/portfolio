@@ -4,7 +4,7 @@ export function About() {
       <h2 className="text-sm text-muted">
         <span aria-hidden>$</span> cat about.md
       </h2>
-      <div className="mt-4 space-y-4 leading-relaxed max-w-2xl">
+      <div className="mt-4 space-y-4 leading-relaxed max-w-2xl text-pretty">
         <p>
           Cybersecurity-focused developer with a background in network and
           system administration, plus web development.

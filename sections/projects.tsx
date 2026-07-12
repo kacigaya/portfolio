@@ -7,7 +7,7 @@ export function Projects() {
       <h2 className="text-sm text-muted">
         <span aria-hidden>$</span> ls ~/projects
       </h2>
-      <p className="mt-2 text-xs text-muted">
+      <p className="mt-2 text-xs text-muted tabular-nums">
         {projects.length} entries · all open source · github.com/kacigaya
       </p>
       <ul className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -21,6 +21,7 @@ export function Projects() {
             >
               <div className="flex items-start justify-between gap-3">
                 <span className="font-bold">[ {p.name} ]</span>
+                <span className="sr-only">(opens in new tab)</span>
                 <ArrowUpRight
                   size={16}
                   className="shrink-0 mt-1 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"

@@ -7,14 +7,14 @@ export function Hero() {
       <p className="text-sm text-muted">
         <span aria-hidden>$</span> whoami
       </p>
-      <h1 className="mt-3 text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
+      <h1 className="mt-3 text-4xl md:text-6xl font-bold leading-[1.05] text-balance">
         Gaya KACI
         <Caret />
       </h1>
       <p className="mt-4 text-base md:text-lg text-muted">
         cybersecurity student · web security researcher
       </p>
-      <p className="mt-6 max-w-2xl leading-relaxed">
+      <p className="mt-6 max-w-2xl leading-relaxed text-pretty">
         Master&apos;s student at{" "}
         <span className="text-white">
           Efrei Paris Panthéon-Assas Université

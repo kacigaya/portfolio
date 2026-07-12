@@ -10,7 +10,7 @@ export function Blogs() {
       <h2 className="text-sm text-muted">
         <span aria-hidden>$</span> ls ~/blog
       </h2>
-      <p className="mt-2 text-xs text-muted">
+      <p className="mt-2 text-xs text-muted tabular-nums">
         {posts.length} {posts.length === 1 ? "entry" : "entries"} · notes and
         write-ups
       </p>
@@ -31,7 +31,7 @@ export function Blogs() {
               </div>
               <div className="mt-2 flex items-center justify-between gap-3">
                 <p className="text-sm leading-relaxed">{p.description}</p>
-                <span className="text-xs text-muted shrink-0 group-hover:text-black">
+                <span className="text-xs text-muted shrink-0 group-hover:text-black tabular-nums">
                   {p.date}
                 </span>
               </div>

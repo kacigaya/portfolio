@@ -46,12 +46,13 @@ export function Contact() {
                 className="group inline-flex items-center gap-3 hover:bg-white hover:text-black px-1 -mx-1 transition-colors"
               >
                 <Icon size={16} aria-hidden />
-                <span className="text-muted group-hover:text-black uppercase tracking-wider text-xs">
+                <span className="text-muted group-hover:text-black uppercase text-xs">
                   {label}
                 </span>
                 <span className="underline-offset-4 group-hover:no-underline underline decoration-muted group-hover:decoration-black">
                   {value}
                 </span>
+                {external && <span className="sr-only">(opens in new tab)</span>}
               </a>
             </li>
           );
