@@ -1,5 +1,5 @@
 ---
-title: "Brave Origin trusts a server-supplied key"
+title: "Unlock Brave Origin Without Paying"
 date: "2026-06-30"
 description: "The Android Origin gate verifies subscription credentials against a public key the server hands back, with no issuer pinning. A local policy path never redeems them, so a forged credential is enough."
 tags: ["brave", "voprf", "reverse-engineering", "android", "security-research"]
