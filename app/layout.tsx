@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   },
   description:
     "Cybersecurity student at Efrei Paris Pantheon-Assas. Web development, automation, and security tooling.",
-  metadataBase: new URL("https://gayakaci.vercel.app/"),
+  metadataBase: new URL("https://gayakaci.netlify.app/"),
   alternates: { canonical: "/" },
   openGraph: {
     title: "Gaya KACI",
