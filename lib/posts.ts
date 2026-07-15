@@ -15,6 +15,25 @@ export type PostMeta = {
 
 export type Post = PostMeta & { content: string };
 
+function metadata(slug: string, data: Record<string, unknown>): PostMeta | null {
+  if (typeof data.title !== "string" || typeof data.date !== "string" || typeof data.description !== "string") {
+    console.warn(`Skipping post with invalid frontmatter: ${slug}`);
+    return null;
+  }
+  return {
+    slug,
+    title: data.title,
+    date: data.date,
+    description: data.description,
+    tags: Array.isArray(data.tags) && data.tags.every((tag) => typeof tag === "string") ? data.tags : undefined,
+    repo: typeof data.repo === "string" ? data.repo : undefined,
+  };
+}
+
+export function readingTime(content: string): number {
+  return Math.max(1, Math.ceil(content.trim().split(/\s+/).length / 220));
+}
+
 export function getAllPosts(): PostMeta[] {
   if (!fs.existsSync(POSTS_DIR)) return [];
   return fs
@@ -24,15 +43,9 @@ export function getAllPosts(): PostMeta[] {
       const slug = f.replace(/\.md$/, "");
       const raw = fs.readFileSync(path.join(POSTS_DIR, f), "utf8");
       const { data } = matter(raw);
-      return {
-        slug,
-        title: data.title as string,
-        date: data.date as string,
-        description: data.description as string,
-        tags: data.tags as string[] | undefined,
-        repo: data.repo as string | undefined,
-      };
+      return metadata(slug, data);
     })
+    .filter((post): post is PostMeta => post !== null)
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
@@ -41,13 +54,6 @@ export function getPost(slug: string): Post | null {
   if (!fs.existsSync(file)) return null;
   const raw = fs.readFileSync(file, "utf8");
   const { data, content } = matter(raw);
-  return {
-    slug,
-    title: data.title as string,
-    date: data.date as string,
-    description: data.description as string,
-    tags: data.tags as string[] | undefined,
-    repo: data.repo as string | undefined,
-    content,
-  };
+  const meta = metadata(slug, data);
+  return meta ? { ...meta, content } : null;
 }

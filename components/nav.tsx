@@ -11,7 +11,7 @@ const links = [
 
 export function Nav() {
   return (
-    <header className="fixed top-0 inset-x-0 z-40 bg-black/80 backdrop-blur pt-[env(safe-area-inset-top)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]">
+    <header className="fixed top-0 inset-x-0 z-40 border-b bg-black/90 backdrop-blur pt-[env(safe-area-inset-top)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]">
       <div className="mx-auto max-w-3xl px-6 md:px-8 h-14 flex items-center justify-between text-sm">
         <Link href="/#top" aria-label="home" className="flex items-center gap-2">
           <Image
@@ -24,7 +24,7 @@ export function Nav() {
           />
         </Link>
         <nav aria-label="primary">
-          <ul className="flex items-center gap-3 md:gap-5 text-muted">
+          <ul className="flex items-center gap-2 text-xs text-muted sm:gap-3 sm:text-sm md:gap-5">
             {links.map((l) => (
               <li key={l.href}>
                 <a href={l.href} className="hover:text-white transition-colors">

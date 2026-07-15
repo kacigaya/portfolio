@@ -6,7 +6,7 @@ import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import { ArrowUpRight } from "lucide-react";
 import { Nav } from "@/components/nav";
-import { getAllPosts, getPost } from "@/lib/posts";
+import { getAllPosts, getPost, readingTime } from "@/lib/posts";
 
 export function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }));
@@ -30,6 +30,8 @@ export async function generateMetadata({
       type: "article",
       url: `/blog/${slug}`,
       images: ["/opengraph-image"],
+      publishedTime: post.date,
+      tags: post.tags,
     },
   };
 }
@@ -55,7 +57,7 @@ export default async function BlogPost({
             {post.title}
           </h1>
           <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
-            <span className="tabular-nums">{post.date}</span>
+            <span className="tabular-nums">{post.date} · {readingTime(post.content)} min read</span>
             {post.tags && post.tags.length > 0 && (
               <span>{post.tags.map((t) => `[${t}]`).join(" ")}</span>
             )}

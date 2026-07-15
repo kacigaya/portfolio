@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description:
     "Cybersecurity student at Efrei Paris Pantheon-Assas. Web development, automation, and security tooling.",
   metadataBase: new URL("https://gayakaci.netlify.app/"),
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/", types: { "application/rss+xml": "/feed.xml" } },
   openGraph: {
     title: "Gaya KACI",
     description:
@@ -19,6 +19,7 @@ export const metadata: Metadata = {
     url: "/",
   },
   twitter: { card: "summary_large_image" },
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
@@ -32,7 +33,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={jetbrains.variable} data-scroll-behavior="smooth">
-      <body className="min-h-dvh">{children}</body>
+      <body className="min-h-dvh">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: "Gaya KACI",
+          url: "https://gayakaci.netlify.app/",
+          jobTitle: "Cybersecurity student and web security researcher",
+          sameAs: ["https://github.com/kacigaya", "https://linkedin.com/in/kacigaya", "https://x.com/kacigaya"],
+        }).replace(/</g, "\\u003c") }} />
+        {children}
+      </body>
     </html>
   );
 }

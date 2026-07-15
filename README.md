@@ -14,7 +14,8 @@
 - Single-page scroll layout with anchor navigation
 - Terminal-inspired UI with prompt aesthetics
 - Blinking cursor and scroll-triggered fade-in animations
-- 9 featured open-source projects
+- Curated featured projects with a browsable archive
+- Markdown blog, RSS feed, sitemap, and structured metadata
 - Categorized skills from security to AI/ML
 - Fully responsive and keyboard-accessible
 - Self-hosted JetBrains Nerd Font
@@ -60,4 +61,11 @@ components/     # Reusable UI components (Nav, Caret, Reveal, icons)
 sections/       # Page sections (Hero, About, Projects, Skills, Contact)
 lib/            # Static data (projects, socials)
 public/         # Logo SVGs and self-hosted font files
+```
+
+## Quality checks
+
+```bash
+bun run lint
+bun run build
 ```

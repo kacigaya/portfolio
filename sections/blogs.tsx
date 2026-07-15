@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { getAllPosts } from "@/lib/posts";
+import { getAllPosts, getPost, readingTime } from "@/lib/posts";
 
 export function Blogs() {
   const posts = getAllPosts();
@@ -32,7 +32,7 @@ export function Blogs() {
               <div className="mt-2 flex items-center justify-between gap-3">
                 <p className="text-sm leading-relaxed">{p.description}</p>
                 <span className="text-xs text-muted shrink-0 group-hover:text-black tabular-nums">
-                  {p.date}
+                  {p.date} · {readingTime(getPost(p.slug)?.content ?? "")} min
                 </span>
               </div>
               {p.tags && p.tags.length > 0 && (
@@ -44,6 +44,9 @@ export function Blogs() {
           </li>
         ))}
       </ul>
+      <p className="mt-5 text-sm">
+        <Link href="/blog" className="text-muted underline underline-offset-4 hover:text-white">browse all posts →</Link>
+      </p>
     </section>
   );
 }

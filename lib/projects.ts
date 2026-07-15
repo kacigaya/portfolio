@@ -1,9 +1,10 @@
-type Project = {
+export type Project = {
   name: string;
   desc: string;
   url: string;
   homepage?: string;
   stack: string[];
+  featured?: boolean;
 };
 
 export const projects: Project[] = [
@@ -13,6 +14,7 @@ export const projects: Project[] = [
     url: "https://github.com/kacigaya/webskrap",
     homepage: "https://kacigaya.github.io/webskrap/",
     stack: ["python", "playwright", "scraping"],
+    featured: true,
   },
   {
     name: "deepseek-pi-oauth",
@@ -37,6 +39,7 @@ export const projects: Project[] = [
     desc: "Autonomous pentest agent with an interactive TUI and multi-provider LLM backends.",
     url: "https://github.com/GhostPWN/ghostpwn",
     stack: ["rust", "tui", "llm", "security"],
+    featured: true,
   },
   {
     name: "pdfcmprs",
@@ -50,6 +53,7 @@ export const projects: Project[] = [
     url: "https://github.com/kacigaya/lightchat",
     homepage: "https://lightchat-beta.vercel.app",
     stack: ["typescript", "next.js", "ai-sdk"],
+    featured: true,
   },
   {
     name: "binje",
@@ -57,6 +61,7 @@ export const projects: Project[] = [
     url: "https://github.com/kacigaya/binje",
     homepage: "https://binje.vercel.app",
     stack: ["typescript", "next.js", "tmdb"],
+    featured: true,
   },
   {
     name: "predicty-foot",

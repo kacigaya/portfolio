@@ -23,6 +23,11 @@ export function Hero() {
         <span className="text-white">Société Générale Assurance</span> doing web
         security research and building security tooling.
       </p>
+      <div className="mt-7 flex flex-wrap gap-3 text-sm">
+        <a href="#projects" className="border border-white bg-white px-3 py-2 text-black hover:bg-black hover:text-white">view selected work</a>
+        <a href="#contact" className="border px-3 py-2 hover:bg-white hover:text-black">contact me</a>
+        <a href="#blogs" className="border px-3 py-2 hover:bg-white hover:text-black">read research</a>
+      </div>
       <p className="mt-6 text-sm text-muted">
         <span aria-hidden>$</span> pwd
         <br />

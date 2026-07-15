@@ -45,6 +45,7 @@
 }
 .reveal { opacity: 0; }
 .reveal.visible { animation: fade-up 0.4s ease-out forwards; }
+details summary::marker { color: var(--color-muted); }
 
 @keyframes blink { 50% { opacity: 0; } }
 .caret {
