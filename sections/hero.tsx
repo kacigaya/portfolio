@@ -36,7 +36,7 @@ export function Hero() {
         <Button size="lg" variant="outline" render={<a href="#contact" />}>
           contact me
         </Button>
-        <Button size="lg" variant="ghost" render={<a href="#blogs" />}>
+        <Button size="lg" variant="outline" render={<a href="#blogs" />}>
           read research
         </Button>
       </div>

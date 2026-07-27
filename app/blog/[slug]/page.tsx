@@ -72,9 +72,8 @@ export default async function BlogPost({
             )}
             {post.repo && (
               <Button
-                variant="link"
+                variant="outline"
                 size="xs"
-                className="px-0 text-muted-foreground hover:text-foreground"
                 render={<a href={post.repo} target="_blank" rel="noreferrer" />}
               >
                 source repo
@@ -94,9 +93,9 @@ export default async function BlogPost({
         </article>
         <Separator className="mt-16" />
         <Button
-          variant="ghost"
+          variant="outline"
           size="sm"
-          className="mt-6 text-muted-foreground hover:text-foreground"
+          className="mt-6"
           render={<Link href="/blog" />}
         >
           <span aria-hidden>$</span> cd ..

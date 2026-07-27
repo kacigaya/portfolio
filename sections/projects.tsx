@@ -61,7 +61,7 @@ export function Projects() {
                   )}
                   <Button
                     size="sm"
-                    variant="ghost"
+                    variant="outline"
                     render={<a href={p.url} target="_blank" rel="noreferrer" />}
                   >
                     source

@@ -60,9 +60,9 @@ export function Blogs() {
         ))}
       </ul>
       <Button
-        variant="link"
+        variant="outline"
         size="sm"
-        className="mt-5 px-0 text-muted-foreground hover:text-foreground"
+        className="mt-5"
         render={<Link href="/blog" />}
       >
         browse all posts
