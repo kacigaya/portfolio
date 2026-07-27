@@ -1,3 +1,5 @@
+import { Badge } from "@/components/badge";
+
 type Group = { label: string; items: string[] };
 
 const groups: Group[] = [
@@ -70,20 +72,24 @@ const groups: Group[] = [
 export function Skills() {
   return (
     <section id="skills" className="mt-32">
-      <h2 className="text-sm text-muted">
+      <h2 className="text-sm text-muted-foreground">
         <span aria-hidden>$</span> cat skills.txt
       </h2>
-      <dl className="mt-6 space-y-5">
+      <dl className="mt-6 flex flex-col gap-5">
         {groups.map((g) => (
-          <div key={g.label}>
+          <div key={g.label} className="flex flex-col gap-2">
             <dt className="text-sm">
-              <span className="text-muted" aria-hidden>
+              <span className="text-muted-foreground" aria-hidden>
                 {">"}
               </span>{" "}
-              <span className="text-fg">{g.label}</span>
+              <span className="text-foreground">{g.label}</span>
             </dt>
-            <dd className="mt-1.5 text-sm leading-relaxed text-muted">
-              {g.items.map((s) => `[${s}]`).join(" ")}
+            <dd className="flex flex-wrap gap-1">
+              {g.items.map((s) => (
+                <Badge key={s} variant="outline">
+                  {s}
+                </Badge>
+              ))}
             </dd>
           </div>
         ))}

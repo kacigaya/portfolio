@@ -1,5 +1,8 @@
 import { Mail } from "lucide-react";
+import { Button } from "@/components/button";
+import { Card, CardPanel } from "@/components/card";
 import { GithubIcon, LinkedinIcon, XIcon } from "@/components/icons";
+import { Separator } from "@/components/separator";
 import { socials } from "@/lib/socials";
 
 const lines = [
@@ -32,32 +35,42 @@ const lines = [
 export function Contact() {
   return (
     <section id="contact" className="mt-32">
-      <h2 className="text-sm text-muted">
+      <h2 className="text-sm text-muted-foreground">
         <span aria-hidden>$</span> contact
       </h2>
-      <ul className="mt-4 space-y-2 font-mono">
-        {lines.map(({ icon: Icon, label, value, href }) => {
-          const external = href.startsWith("http");
-          return (
-            <li key={label}>
-              <a
-                href={href}
-                {...(external && { target: "_blank", rel: "noreferrer" })}
-                className="group inline-flex items-center gap-3 hover:bg-fg hover:text-bg px-1 -mx-1 transition-colors"
-              >
-                <Icon size={16} aria-hidden />
-                <span className="text-muted group-hover:text-bg uppercase text-xs">
-                  {label}
-                </span>
-                <span className="underline-offset-4 group-hover:no-underline underline decoration-muted group-hover:decoration-bg">
-                  {value}
-                </span>
-                {external && <span className="sr-only">(opens in new tab)</span>}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
+      <Card className="mt-4">
+        <CardPanel className="flex flex-col p-2">
+          {lines.map(({ icon: Icon, label, value, href }, index) => {
+            const external = href.startsWith("http");
+            return (
+              <div key={label} className="flex flex-col">
+                {index > 0 && <Separator className="my-1" />}
+                <Button
+                  variant="ghost"
+                  className="justify-start gap-3"
+                  render={
+                    <a
+                      href={href}
+                      {...(external && { target: "_blank", rel: "noreferrer" })}
+                    />
+                  }
+                >
+                  <Icon aria-hidden="true" />
+                  <span className="text-muted-foreground text-xs uppercase">
+                    {label.trim()}
+                  </span>
+                  <span className="underline underline-offset-4 decoration-muted-foreground">
+                    {value}
+                  </span>
+                  {external && (
+                    <span className="sr-only">(opens in new tab)</span>
+                  )}
+                </Button>
+              </div>
+            );
+          })}
+        </CardPanel>
+      </Card>
     </section>
   );
 }

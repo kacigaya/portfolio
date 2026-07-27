@@ -5,7 +5,10 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import { ArrowUpRight } from "lucide-react";
+import { Badge } from "@/components/badge";
+import { Button } from "@/components/button";
 import { Nav } from "@/components/nav";
+import { Separator } from "@/components/separator";
 import { getAllPosts, getPost, readingTime } from "@/lib/posts";
 
 export function generateStaticParams() {
@@ -49,29 +52,35 @@ export default async function BlogPost({
     <>
       <Nav />
       <main id="main" className="mx-auto max-w-3xl px-6 md:px-8 pt-24 pb-32">
-        <p className="text-sm text-muted">
+        <p className="text-sm text-muted-foreground">
           <span aria-hidden>$</span> cat ~/blog/{post.slug}.md
         </p>
         <header className="mt-6 border-b pb-6">
           <h1 className="text-3xl md:text-4xl font-bold leading-tight text-balance">
             {post.title}
           </h1>
-          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
+          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
             <span className="tabular-nums">{post.date} · {readingTime(post.content)} min read</span>
             {post.tags && post.tags.length > 0 && (
-              <span>{post.tags.map((t) => `[${t}]`).join(" ")}</span>
+              <span className="flex flex-wrap gap-1">
+                {post.tags.map((t) => (
+                  <Badge key={t} variant="secondary">
+                    {t}
+                  </Badge>
+                ))}
+              </span>
             )}
             {post.repo && (
-              <a
-                href={post.repo}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1 hover:text-fg"
+              <Button
+                variant="link"
+                size="xs"
+                className="px-0 text-muted-foreground hover:text-foreground"
+                render={<a href={post.repo} target="_blank" rel="noreferrer" />}
               >
                 source repo
                 <span className="sr-only">(opens in new tab)</span>
-                <ArrowUpRight size={12} aria-hidden />
-              </a>
+                <ArrowUpRight aria-hidden="true" />
+              </Button>
             )}
           </div>
         </header>
@@ -83,13 +92,17 @@ export default async function BlogPost({
             {post.content}
           </ReactMarkdown>
         </article>
-        <p className="mt-16 text-sm">
-          <Link href="/blog" className="text-muted hover:text-fg">
-            <span aria-hidden>$</span> cd ..
-          </Link>
-        </p>
+        <Separator className="mt-16" />
+        <Button
+          variant="ghost"
+          size="sm"
+          className="mt-6 text-muted-foreground hover:text-foreground"
+          render={<Link href="/blog" />}
+        >
+          <span aria-hidden>$</span> cd ..
+        </Button>
       </main>
-      <footer className="mx-auto max-w-3xl px-6 md:px-8 pb-10 text-xs text-muted">
+      <footer className="mx-auto max-w-3xl px-6 md:px-8 pb-10 text-xs text-muted-foreground">
         <span aria-hidden>$</span> exit 0 | built with next.js ·{" "}
         {new Date().getFullYear()}
       </footer>

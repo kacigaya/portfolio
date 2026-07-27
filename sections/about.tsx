@@ -1,17 +1,29 @@
+import { Card, CardPanel } from "@/components/card";
+
+const facts = [
+  { label: "role", value: "web dev · cybersecurity" },
+  {
+    label: "degree",
+    value: "M. cybersecurity, Efrei Paris Panthéon-Assas Université",
+  },
+  { label: "location", value: "Paris, FR" },
+  { label: "langs", value: "fr · en" },
+];
+
 export function About() {
   return (
     <section id="about" className="mt-32">
-      <h2 className="text-sm text-muted">
+      <h2 className="text-sm text-muted-foreground">
         <span aria-hidden>$</span> cat about.md
       </h2>
-      <div className="mt-4 space-y-4 leading-relaxed max-w-2xl text-pretty">
+      <div className="mt-4 flex max-w-2xl flex-col gap-4 leading-relaxed text-pretty">
         <p>
           Cybersecurity-focused developer with a background in network and
           system administration, plus web development.
         </p>
         <p>
           Day job at{" "}
-          <span className="text-fg">Société Générale Assurance</span>: web
+          <span className="text-foreground">Société Générale Assurance</span>: web
           security research against complex web targets, reverse-engineering
           anti-bot and bot-detection systems, and browser fingerprinting.
         </p>
@@ -20,21 +32,18 @@ export function About() {
           Comfortable across Linux, macOS, and Windows. I usually read source
           before docs.
         </p>
-        <ul className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-sm text-muted">
-          <li>
-            <span className="text-fg">role</span> · web dev · cybersecurity
-          </li>
-          <li>
-            <span className="text-fg">degree</span> · M. cybersecurity, Efrei
-            Paris Panthéon-Assas Université
-          </li>
-          <li>
-            <span className="text-fg">location</span> · Paris, FR
-          </li>
-          <li>
-            <span className="text-fg">langs</span> · fr · en
-          </li>
-        </ul>
+        <Card className="mt-2">
+          <CardPanel className="grid grid-cols-1 gap-x-6 gap-y-3 p-4 text-sm sm:grid-cols-2">
+            {facts.map(({ label, value }) => (
+              <div key={label} className="flex flex-col gap-0.5">
+                <span className="text-xs text-muted-foreground uppercase">
+                  {label}
+                </span>
+                <span>{value}</span>
+              </div>
+            ))}
+          </CardPanel>
+        </Card>
       </div>
     </section>
   );
