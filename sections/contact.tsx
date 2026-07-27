@@ -43,13 +43,13 @@ export function Contact() {
               <a
                 href={href}
                 {...(external && { target: "_blank", rel: "noreferrer" })}
-                className="group inline-flex items-center gap-3 hover:bg-white hover:text-black px-1 -mx-1 transition-colors"
+                className="group inline-flex items-center gap-3 hover:bg-fg hover:text-bg px-1 -mx-1 transition-colors"
               >
                 <Icon size={16} aria-hidden />
-                <span className="text-muted group-hover:text-black uppercase text-xs">
+                <span className="text-muted group-hover:text-bg uppercase text-xs">
                   {label}
                 </span>
-                <span className="underline-offset-4 group-hover:no-underline underline decoration-muted group-hover:decoration-black">
+                <span className="underline-offset-4 group-hover:no-underline underline decoration-muted group-hover:decoration-bg">
                   {value}
                 </span>
                 {external && <span className="sr-only">(opens in new tab)</span>}

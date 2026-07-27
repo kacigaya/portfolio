@@ -16,7 +16,7 @@ export function Projects() {
       <ul className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
         {featured.map((p) => (
           <li key={p.name}>
-            <article className="group flex h-full flex-col border p-4 transition-colors hover:bg-white hover:text-black focus-within:bg-white focus-within:text-black">
+            <article className="group flex h-full flex-col border p-4 transition-colors hover:bg-fg hover:text-bg focus-within:bg-fg focus-within:text-bg">
               <div className="flex items-start justify-between gap-3">
                 <span className="font-bold">[ {p.name} ]</span>
                 <ArrowUpRight
@@ -26,16 +26,16 @@ export function Projects() {
                 />
               </div>
               <p className="mt-2 text-sm leading-relaxed">{p.desc}</p>
-              <p className="mt-auto pt-3 text-xs text-muted group-hover:text-black">
+              <p className="mt-auto pt-3 text-xs text-muted group-hover:text-bg">
                 {p.stack.map((s) => `[${s}]`).join(" ")}
               </p>
               <div className="mt-4 flex gap-4 text-xs font-bold">
                 {p.homepage && (
-                  <a href={p.homepage} target="_blank" rel="noreferrer" className="underline underline-offset-4 focus-visible:outline-black">
+                  <a href={p.homepage} target="_blank" rel="noreferrer" className="underline underline-offset-4 focus-visible:outline-bg">
                     live demo <span className="sr-only">(opens in new tab)</span>
                   </a>
                 )}
-                <a href={p.url} target="_blank" rel="noreferrer" className="underline underline-offset-4 focus-visible:outline-black">
+                <a href={p.url} target="_blank" rel="noreferrer" className="underline underline-offset-4 focus-visible:outline-bg">
                   source <span className="sr-only">(opens in new tab)</span>
                 </a>
               </div>
@@ -48,7 +48,7 @@ export function Projects() {
         <ul className="mt-4 grid gap-2 text-sm sm:grid-cols-2">
           {more.map((project) => (
             <li key={project.name}>
-              <a href={project.url} target="_blank" rel="noreferrer" className="text-muted underline underline-offset-4 hover:text-white">
+              <a href={project.url} target="_blank" rel="noreferrer" className="text-muted underline underline-offset-4 hover:text-fg">
                 {project.name}<span className="sr-only"> (opens in new tab)</span>
               </a>
             </li>

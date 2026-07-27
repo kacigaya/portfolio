@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { jetbrains } from "./fonts";
+import { THEME_INIT_SCRIPT, ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,7 +24,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
 };
 
 export default function RootLayout({
@@ -32,7 +36,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={jetbrains.variable} data-scroll-behavior="smooth">
+    <html
+      lang="en"
+      className={`${jetbrains.variable} dark`}
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className="min-h-dvh">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
           "@context": "https://schema.org",
@@ -42,7 +54,7 @@ export default function RootLayout({
           jobTitle: "Cybersecurity student and web security researcher",
           sameAs: ["https://github.com/kacigaya", "https://linkedin.com/in/kacigaya", "https://x.com/kacigaya"],
         }).replace(/</g, "\\u003c") }} />
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

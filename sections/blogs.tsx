@@ -19,7 +19,7 @@ export function Blogs() {
           <li key={p.slug}>
             <Link
               href={`/blog/${p.slug}`}
-              className="group block border p-4 transition-colors hover:bg-white hover:text-black"
+              className="group block border p-4 transition-colors hover:bg-fg hover:text-bg"
             >
               <div className="flex items-start justify-between gap-3">
                 <span className="font-bold">[ {p.title} ]</span>
@@ -31,12 +31,12 @@ export function Blogs() {
               </div>
               <div className="mt-2 flex items-center justify-between gap-3">
                 <p className="text-sm leading-relaxed">{p.description}</p>
-                <span className="text-xs text-muted shrink-0 group-hover:text-black tabular-nums">
+                <span className="text-xs text-muted shrink-0 group-hover:text-bg tabular-nums">
                   {p.date} · {readingTime(getPost(p.slug)?.content ?? "")} min
                 </span>
               </div>
               {p.tags && p.tags.length > 0 && (
-                <p className="mt-3 text-xs text-muted group-hover:text-black">
+                <p className="mt-3 text-xs text-muted group-hover:text-bg">
                   {p.tags.map((t) => `[${t}]`).join(" ")}
                 </p>
               )}
@@ -45,7 +45,7 @@ export function Blogs() {
         ))}
       </ul>
       <p className="mt-5 text-sm">
-        <Link href="/blog" className="text-muted underline underline-offset-4 hover:text-white">browse all posts →</Link>
+        <Link href="/blog" className="text-muted underline underline-offset-4 hover:text-fg">browse all posts →</Link>
       </p>
     </section>
   );

@@ -17,10 +17,10 @@ export default function BlogIndex() {
     <p className="mt-4 max-w-2xl text-muted">Browser security, automation, reverse engineering, and the things I learn while building.</p>
     <ul className="mt-10 space-y-3">
       {posts.map((post) => <li key={post.slug}>
-        <Link href={`/blog/${post.slug}`} className="group block border p-4 hover:bg-white hover:text-black focus-visible:bg-white focus-visible:text-black">
+        <Link href={`/blog/${post.slug}`} className="group block border p-4 hover:bg-fg hover:text-bg focus-visible:bg-fg focus-visible:text-bg">
           <h2 className="font-bold">{post.title}</h2>
           <p className="mt-2 text-sm leading-relaxed">{post.description}</p>
-          <p className="mt-3 text-xs text-muted group-hover:text-black group-focus-visible:text-black">{post.date} · {readingTime(getPost(post.slug)?.content ?? "")} min read</p>
+          <p className="mt-3 text-xs text-muted group-hover:text-bg group-focus-visible:text-bg">{post.date} · {readingTime(getPost(post.slug)?.content ?? "")} min read</p>
         </Link>
       </li>)}
     </ul>

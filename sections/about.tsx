@@ -11,7 +11,7 @@ export function About() {
         </p>
         <p>
           Day job at{" "}
-          <span className="text-white">Société Générale Assurance</span>: web
+          <span className="text-fg">Société Générale Assurance</span>: web
           security research against complex web targets, reverse-engineering
           anti-bot and bot-detection systems, and browser fingerprinting.
         </p>
@@ -22,17 +22,17 @@ export function About() {
         </p>
         <ul className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-sm text-muted">
           <li>
-            <span className="text-white">role</span> · web dev · cybersecurity
+            <span className="text-fg">role</span> · web dev · cybersecurity
           </li>
           <li>
-            <span className="text-white">degree</span> · M. cybersecurity, Efrei
+            <span className="text-fg">degree</span> · M. cybersecurity, Efrei
             Paris Panthéon-Assas Université
           </li>
           <li>
-            <span className="text-white">location</span> · Paris, FR
+            <span className="text-fg">location</span> · Paris, FR
           </li>
           <li>
-            <span className="text-white">langs</span> · fr · en
+            <span className="text-fg">langs</span> · fr · en
           </li>
         </ul>
       </div>

@@ -80,7 +80,7 @@ export function Skills() {
               <span className="text-muted" aria-hidden>
                 {">"}
               </span>{" "}
-              <span className="text-white">{g.label}</span>
+              <span className="text-fg">{g.label}</span>
             </dt>
             <dd className="mt-1.5 text-sm leading-relaxed text-muted">
               {g.items.map((s) => `[${s}]`).join(" ")}

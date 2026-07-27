@@ -66,7 +66,7 @@ export default async function BlogPost({
                 href={post.repo}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 hover:text-white"
+                className="inline-flex items-center gap-1 hover:text-fg"
               >
                 source repo
                 <span className="sr-only">(opens in new tab)</span>
@@ -84,7 +84,7 @@ export default async function BlogPost({
           </ReactMarkdown>
         </article>
         <p className="mt-16 text-sm">
-          <Link href="/blog" className="text-muted hover:text-white">
+          <Link href="/blog" className="text-muted hover:text-fg">
             <span aria-hidden>$</span> cd ..
           </Link>
         </p>
