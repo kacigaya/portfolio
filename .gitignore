@@ -42,3 +42,7 @@ next-env.d.ts
 
 # ShipStudio metadata
 .shipstudio/
+
+# agent skills (installed via `bunx --bun skills add`)
+.agents/skills/
+.claude/skills/
