@@ -1,6 +1,7 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
+import { Button } from "@/components/button";
 import {
   createContext,
   useCallback,
@@ -85,16 +86,17 @@ export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <button
-      type="button"
+    <Button
+      variant="ghost"
+      size="icon"
       onClick={toggleTheme}
       title="toggle theme (d)"
       aria-label={`switch to ${theme === "dark" ? "light" : "dark"} theme, shortcut d`}
-      className="grid size-9 shrink-0 place-items-center text-muted transition-colors hover:text-fg"
+      className="text-muted-foreground hover:text-foreground"
     >
       {/* CSS-driven swap so the icon is correct on first paint, before hydration */}
-      <Sun size={16} aria-hidden className="hidden dark:block" />
-      <Moon size={16} aria-hidden className="block dark:hidden" />
-    </button>
+      <Sun aria-hidden="true" className="hidden dark:block" />
+      <Moon aria-hidden="true" className="block dark:hidden" />
+    </Button>
   );
 }

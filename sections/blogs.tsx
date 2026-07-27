@@ -1,5 +1,15 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { Badge } from "@/components/badge";
+import { Button } from "@/components/button";
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/card";
 import { getAllPosts, getPost, readingTime } from "@/lib/posts";
 
 export function Blogs() {
@@ -7,46 +17,57 @@ export function Blogs() {
 
   return (
     <section id="blogs" className="mt-32">
-      <h2 className="text-sm text-muted">
+      <h2 className="text-sm text-muted-foreground">
         <span aria-hidden>$</span> ls ~/blog
       </h2>
-      <p className="mt-2 text-xs text-muted tabular-nums">
+      <p className="mt-2 text-xs text-muted-foreground tabular-nums">
         {posts.length} {posts.length === 1 ? "entry" : "entries"} · notes and
         write-ups
       </p>
       <ul className="mt-6 grid grid-cols-1 gap-3">
         {posts.map((p) => (
           <li key={p.slug}>
-            <Link
-              href={`/blog/${p.slug}`}
-              className="group block border p-4 transition-colors hover:bg-fg hover:text-bg"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <span className="font-bold">[ {p.title} ]</span>
-                <ArrowUpRight
-                  size={16}
-                  className="shrink-0 mt-1 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  aria-hidden
-                />
-              </div>
-              <div className="mt-2 flex items-center justify-between gap-3">
-                <p className="text-sm leading-relaxed">{p.description}</p>
-                <span className="text-xs text-muted shrink-0 group-hover:text-bg tabular-nums">
+            {/* the title link stretches over the card, so the whole card is the hit target */}
+            <Card className="transition-colors hover:bg-accent has-[a:focus-visible]:bg-accent">
+              <CardHeader className="p-4">
+                <CardTitle>
+                  <Link
+                    href={`/blog/${p.slug}`}
+                    className="outline-none after:absolute after:inset-0"
+                  >
+                    {p.title}
+                  </Link>
+                </CardTitle>
+                <CardDescription className="leading-relaxed">
+                  {p.description}
+                </CardDescription>
+                <CardAction>
+                  <ArrowUpRight aria-hidden="true" className="size-4 opacity-80" />
+                </CardAction>
+              </CardHeader>
+              <CardFooter className="flex-wrap items-center gap-2 p-4">
+                <span className="text-xs text-muted-foreground tabular-nums">
                   {p.date} · {readingTime(getPost(p.slug)?.content ?? "")} min
                 </span>
-              </div>
-              {p.tags && p.tags.length > 0 && (
-                <p className="mt-3 text-xs text-muted group-hover:text-bg">
-                  {p.tags.map((t) => `[${t}]`).join(" ")}
-                </p>
-              )}
-            </Link>
+                {p.tags?.map((t) => (
+                  <Badge key={t} variant="secondary">
+                    {t}
+                  </Badge>
+                ))}
+              </CardFooter>
+            </Card>
           </li>
         ))}
       </ul>
-      <p className="mt-5 text-sm">
-        <Link href="/blog" className="text-muted underline underline-offset-4 hover:text-fg">browse all posts →</Link>
-      </p>
+      <Button
+        variant="link"
+        size="sm"
+        className="mt-5 px-0 text-muted-foreground hover:text-foreground"
+        render={<Link href="/blog" />}
+      >
+        browse all posts
+        <ArrowUpRight aria-hidden="true" />
+      </Button>
     </section>
   );
 }
