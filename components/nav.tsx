@@ -17,8 +17,8 @@ const links = [
 
 export function Nav() {
   return (
-    <header className="fixed top-0 inset-x-0 z-40 border-b bg-background/90 backdrop-blur pt-[env(safe-area-inset-top)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]">
-      <div className="mx-auto max-w-3xl px-6 md:px-8 h-14 flex items-center justify-between gap-2 text-sm">
+    <header className="fixed inset-x-0 top-[calc(env(safe-area-inset-top)+0.75rem)] z-40 px-4 pl-[calc(env(safe-area-inset-left)+1rem)] pr-[calc(env(safe-area-inset-right)+1rem)]">
+      <div className="mx-auto flex h-12 max-w-3xl items-center justify-between gap-2 border bg-background/80 px-3 text-sm shadow-xs/5 backdrop-blur md:px-4">
         <Link href="/#top" aria-label="home" className="flex items-center gap-2">
           <Image
             src="/logo_dark.svg"
