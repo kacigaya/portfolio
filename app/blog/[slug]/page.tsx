@@ -9,11 +9,13 @@ import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
 import { Nav } from "@/components/nav";
 import { Separator } from "@/components/separator";
-import { getAllPosts, getPost, readingTime } from "@/lib/posts";
+import { getAllPosts, getPost } from "@/lib/posts";
 
 export function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }));
 }
+
+export const dynamicParams = false;
 
 export async function generateMetadata({
   params,
@@ -60,7 +62,7 @@ export default async function BlogPost({
             {post.title}
           </h1>
           <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
-            <span className="tabular-nums">{post.date} · {readingTime(post.content)} min read</span>
+            <span className="tabular-nums">{post.date} · {post.minutes} min read</span>
             {post.tags && post.tags.length > 0 && (
               <span className="flex flex-wrap gap-1">
                 {post.tags.map((t) => (

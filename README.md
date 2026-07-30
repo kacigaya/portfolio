@@ -33,22 +33,18 @@
 
 ### Prerequisites
 
-- Node.js 20+ or Bun
+- Bun 1.3.14+
 
 ### Installation
 
 ```bash
 bun install
-# or
-npm install
 ```
 
 ### Development
 
 ```bash
 bun dev
-# or
-npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the app.
@@ -66,6 +62,7 @@ public/         # Logo SVGs and self-hosted font files
 ## Quality checks
 
 ```bash
+bun test
 bun run lint
 bun run build
 ```

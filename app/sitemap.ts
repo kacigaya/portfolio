@@ -1,12 +1,11 @@
 import type { MetadataRoute } from "next";
 import { getAllPosts } from "@/lib/posts";
-
-const baseUrl = "https://gayakaci.netlify.app";
+import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
-    { url: baseUrl, changeFrequency: "monthly", priority: 1 },
-    { url: `${baseUrl}/blog`, changeFrequency: "weekly", priority: 0.8 },
-    ...getAllPosts().map((post) => ({ url: `${baseUrl}/blog/${post.slug}`, lastModified: new Date(post.date), changeFrequency: "yearly" as const, priority: 0.7 })),
+    { url: SITE_URL, changeFrequency: "monthly", priority: 1 },
+    { url: `${SITE_URL}/blog`, changeFrequency: "weekly", priority: 0.8 },
+    ...getAllPosts().map((post) => ({ url: `${SITE_URL}/blog/${post.slug}`, lastModified: new Date(`${post.date}T00:00:00Z`), changeFrequency: "yearly" as const, priority: 0.7 })),
   ];
 }

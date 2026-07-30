@@ -38,5 +38,3 @@ export function CollapsiblePanel({
     />
   );
 }
-
-export { CollapsiblePrimitive, CollapsiblePanel as CollapsibleContent };

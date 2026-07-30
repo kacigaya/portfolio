@@ -14,7 +14,7 @@ import {
 
 type Theme = "dark" | "light";
 
-export const THEME_STORAGE_KEY = "theme";
+const THEME_STORAGE_KEY = "theme";
 
 // Runs before paint in the document head so the stored theme wins over the
 // server-rendered default without a flash.
@@ -25,7 +25,7 @@ const ThemeContext = createContext<{ theme: Theme; toggleTheme: () => void }>({
   toggleTheme: () => {},
 });
 
-export function useTheme() {
+function useTheme() {
   return useContext(ThemeContext);
 }
 

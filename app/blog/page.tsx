@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/card";
 import { Nav } from "@/components/nav";
-import { getAllPosts, getPost, readingTime } from "@/lib/posts";
+import { getAllPosts } from "@/lib/posts";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -32,7 +32,7 @@ export default function BlogIndex() {
             <CardDescription className="leading-relaxed">{post.description}</CardDescription>
           </CardHeader>
           <CardFooter className="p-4">
-            <span className="text-xs text-muted-foreground tabular-nums">{post.date} · {readingTime(getPost(post.slug)?.content ?? "")} min read</span>
+            <span className="text-xs text-muted-foreground tabular-nums">{post.date} · {post.minutes} min read</span>
           </CardFooter>
         </Card>
       </li>)}

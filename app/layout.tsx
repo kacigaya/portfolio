@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { jetbrains } from "./fonts";
 import { THEME_INIT_SCRIPT, ThemeProvider } from "@/components/theme-provider";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   },
   description:
     "Cybersecurity student at Efrei Paris Pantheon-Assas. Web development, automation, and security tooling.",
-  metadataBase: new URL("https://gayakaci.netlify.app/"),
+  metadataBase: new URL(SITE_URL),
   alternates: { canonical: "/", types: { "application/rss+xml": "/feed.xml" } },
   openGraph: {
     title: "Gaya KACI",
@@ -50,7 +51,7 @@ export default function RootLayout({
           "@context": "https://schema.org",
           "@type": "Person",
           name: "Gaya KACI",
-          url: "https://gayakaci.netlify.app/",
+          url: SITE_URL,
           jobTitle: "Cybersecurity student and web security researcher",
           sameAs: ["https://github.com/kacigaya", "https://linkedin.com/in/kacigaya", "https://x.com/kacigaya"],
         }).replace(/</g, "\\u003c") }} />

@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/card";
-import { getAllPosts, getPost, readingTime } from "@/lib/posts";
+import { getAllPosts } from "@/lib/posts";
 
 export function Blogs() {
   const posts = getAllPosts();
@@ -47,7 +47,7 @@ export function Blogs() {
               </CardHeader>
               <CardFooter className="flex-wrap items-center gap-2 p-4">
                 <span className="text-xs text-muted-foreground tabular-nums">
-                  {p.date} · {readingTime(getPost(p.slug)?.content ?? "")} min
+                  {p.date} · {p.minutes} min
                 </span>
                 {p.tags?.map((t) => (
                   <Badge key={t} variant="secondary">
