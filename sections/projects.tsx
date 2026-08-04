@@ -19,10 +19,8 @@ export async function Projects() {
   const { pinned, more } = await getProjects();
 
   return (
-    <section id="projects" className="mt-32">
-      <h2 className="text-sm text-muted-foreground">
-        <span aria-hidden>$</span> ls ~/projects
-      </h2>
+    <section id="projects" className="mt-16">
+      <h2 className="md-h2 text-sm uppercase">projects</h2>
       <p className="mt-2 text-xs text-muted-foreground tabular-nums">
         selected open-source work · source and live demos where available
       </p>
@@ -88,7 +86,10 @@ export async function Projects() {
         <CollapsiblePanel>
           <ul className="mt-4 grid gap-2 text-sm sm:grid-cols-2">
             {more.map((project) => (
-              <li key={project.name}>
+              <li
+                key={project.name}
+                className="before:text-muted-foreground before:content-['-_']"
+              >
                 <a
                   href={project.url}
                   target="_blank"

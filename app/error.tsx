@@ -21,10 +21,9 @@ export default function Error({
       className="mx-auto max-w-3xl px-6 pt-32 pb-32 md:px-8"
       role="alert"
     >
-      <p className="text-sm text-muted-foreground">
-        <span aria-hidden>$</span> tail -n 1 error.log
-      </p>
-      <h1 className="mt-4 text-4xl font-bold">500: something broke</h1>
+      <h1 className="md-h1 text-2xl md:text-3xl uppercase">
+        500: something broke
+      </h1>
       <p className="mt-6 max-w-2xl text-muted-foreground">
         This page failed to render. Retry it, or head back home.
         {error.digest && (
@@ -39,7 +38,9 @@ export default function Error({
           retry
         </Button>
         <Button size="lg" variant="outline" render={<Link href="/" />}>
-          cd ~
+          <span>
+            <span aria-hidden>[</span>back home<span aria-hidden>]</span>
+          </span>
         </Button>
       </div>
     </main>

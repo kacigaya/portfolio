@@ -19,8 +19,7 @@ export const metadata: Metadata = {
 export default function BlogIndex() {
   const posts = getAllPosts();
   return <><Nav /><main id="main" className="mx-auto max-w-3xl px-6 pt-24 pb-32 md:px-8">
-    <p className="text-sm text-muted-foreground"><span aria-hidden>$</span> ls ~/blog</p>
-    <h1 className="mt-3 text-4xl font-bold">Technical notes</h1>
+    <h1 className="md-h1 text-2xl md:text-3xl uppercase">Technical notes</h1>
     <p className="mt-4 max-w-2xl text-muted-foreground">Browser security, automation, reverse engineering, and the things I learn while building.</p>
     <ul className="mt-10 flex flex-col gap-3">
       {posts.map((post) => <li key={post.slug}>

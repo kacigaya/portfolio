@@ -40,8 +40,8 @@ export default function Page() {
       </main>
       <Separator className="mx-auto max-w-3xl" />
       <footer className="mx-auto max-w-3xl px-6 md:px-8 pt-6 pb-10 text-xs text-muted-foreground">
-        <span aria-hidden>$</span> exit 0 | built with next.js ·{" "}
-        {new Date().getFullYear()}
+        <span aria-hidden>~*~</span> © Gaya KACI · built with next.js ·{" "}
+        {new Date().getFullYear()} <span aria-hidden>~*~</span>
       </footer>
     </>
   );

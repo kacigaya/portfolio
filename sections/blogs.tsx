@@ -16,10 +16,8 @@ export function Blogs() {
   const posts = getAllPosts();
 
   return (
-    <section id="blogs" className="mt-32">
-      <h2 className="text-sm text-muted-foreground">
-        <span aria-hidden>$</span> ls ~/blog
-      </h2>
+    <section id="blogs" className="mt-16">
+      <h2 className="md-h2 text-sm uppercase">writing</h2>
       <p className="mt-2 text-xs text-muted-foreground tabular-nums">
         {posts.length} {posts.length === 1 ? "entry" : "entries"} · notes and
         write-ups

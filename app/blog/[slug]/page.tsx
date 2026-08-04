@@ -54,11 +54,9 @@ export default async function BlogPost({
     <>
       <Nav />
       <main id="main" className="mx-auto max-w-3xl px-6 md:px-8 pt-24 pb-32">
-        <p className="text-sm text-muted-foreground">
-          <span aria-hidden>$</span> cat ~/blog/{post.slug}.md
-        </p>
+        <p className="text-sm text-muted-foreground">/blog/{post.slug}.md</p>
         <header className="mt-6 border-b pb-6">
-          <h1 className="text-3xl md:text-4xl font-bold leading-tight text-balance">
+          <h1 className="md-h1 text-2xl md:text-3xl leading-tight text-balance">
             {post.title}
           </h1>
           <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
@@ -100,12 +98,14 @@ export default async function BlogPost({
           className="mt-6"
           render={<Link href="/blog" />}
         >
-          <span aria-hidden>$</span> cd ..
+          <span>
+            <span aria-hidden>[</span>back to /blog<span aria-hidden>]</span>
+          </span>
         </Button>
       </main>
       <footer className="mx-auto max-w-3xl px-6 md:px-8 pb-10 text-xs text-muted-foreground">
-        <span aria-hidden>$</span> exit 0 | built with next.js ·{" "}
-        {new Date().getFullYear()}
+        <span aria-hidden>~*~</span> © Gaya KACI · built with next.js ·{" "}
+        {new Date().getFullYear()} <span aria-hidden>~*~</span>
       </footer>
     </>
   );

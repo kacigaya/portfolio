@@ -12,10 +12,8 @@ const facts = [
 
 export function About() {
   return (
-    <section id="about" className="mt-32">
-      <h2 className="text-sm text-muted-foreground">
-        <span aria-hidden>$</span> cat about.md
-      </h2>
+    <section id="about" className="mt-16">
+      <h2 className="md-h2 text-sm uppercase">about</h2>
       <div className="mt-4 flex max-w-2xl flex-col gap-4 leading-relaxed text-pretty">
         <p>
           Cybersecurity-focused developer with a background in network and

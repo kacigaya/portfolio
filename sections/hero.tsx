@@ -6,14 +6,11 @@ import { socials } from "@/lib/socials";
 export function Hero() {
   return (
     <section id="top" className="pt-8 md:pt-12">
-      <p className="text-sm text-muted-foreground">
-        <span aria-hidden>$</span> whoami
-      </p>
-      <h1 className="mt-3 text-4xl md:text-6xl font-bold leading-[1.05] text-balance">
+      <h1 className="md-h1 text-2xl md:text-3xl uppercase leading-[1.15] text-balance">
         Gaya KACI
         <Caret />
       </h1>
-      <p className="mt-4 text-base md:text-lg text-muted-foreground">
+      <p className="mt-2 text-sm md:text-base text-muted-foreground uppercase">
         cybersecurity student · web security researcher
       </p>
       <p className="mt-6 max-w-2xl leading-relaxed text-pretty">
@@ -41,8 +38,7 @@ export function Hero() {
         </Button>
       </div>
       <p className="mt-6 text-sm text-muted-foreground">
-        <span aria-hidden>$</span> pwd
-        <br />
+        <span aria-hidden>&gt;</span>{" "}
         <span className="text-foreground">
           /{socials.location.toLowerCase().replace(/, /g, "/")}
         </span>

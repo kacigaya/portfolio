@@ -23,8 +23,8 @@
     -webkit-font-smoothing: antialiased;
   }
   ::selection {
-    background: var(--foreground);
-    color: var(--background);
+    background: #ffff00;
+    color: #000000;
   }
   *,
   ::before,
@@ -59,6 +59,21 @@ details summary::marker { color: var(--muted-foreground); }
   animation: blink 1s steps(2) infinite;
 }
 
+/* markdown-source motif: literal heading markers, as if reading the .md file */
+.md-h1,
+.md-h2,
+.md-h3 {
+  font-weight: 700;
+}
+.md-h1::before,
+.md-h2::before,
+.md-h3::before {
+  color: var(--muted-foreground);
+}
+.md-h1::before { content: "# "; }
+.md-h2::before { content: "## "; }
+.md-h3::before { content: "### "; }
+
 .prose-blog { line-height: 1.7; }
 .prose-blog h2 {
   font-size: 1.25rem;
@@ -73,6 +88,14 @@ details summary::marker { color: var(--muted-foreground); }
   margin-top: 2rem;
   margin-bottom: 0.5rem;
 }
+.prose-blog h2::before,
+.prose-blog h3::before {
+  color: var(--muted-foreground);
+}
+.prose-blog h2::before { content: "## "; }
+.prose-blog h3::before { content: "### "; }
+.prose-blog a::before { content: "["; }
+.prose-blog a::after { content: "]"; }
 .prose-blog p { margin-top: 1rem; margin-bottom: 1rem; text-wrap: pretty; }
 .prose-blog a { color: var(--foreground); text-decoration: underline; text-underline-offset: 3px; }
 .prose-blog a:hover { background: var(--foreground); color: var(--background); }
@@ -81,7 +104,7 @@ details summary::marker { color: var(--muted-foreground); }
 .prose-blog ul { list-style: none; }
 .prose-blog ul > li { position: relative; padding-left: 1.25rem; margin: 0.35rem 0; }
 .prose-blog ul > li::before {
-  content: "$"; position: absolute; left: 0; color: var(--muted-foreground);
+  content: "-"; position: absolute; left: 0; color: var(--muted-foreground);
 }
 .prose-blog ol { list-style: decimal; }
 .prose-blog ol > li { margin: 0.35rem 0; padding-left: 0.25rem; }
@@ -124,8 +147,8 @@ details summary::marker { color: var(--muted-foreground); }
 /* coss ui tokens, matching the ghostpwn site theme:
    #0a0a0a page / #121212 panels in dark, white-alpha borders and hovers. */
 :root {
-  --radius: 0.625rem;
-  --background: var(--color-white);
+  --radius: 0.25rem;
+  --background: #f7f7f8;
   --foreground: var(--color-neutral-800);
   --card: var(--color-white);
   --card-foreground: var(--color-neutral-800);
@@ -153,11 +176,11 @@ details summary::marker { color: var(--muted-foreground); }
 }
 
 .dark {
-  --background: #0a0a0a;
+  --background: #151516;
   --foreground: var(--color-neutral-100);
-  --card: #121212;
+  --card: #1b1b1c;
   --card-foreground: var(--color-neutral-100);
-  --popover: #121212;
+  --popover: #1b1b1c;
   --popover-foreground: var(--color-neutral-100);
   --primary: var(--color-neutral-100);
   --primary-foreground: var(--color-neutral-800);

@@ -34,10 +34,8 @@ const lines = [
 
 export function Contact() {
   return (
-    <section id="contact" className="mt-32">
-      <h2 className="text-sm text-muted-foreground">
-        <span aria-hidden>$</span> contact
-      </h2>
+    <section id="contact" className="mt-16">
+      <h2 className="md-h2 text-sm uppercase">contact</h2>
       <Card className="mt-4">
         <CardPanel className="flex flex-col p-2">
           {lines.map(({ icon: Icon, label, value, href }, index) => {
