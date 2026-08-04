@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { cn } from "@/lib/utils";
 import { getContributions } from "@/lib/contributions";
 
@@ -14,51 +15,44 @@ export async function Contributions() {
   const data = await getContributions();
   if (!data || data.weeks.length === 0) return null;
 
+  // one fluid grid: a label gutter column, then one 1fr column per week, so the
+  // whole calendar scales to the container width instead of scrolling.
+  const template = `auto repeat(${data.weeks.length}, minmax(0, 1fr))`;
+
   return (
     <section id="contributions" className="mt-16">
       <h2 className="md-h2 text-sm uppercase">contributions</h2>
       <p className="mt-2 text-xs text-muted-foreground tabular-nums">
         {data.total} contributions in {data.year} · via github
       </p>
-      <div className="mt-6 overflow-x-auto pb-1">
-        <div className="flex gap-2 text-[10px] text-muted-foreground">
-          <div className="flex flex-col gap-[3px]">
-            {/* spacer matching the month-label row height */}
-            <div className="mb-1 h-2.5" />
-            {WEEKDAYS.map((d, i) => (
-              <div key={i} className="h-2.5 leading-none">
-                {d}
-              </div>
-            ))}
+      <div
+        className="mt-6 grid gap-[2px] overflow-hidden text-[10px] text-muted-foreground"
+        style={{ gridTemplateColumns: template }}
+      >
+        <div />
+        {data.months.map((m, i) => (
+          <div key={i} className="mb-1 whitespace-nowrap leading-none">
+            {m}
           </div>
-          <div className="flex flex-col">
-            <div className="mb-1 flex h-2.5 gap-[3px]">
-              {data.months.map((m, i) => (
-                <div key={i} className="w-2.5 whitespace-nowrap">
-                  {m}
-                </div>
-              ))}
-            </div>
-            <div className="flex gap-[3px]">
-              {data.weeks.map((week, wi) => (
-                <div key={wi} className="flex flex-col gap-[3px]">
-                  {week.map((day, di) => (
-                    <div
-                      key={di}
-                      title={
-                        day ? `${day.count} on ${day.date}` : undefined
-                      }
-                      className={cn(
-                        "size-2.5 rounded-[2px]",
-                        day ? LEVEL[day.level] : "bg-transparent",
-                      )}
-                    />
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        ))}
+        {WEEKDAYS.map((label, row) => (
+          <Fragment key={row}>
+            <div className="flex items-center pr-1 leading-none">{label}</div>
+            {data.weeks.map((week, wi) => {
+              const day = week[row];
+              return (
+                <div
+                  key={wi}
+                  title={day ? `${day.count} on ${day.date}` : undefined}
+                  className={cn(
+                    "aspect-square rounded-[2px]",
+                    day ? LEVEL[day.level] : "bg-transparent",
+                  )}
+                />
+              );
+            })}
+          </Fragment>
+        ))}
       </div>
       <div className="mt-3 flex items-center justify-end gap-2 text-[10px] text-muted-foreground">
         <div className="flex items-center gap-[3px]">
