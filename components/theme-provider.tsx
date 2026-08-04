@@ -1,7 +1,9 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
+import { MorphIcon } from "morphicons/react";
 import { Button } from "@/components/button";
+import { MOON_ICON, SUN_ICON } from "@/components/icons";
 import {
   createContext,
   useCallback,
@@ -82,8 +84,17 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
+const SUBSCRIBE_NOTHING = () => () => {};
+
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
+  // The server can't know the theme, so the first paint stays on the CSS-driven
+  // pair; MorphIcon only takes over after hydration, where a swap can animate.
+  const hydrated = useSyncExternalStore(
+    SUBSCRIBE_NOTHING,
+    () => true,
+    () => false,
+  );
 
   return (
     <Button
@@ -94,9 +105,14 @@ export function ThemeToggle() {
       aria-label={`switch to ${theme === "dark" ? "light" : "dark"} theme, shortcut d`}
       className="text-muted-foreground hover:text-foreground"
     >
-      {/* CSS-driven swap so the icon is correct on first paint, before hydration */}
-      <Sun aria-hidden="true" className="hidden dark:block" />
-      <Moon aria-hidden="true" className="block dark:hidden" />
+      {hydrated ? (
+        <MorphIcon icon={theme === "dark" ? SUN_ICON : MOON_ICON} spring="snappy" />
+      ) : (
+        <>
+          <Sun aria-hidden="true" className="hidden dark:block" />
+          <Moon aria-hidden="true" className="block dark:hidden" />
+        </>
+      )}
     </Button>
   );
 }

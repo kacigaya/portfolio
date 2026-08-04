@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { MenuIcon, XIcon } from "lucide-react";
+import { MorphIcon } from "morphicons/react";
 import { useState } from "react";
+import { CLOSE_ICON, MENU_ICON } from "@/components/icons";
 import { Button } from "@/components/button";
 import {
   Collapsible,
@@ -80,11 +81,7 @@ export function Nav() {
               className="sm:hidden"
               render={
                 <Button variant="ghost" size="icon">
-                  {open ? (
-                    <XIcon aria-hidden="true" />
-                  ) : (
-                    <MenuIcon aria-hidden="true" />
-                  )}
+                  <MorphIcon icon={open ? CLOSE_ICON : MENU_ICON} spring="snappy" />
                 </Button>
               }
             />
