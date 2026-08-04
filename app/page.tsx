@@ -8,7 +8,7 @@ import { Blogs } from "@/sections/blogs";
 import { Skills } from "@/sections/skills";
 import { Contact } from "@/sections/contact";
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 export default function Page() {
   return (
