@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "highlight.js/styles/github-dark.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -115,7 +114,64 @@ details summary::marker { color: var(--muted-foreground); }
   padding: 0.05rem 0.35rem;
   font-size: 0.9em;
 }
-/* code blocks stay dark in both themes: highlight.js github-dark tokens are only legible on a dark surface */
+/* catppuccin mocha, mapped onto highlight.js token classes */
+.prose-blog pre {
+  --ctp-text: #cdd6f4;
+  --ctp-subtext0: #a6adc8;
+  --ctp-overlay2: #9399b2;
+  --ctp-flamingo: #f2cdcd;
+  --ctp-pink: #f5c2e7;
+  --ctp-mauve: #cba6f7;
+  --ctp-red: #f38ba8;
+  --ctp-peach: #fab387;
+  --ctp-yellow: #f9e2af;
+  --ctp-green: #a6e3a1;
+  --ctp-teal: #94e2d5;
+  --ctp-sky: #89dceb;
+  --ctp-sapphire: #74c7ec;
+  --ctp-blue: #89b4fa;
+}
+.prose-blog .hljs { color: var(--ctp-text); background: transparent; }
+.prose-blog .hljs-keyword,
+.prose-blog .hljs-variable { color: var(--ctp-mauve); }
+.prose-blog .hljs-built_in,
+.prose-blog .hljs-doctag,
+.prose-blog .hljs-deletion,
+.prose-blog .hljs-variable.language_ { color: var(--ctp-red); }
+.prose-blog .hljs-type,
+.prose-blog .hljs-attribute,
+.prose-blog .hljs-attr,
+.prose-blog .hljs-title.class_ { color: var(--ctp-yellow); }
+.prose-blog .hljs-number,
+.prose-blog .hljs-literal,
+.prose-blog .hljs-meta,
+.prose-blog .hljs-variable.constant_ { color: var(--ctp-peach); }
+.prose-blog .hljs-string,
+.prose-blog .hljs-addition,
+.prose-blog .hljs-code { color: var(--ctp-green); }
+.prose-blog .hljs-quote { color: var(--ctp-green); font-style: italic; }
+.prose-blog .hljs-regexp,
+.prose-blog .hljs-char.escape_ { color: var(--ctp-pink); }
+.prose-blog .hljs-symbol { color: var(--ctp-flamingo); }
+.prose-blog .hljs-operator { color: var(--ctp-sky); }
+.prose-blog .hljs-property,
+.prose-blog .hljs-bullet,
+.prose-blog .hljs-formula { color: var(--ctp-teal); }
+.prose-blog .hljs-link { color: var(--ctp-sapphire); font-style: italic; }
+.prose-blog .hljs-title,
+.prose-blog .hljs-title.function_,
+.prose-blog .hljs-section,
+.prose-blog .hljs-name,
+.prose-blog .hljs-selector-tag { color: var(--ctp-blue); }
+.prose-blog .hljs-params,
+.prose-blog .hljs-tag { color: var(--ctp-text); }
+.prose-blog .hljs-subst,
+.prose-blog .hljs-punctuation { color: var(--ctp-subtext0); }
+.prose-blog .hljs-comment { color: var(--ctp-overlay2); font-style: italic; }
+.prose-blog .hljs-emphasis { font-style: italic; }
+.prose-blog .hljs-strong { font-weight: 700; }
+
+/* code blocks stay dark in both themes: mocha tokens are only legible on a dark surface */
 .prose-blog pre {
   background: #0a0a0a;
   border: 1px solid var(--border);
