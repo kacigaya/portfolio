@@ -4,6 +4,7 @@ import { Separator } from "@/components/separator";
 import { Hero } from "@/sections/hero";
 import { About } from "@/sections/about";
 import { Projects } from "@/sections/projects";
+import { Contributions } from "@/sections/contributions";
 import { Blogs } from "@/sections/blogs";
 import { Skills } from "@/sections/skills";
 import { Contact } from "@/sections/contact";
@@ -27,6 +28,9 @@ export default function Page() {
         </Reveal>
         <Reveal>
           <Projects />
+        </Reveal>
+        <Reveal>
+          <Contributions />
         </Reveal>
         <Reveal>
           <Blogs />
