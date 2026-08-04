@@ -60,16 +60,7 @@ export async function Contributions() {
           </div>
         </div>
       </div>
-      <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[10px] text-muted-foreground">
-        <a
-          href="https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-settings-on-your-profile/viewing-contributions-on-your-profile"
-          target="_blank"
-          rel="noreferrer"
-          className="underline underline-offset-2 hover:text-foreground"
-        >
-          Learn how we count contributions
-          <span className="sr-only"> (opens in new tab)</span>
-        </a>
+      <div className="mt-3 flex items-center justify-end gap-2 text-[10px] text-muted-foreground">
         <div className="flex items-center gap-[3px]">
           <span className="mr-1">Less</span>
           {LEVEL.map((c, i) => (

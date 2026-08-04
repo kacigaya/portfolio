@@ -70,10 +70,13 @@ export async function getContributions(): Promise<
       total?: Record<string, number>;
       contributions?: ContributionDay[];
     };
+    // stop at today; drop future days so the grid ends in the current month
+    const today = new Date().toISOString().slice(0, 10);
+    const days = (json.contributions ?? []).filter((d) => d.date <= today);
     return {
       year,
       total: json.total?.[year] ?? 0,
-      ...toCalendar(json.contributions ?? []),
+      ...toCalendar(days),
     };
   } catch {
     return null;
