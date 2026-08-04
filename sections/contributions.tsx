@@ -18,7 +18,7 @@ export async function Contributions() {
     <section id="contributions" className="mt-16">
       <h2 className="md-h2 text-sm uppercase">contributions</h2>
       <p className="mt-2 text-xs text-muted-foreground tabular-nums">
-        {data.total} contributions in the last year · via github
+        {data.total} contributions in {data.year} · via github
       </p>
       <div className="mt-6 overflow-x-auto pb-1">
         <div className="flex gap-2 text-[10px] text-muted-foreground">

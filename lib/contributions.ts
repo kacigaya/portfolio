@@ -57,20 +57,22 @@ export function toCalendar(days: ContributionDay[]): Calendar {
 }
 
 export async function getContributions(): Promise<
-  (Calendar & { total: number }) | null
+  (Calendar & { total: number; year: number }) | null
 > {
+  const year = new Date().getUTCFullYear();
   try {
     const res = await fetch(
-      `https://github-contributions-api.jogruber.de/v4/${LOGIN}?y=last`,
+      `https://github-contributions-api.jogruber.de/v4/${LOGIN}?y=${year}`,
       { next: { revalidate: 86400 } },
     );
     if (!res.ok) return null;
     const json = (await res.json()) as {
-      total?: { lastYear?: number };
+      total?: Record<string, number>;
       contributions?: ContributionDay[];
     };
     return {
-      total: json.total?.lastYear ?? 0,
+      year,
+      total: json.total?.[year] ?? 0,
       ...toCalendar(json.contributions ?? []),
     };
   } catch {
