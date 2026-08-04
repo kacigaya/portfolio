@@ -13,11 +13,10 @@ import {
   CollapsiblePanel,
   CollapsibleTrigger,
 } from "@/components/collapsible";
-import { projects } from "@/lib/projects";
+import { getProjects } from "@/lib/projects";
 
-export function Projects() {
-  const featured = projects.filter((project) => project.featured);
-  const more = projects.filter((project) => !project.featured);
+export async function Projects() {
+  const { pinned, more } = await getProjects();
 
   return (
     <section id="projects" className="mt-32">
@@ -28,7 +27,7 @@ export function Projects() {
         selected open-source work · source and live demos where available
       </p>
       <ul className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
-        {featured.map((p) => (
+        {pinned.map((p) => (
           <li key={p.name}>
             <Card className="h-full" render={<article />}>
               <CardHeader className="p-4">

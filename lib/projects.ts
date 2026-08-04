@@ -4,107 +4,86 @@ export type Project = {
   url: string;
   homepage?: string;
   stack: string[];
-  featured?: boolean;
 };
 
-export const projects: Project[] = [
-  {
-    name: "webskrap",
-    desc: "Python web-scraping framework built on Playwright.",
-    url: "https://github.com/kacigaya/webskrap",
-    homepage: "https://kacigaya.github.io/webskrap/",
-    stack: ["python", "playwright", "scraping"],
-    featured: true,
-  },
-  {
-    name: "deepseek-pi-oauth",
-    desc: "DeepSeek web-login/OAuth bridge installer for Pi from pi.dev.",
-    url: "https://github.com/kacigaya/deepseek-pi-oauth",
-    stack: ["bash", "oauth", "pi.dev"],
-  },
-  {
-    name: "minimax-pi-oauth",
-    desc: "MiniMax OAuth bridge installer for Pi from pi.dev.",
-    url: "https://github.com/kacigaya/minimax-pi-oauth",
-    stack: ["bash", "oauth", "pi.dev"],
-  },
-  {
-    name: "teensy-reverse-shell",
-    desc: "BadUSB POC. Teensy 3.2 deploys a fileless PowerShell reverse shell on Windows via HID injection.",
-    url: "https://github.com/kacigaya/teensy-reverse-shell",
-    stack: ["c++", "powershell", "badusb", "security"],
-  },
-  {
-    name: "ghostpwn",
-    desc: "Autonomous pentest agent with an interactive TUI and multi-provider LLM backends.",
-    url: "https://github.com/GhostPWN/ghostpwn",
-    stack: ["rust", "tui", "llm", "security"],
-    featured: true,
-  },
-  {
-    name: "pdfcmprs",
-    desc: "Compress, merge, and split PDFs in the browser. No server upload, fully offline.",
-    url: "https://github.com/kacigaya/pdfcmprs",
-    stack: ["typescript", "next.js"],
-  },
-  {
-    name: "lightchat",
-    desc: "Small AI chat app with 17 LLM providers through Vercel AI SDK. Keys stay in the browser.",
-    url: "https://github.com/kacigaya/lightchat",
-    homepage: "https://lightchat-beta.vercel.app",
-    stack: ["typescript", "next.js", "ai-sdk"],
-    featured: true,
-  },
-  {
-    name: "binje",
-    desc: "Movie and TV discovery app with a Next.js front end on top of the TMDB API.",
-    url: "https://github.com/kacigaya/binje",
-    homepage: "https://binje.vercel.app",
-    stack: ["typescript", "next.js", "tmdb"],
-    featured: true,
-  },
-  {
-    name: "predicty-foot",
-    desc: "Live bookmaker odds plus AI football predictions for top European leagues.",
-    url: "https://github.com/kacigaya/predicty-foot",
-    homepage: "https://predicty-foot.vercel.app",
-    stack: ["typescript", "next.js", "ai"],
-  },
-  {
-    name: "bangs",
-    desc: "Lightning-fast search shortcut service inspired by DuckDuckGo !bangs.",
-    url: "https://github.com/kacigaya/bangs",
-    homepage: "https://bangs-beta.vercel.app",
-    stack: ["typescript", "next.js"],
-  },
-  {
-    name: "dns-switcher",
-    desc: "Lightweight macOS menu-bar app for DNS profile switching.",
-    url: "https://github.com/kacigaya/dns-switcher",
-    stack: ["swift", "macos"],
-  },
-  {
-    name: "spotblock",
-    desc: "Cross-platform bash script that blocks Spotify ads via the system hosts file.",
-    url: "https://github.com/kacigaya/spotblock",
-    stack: ["bash", "macos", "windows"],
-  },
-  {
-    name: "clean-tweetx",
-    desc: "Minimal Chrome extension that hides distracting and promotional UI on X.",
-    url: "https://github.com/kacigaya/clean-tweetx",
-    stack: ["javascript", "chrome-ext"],
-  },
-  {
-    name: "youtube-playlist-purger",
-    desc: "Browser console script to bulk-remove every video from a YouTube playlist.",
-    url: "https://github.com/kacigaya/youtube-playlist-purger",
-    stack: ["javascript", "snippet"],
-  },
-  {
-    name: "noskrap",
-    desc: "TypeScript bot-risk framework for Next.js apps.",
-    url: "https://github.com/kacigaya/noskrap",
-    stack: ["typescript", "next.js"],
-  },
-];
+export type RepoNode = {
+  name: string;
+  description: string | null;
+  url: string;
+  homepageUrl: string | null;
+  isArchived: boolean;
+  repositoryTopics: { nodes: { topic: { name: string } }[] };
+};
+
+export type UserRepos = {
+  pinnedItems: { nodes: RepoNode[] };
+  repositories: { nodes: RepoNode[] };
+};
+
+const LOGIN = "kacigaya";
+
+const QUERY = `
+  fragment repo on Repository {
+    name
+    description
+    url
+    homepageUrl
+    isArchived
+    repositoryTopics(first: 10) { nodes { topic { name } } }
+  }
+  query($login: String!) {
+    user(login: $login) {
+      pinnedItems(first: 6, types: REPOSITORY) {
+        nodes { ... on Repository { ...repo } }
+      }
+      repositories(
+        first: 100
+        privacy: PUBLIC
+        isFork: false
+        ownerAffiliations: OWNER
+        orderBy: { field: PUSHED_AT, direction: DESC }
+      ) {
+        nodes { ...repo }
+      }
+    }
+  }
+`;
+
+function toProject(repo: RepoNode): Project {
+  return {
+    name: repo.name,
+    desc: repo.description ?? "",
+    url: repo.url,
+    homepage: repo.homepageUrl || undefined,
+    stack: repo.repositoryTopics.nodes.map((n) => n.topic.name),
+  };
+}
+
+export function splitProjects(user: UserRepos) {
+  const pinned = user.pinnedItems.nodes.map(toProject);
+  const pinnedUrls = new Set(pinned.map((p) => p.url));
+  const more = user.repositories.nodes
+    .filter((repo) => !repo.isArchived && !pinnedUrls.has(repo.url))
+    .map(toProject);
+  return { pinned, more };
+}
+
+export async function getProjects() {
+  const token = process.env.GITHUB_TOKEN;
+  if (!token) throw new Error("GITHUB_TOKEN missing: pinned repos need GraphQL");
+
+  const res = await fetch("https://api.github.com/graphql", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ query: QUERY, variables: { login: LOGIN } }),
+  });
+  if (!res.ok) throw new Error(`github graphql: ${res.status}`);
+
+  const json = await res.json();
+  if (json.errors) throw new Error(`github graphql: ${json.errors[0].message}`);
+
+  return splitProjects(json.data.user as UserRepos);
+}
