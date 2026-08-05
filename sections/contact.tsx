@@ -14,19 +14,19 @@ const lines = [
   },
   {
     icon: GithubIcon,
-    label: "git ",
+    label: "git",
     value: socials.githubLabel,
     href: socials.github,
   },
   {
     icon: LinkedinIcon,
-    label: "in  ",
+    label: "in",
     value: socials.linkedinLabel,
     href: socials.linkedin,
   },
   {
     icon: XIcon,
-    label: "x   ",
+    label: "x",
     value: socials.xLabel,
     href: socials.x,
   },
@@ -55,7 +55,7 @@ export function Contact() {
                 >
                   <Icon aria-hidden="true" />
                   <span className="text-muted-foreground text-xs uppercase">
-                    {label.trim()}
+                    {label}
                   </span>
                   <span className="underline underline-offset-4 decoration-muted-foreground">
                     {value}

@@ -46,7 +46,9 @@ export async function Contributions() {
                   title={day ? `${day.count} on ${day.date}` : undefined}
                   className={cn(
                     "aspect-square rounded-[2px]",
-                    day ? LEVEL[day.level] : "bg-transparent",
+                    // level comes straight from a third-party API: an
+                    // out-of-range value would render an invisible cell.
+                    day ? (LEVEL[day.level] ?? LEVEL[0]) : "bg-transparent",
                   )}
                 />
               );

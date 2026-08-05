@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import { utcDate } from "@/lib/utils";
 
 const POSTS_DIR = path.join(process.cwd(), "content/posts");
 
@@ -25,7 +26,7 @@ function metadata(
     throw new Error(`${slug}: title, date, and description must be strings`);
   }
   if (!/^[a-z0-9-]+$/.test(slug)) throw new Error(`${slug}: invalid slug`);
-  const date = new Date(`${data.date}T00:00:00Z`);
+  const date = utcDate(data.date);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(data.date) || Number.isNaN(date.valueOf()) || date.toISOString().slice(0, 10) !== data.date) {
     throw new Error(`${slug}: date must be YYYY-MM-DD`);
   }

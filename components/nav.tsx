@@ -66,11 +66,7 @@ export function Nav() {
                       className="text-muted-foreground hover:text-foreground"
                       render={<a href={l.href} />}
                     >
-                      <span>
-                        <span aria-hidden>[</span>
-                        {l.label}
-                        <span aria-hidden>]</span>
-                      </span>
+                      <span className="bracketed">{l.label}</span>
                     </Button>
                   </li>
                 ))}
@@ -99,11 +95,7 @@ export function Nav() {
                     className="w-full justify-start text-muted-foreground hover:text-foreground"
                     render={<a href={l.href} onClick={() => setOpen(false)} />}
                   >
-                    <span>
-                      <span aria-hidden>[</span>
-                      {l.label}
-                      <span aria-hidden>]</span>
-                    </span>
+                    <span className="bracketed">{l.label}</span>
                   </Button>
                 </li>
               ))}

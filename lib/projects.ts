@@ -1,3 +1,5 @@
+import { GITHUB_LOGIN } from "@/lib/socials";
+
 export type Project = {
   name: string;
   desc: string;
@@ -19,8 +21,6 @@ export type UserRepos = {
   pinnedItems: { nodes: RepoNode[] };
   repositories: { nodes: RepoNode[] };
 };
-
-const LOGIN = "kacigaya";
 
 const QUERY = `
   fragment repo on Repository {
@@ -78,7 +78,7 @@ export async function getProjects() {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ query: QUERY, variables: { login: LOGIN } }),
+    body: JSON.stringify({ query: QUERY, variables: { login: GITHUB_LOGIN } }),
   });
   if (!res.ok) throw new Error(`github graphql: ${res.status}`);
 

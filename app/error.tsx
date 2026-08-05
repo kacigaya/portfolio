@@ -38,9 +38,7 @@ export default function Error({
           retry
         </Button>
         <Button size="lg" variant="outline" render={<Link href="/" />}>
-          <span>
-            <span aria-hidden>[</span>back home<span aria-hidden>]</span>
-          </span>
+          <span className="bracketed">back home</span>
         </Button>
       </div>
     </main>

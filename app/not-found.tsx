@@ -16,9 +16,7 @@ export default function NotFound() {
           className="mt-6"
           render={<Link href="/" />}
         >
-          <span>
-            <span aria-hidden>[</span>back home<span aria-hidden>]</span>
-          </span>
+          <span className="bracketed">back home</span>
         </Button>
       </main>
     </>

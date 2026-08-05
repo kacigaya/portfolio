@@ -1,3 +1,7 @@
+import { REVALIDATE } from "@/lib/site";
+import { GITHUB_LOGIN } from "@/lib/socials";
+import { utcDate } from "@/lib/utils";
+
 export type ContributionDay = {
   date: string;
   count: number;
@@ -9,7 +13,6 @@ export type Calendar = {
   months: (string | null)[];
 };
 
-const LOGIN = "kacigaya";
 const MONTHS = [
   "Jan",
   "Feb",
@@ -24,10 +27,6 @@ const MONTHS = [
   "Nov",
   "Dec",
 ];
-
-function utcDate(iso: string): Date {
-  return new Date(`${iso}T00:00:00Z`);
-}
 
 // pad to whole GitHub-style weeks (Sunday-first columns), then tag the column
 // where each month first appears so labels line up over the grid.
@@ -62,8 +61,8 @@ export async function getContributions(): Promise<
   const year = new Date().getUTCFullYear();
   try {
     const res = await fetch(
-      `https://github-contributions-api.jogruber.de/v4/${LOGIN}?y=${year}`,
-      { next: { revalidate: 86400 } },
+      `https://github-contributions-api.jogruber.de/v4/${GITHUB_LOGIN}?y=${year}`,
+      { next: { revalidate: REVALIDATE } },
     );
     if (!res.ok) return null;
     const json = (await res.json()) as {

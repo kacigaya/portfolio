@@ -1,3 +1,4 @@
+import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
 import { Reveal } from "@/components/reveal";
 import { Separator } from "@/components/separator";
@@ -9,6 +10,8 @@ import { Blogs } from "@/sections/blogs";
 import { Skills } from "@/sections/skills";
 import { Contact } from "@/sections/contact";
 
+// Next requires a literal here — it can't be imported from REVALIDATE in
+// lib/site.ts, so keep the two in sync.
 export const revalidate = 86400;
 
 export default function Page() {
@@ -43,10 +46,7 @@ export default function Page() {
         </Reveal>
       </main>
       <Separator className="mx-auto max-w-3xl" />
-      <footer className="mx-auto max-w-3xl px-6 md:px-8 pt-6 pb-10 text-xs text-muted-foreground">
-        <span aria-hidden>~*~</span> © Gaya KACI · built with next.js ·{" "}
-        {new Date().getFullYear()} <span aria-hidden>~*~</span>
-      </footer>
+      <Footer />
     </>
   );
 }

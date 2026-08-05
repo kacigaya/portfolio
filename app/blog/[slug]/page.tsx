@@ -7,6 +7,7 @@ import rehypeHighlight from "rehype-highlight";
 import { ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
+import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
 import { Separator } from "@/components/separator";
 import { getAllPosts, getPost } from "@/lib/posts";
@@ -98,15 +99,10 @@ export default async function BlogPost({
           className="mt-6"
           render={<Link href="/blog" />}
         >
-          <span>
-            <span aria-hidden>[</span>back to /blog<span aria-hidden>]</span>
-          </span>
+          <span className="bracketed">back to /blog</span>
         </Button>
       </main>
-      <footer className="mx-auto max-w-3xl px-6 md:px-8 pb-10 text-xs text-muted-foreground">
-        <span aria-hidden>~*~</span> © Gaya KACI · built with next.js ·{" "}
-        {new Date().getFullYear()} <span aria-hidden>~*~</span>
-      </footer>
+      <Footer className="pt-0" />
     </>
   );
 }

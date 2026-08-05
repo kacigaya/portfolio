@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { jetbrains } from "./fonts";
 import { THEME_INIT_SCRIPT, ThemeProvider } from "@/components/theme-provider";
 import { SITE_URL } from "@/lib/site";
+import { socials } from "@/lib/socials";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -53,7 +54,7 @@ export default function RootLayout({
           name: "Gaya KACI",
           url: SITE_URL,
           jobTitle: "Cybersecurity student and web security researcher",
-          sameAs: ["https://github.com/kacigaya", "https://linkedin.com/in/kacigaya", "https://x.com/kacigaya"],
+          sameAs: [socials.github, socials.linkedin, socials.x],
         }).replace(/</g, "\\u003c") }} />
         <ThemeProvider>{children}</ThemeProvider>
       </body>

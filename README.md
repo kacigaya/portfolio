@@ -34,6 +34,10 @@
 ### Prerequisites
 
 - Bun 1.3.14+
+- Node 22.11.0 (see `.nvmrc`)
+- A `GITHUB_TOKEN` in the environment. The Projects section is fetched from the
+  GitHub GraphQL API at build time, and `bun run build` fails without it. A
+  classic token with `public_repo` scope is enough.
 
 ### Installation
 
@@ -55,7 +59,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the app.
 app/            # Next.js App Router pages, layout, fonts and global styles
 components/     # Reusable UI components (Nav, Caret, Reveal, icons)
 sections/       # Page sections (Hero, About, Projects, Skills, Contact)
-lib/            # Static data (projects, socials)
+lib/            # Data loading (GitHub projects and contributions, markdown posts) and site constants
 public/         # Logo SVGs and self-hosted font files
 ```
 
