@@ -103,7 +103,6 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       title="toggle theme (d)"
       aria-label={`switch to ${theme === "dark" ? "light" : "dark"} theme, shortcut d`}
-      className="text-muted-foreground hover:text-foreground"
     >
       {hydrated ? (
         <MorphIcon icon={theme === "dark" ? SUN_ICON : MOON_ICON} spring="snappy" />
