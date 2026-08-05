@@ -77,7 +77,10 @@ details summary::marker { color: var(--muted-foreground); }
 .md-h2::before { content: "## "; }
 .md-h3::before { content: "### "; }
 
-.prose-blog { line-height: 1.7; }
+/* long inline code (file paths, symbol names) has no space to break at and
+   would widen the whole document on narrow screens, which drags the fixed nav
+   sideways. Break inside those runs only when they cannot fit. */
+.prose-blog { line-height: 1.7; overflow-wrap: break-word; }
 .prose-blog h2 {
   font-size: 1.25rem;
   font-weight: 700;
