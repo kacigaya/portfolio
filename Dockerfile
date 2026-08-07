@@ -10,12 +10,11 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-# lib/projects.ts throws without this: the pinned-repo GraphQL query runs during
-# the static prerender. Build-stage only, so it is not present in the final
-# image, but it does persist in this stage's layers on the build host.
-ARG GITHUB_TOKEN
-ENV GITHUB_TOKEN=$GITHUB_TOKEN
-RUN bun run build
+# lib/projects.ts throws without a token: the pinned-repo GraphQL query runs
+# during the static prerender. Mounted as a BuildKit secret rather than an ARG
+# so it never lands in an image layer or in `docker history`.
+RUN --mount=type=secret,id=GITHUB_TOKEN \
+    GITHUB_TOKEN="$(cat /run/secrets/GITHUB_TOKEN)" bun run build
 
 FROM node:22-alpine AS runner
 WORKDIR /app
