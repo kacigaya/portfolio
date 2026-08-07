@@ -3,6 +3,10 @@
 # command (see ~/.ssh/authorized_keys), or by hand.
 set -euo pipefail
 
+# A forced-command SSH session loads no profile, so PATH would otherwise find
+# the system Node 18, which Next refuses (needs >=20.9.0).
+export PATH="/home/ubuntu/.local/bin:$PATH"
+
 cd /home/ubuntu/projects/portfolio
 
 git fetch --prune origin
