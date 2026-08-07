@@ -1,0 +1,11 @@
+.git
+.github
+node_modules
+.next
+.agents
+.claude
+.shipstudio
+deploy.sh
+tsconfig.tsbuildinfo
+# Root docs only. content/posts/*.md is the blog and must ship.
+/*.md
