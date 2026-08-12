@@ -5,13 +5,9 @@ import { MorphIcon } from "morphicons/react";
 import { Button } from "@/components/button";
 import { MOON_ICON, SUN_ICON } from "@/components/icons";
 import {
-  createContext,
   useCallback,
-  useContext,
   useEffect,
-  useMemo,
   useSyncExternalStore,
-  type ReactNode,
 } from "react";
 
 type Theme = "dark" | "light";
@@ -21,15 +17,6 @@ const THEME_STORAGE_KEY = "theme";
 // Runs before paint in the document head so the stored theme wins over the
 // server-rendered default without a flash.
 export const THEME_INIT_SCRIPT = `try{var t=localStorage.getItem("${THEME_STORAGE_KEY}");if(!t)t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.classList.toggle("dark",t!=="light")}catch(e){}`;
-
-const ThemeContext = createContext<{ theme: Theme; toggleTheme: () => void }>({
-  theme: "dark",
-  toggleTheme: () => {},
-});
-
-function useTheme() {
-  return useContext(ThemeContext);
-}
 
 function isTypingTarget(target: EventTarget | null) {
   const el = target as HTMLElement | null;
@@ -57,8 +44,11 @@ function getTheme(): Theme {
   return document.documentElement.classList.contains("dark") ? "dark" : "light";
 }
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
+const SUBSCRIBE_NOTHING = () => () => {};
+
+export function ThemeToggle() {
   const theme = useSyncExternalStore<Theme>(subscribeToTheme, getTheme, () => "dark");
+  const hydrated = useSyncExternalStore(SUBSCRIBE_NOTHING, () => true, () => false);
 
   const toggleTheme = useCallback(() => {
     const next: Theme = getTheme() === "dark" ? "light" : "dark";
@@ -78,23 +68,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [toggleTheme]);
-
-  const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
-
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
-}
-
-const SUBSCRIBE_NOTHING = () => () => {};
-
-export function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
-  // The server can't know the theme, so the first paint stays on the CSS-driven
-  // pair; MorphIcon only takes over after hydration, where a swap can animate.
-  const hydrated = useSyncExternalStore(
-    SUBSCRIBE_NOTHING,
-    () => true,
-    () => false,
-  );
 
   return (
     <Button

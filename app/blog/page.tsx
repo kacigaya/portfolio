@@ -34,7 +34,7 @@ export default function BlogIndex() {
               {/* the title link stretches over the card, so the whole card is the hit target */}
               <Card className="transition-colors hover:bg-accent has-[a:focus-visible]:bg-accent">
                 <CardHeader className="p-4">
-                  <CardTitle render={<h2 />}>
+                  <CardTitle as="h2">
                     <Link
                       href={`/blog/${post.slug}`}
                       className="outline-none after:absolute after:inset-0"

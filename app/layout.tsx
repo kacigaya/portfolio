@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { jetbrains } from "./fonts";
-import { THEME_INIT_SCRIPT, ThemeProvider } from "@/components/theme-provider";
+import { THEME_INIT_SCRIPT } from "@/components/theme-provider";
 import { SITE_URL } from "@/lib/site";
 import { socials } from "@/lib/socials";
 import "./globals.css";
@@ -56,7 +56,7 @@ export default function RootLayout({
           jobTitle: "Cybersecurity student and web security researcher",
           sameAs: [socials.github, socials.linkedin, socials.x],
         }).replace(/</g, "\\u003c") }} />
-        <ThemeProvider>{children}</ThemeProvider>
+        {children}
       </body>
     </html>
   );

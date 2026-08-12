@@ -29,7 +29,7 @@ export function Nav() {
       <Collapsible
         open={open}
         onOpenChange={setOpen}
-        className="mx-auto max-w-3xl rounded-xl border bg-background/80 text-sm shadow-xs/5 backdrop-blur"
+        className="mx-auto max-w-3xl rounded-xl border bg-background/95 text-sm shadow-xs/5"
       >
         <div className="flex h-12 items-center justify-between gap-2 px-3 md:px-4">
           <Link
@@ -43,7 +43,6 @@ export function Nav() {
               alt=""
               width={24}
               height={24}
-              priority
               className="size-6 hidden dark:block"
             />
             <Image
@@ -51,7 +50,6 @@ export function Nav() {
               alt=""
               width={24}
               height={24}
-              priority
               className="size-6 block dark:hidden"
             />
           </Link>

@@ -27,7 +27,7 @@ export async function Projects() {
       <ul className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
         {pinned.map((p) => (
           <li key={p.name}>
-            <Card className="h-full" render={<article />}>
+            <Card className="h-full" as="article">
               <CardHeader className="p-4">
                 <CardTitle>{p.name}</CardTitle>
                 <CardDescription className="leading-relaxed">

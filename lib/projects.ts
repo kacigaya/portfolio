@@ -1,4 +1,7 @@
 import { GITHUB_LOGIN } from "@/lib/socials";
+import { REVALIDATE } from "@/lib/site";
+
+const MORE_PROJECTS_LIMIT = 18;
 
 export type Project = {
   name: string;
@@ -37,7 +40,7 @@ const QUERY = `
         nodes { ... on Repository { ...repo } }
       }
       repositories(
-        first: 100
+        first: 24
         privacy: PUBLIC
         isFork: false
         ownerAffiliations: OWNER
@@ -64,13 +67,14 @@ export function splitProjects(user: UserRepos) {
   const pinnedUrls = new Set(pinned.map((p) => p.url));
   const more = user.repositories.nodes
     .filter((repo) => !repo.isArchived && !pinnedUrls.has(repo.url))
-    .map(toProject);
+    .map(toProject)
+    .slice(0, MORE_PROJECTS_LIMIT);
   return { pinned, more };
 }
 
 export async function getProjects() {
   const token = process.env.GITHUB_TOKEN;
-  if (!token) throw new Error("GITHUB_TOKEN missing: pinned repos need GraphQL");
+  if (!token) return getPublicProjects();
 
   const res = await fetch("https://api.github.com/graphql", {
     method: "POST",
@@ -79,11 +83,49 @@ export async function getProjects() {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ query: QUERY, variables: { login: GITHUB_LOGIN } }),
+    next: { revalidate: REVALIDATE },
   });
-  if (!res.ok) throw new Error(`github graphql: ${res.status}`);
+  if (!res.ok) return getPublicProjects();
 
   const json = await res.json();
-  if (json.errors) throw new Error(`github graphql: ${json.errors[0].message}`);
+  if (json.errors) return getPublicProjects();
 
   return splitProjects(json.data.user as UserRepos);
+}
+
+async function getPublicProjects() {
+  const res = await fetch(
+    `https://api.github.com/users/${GITHUB_LOGIN}/repos?type=owner&sort=pushed&per_page=24`,
+    {
+      headers: { Accept: "application/vnd.github+json" },
+      next: { revalidate: REVALIDATE },
+    },
+  );
+  if (!res.ok) return { pinned: [], more: [] };
+
+  const repos = (await res.json()) as Array<{
+    name: string;
+    description: string | null;
+    html_url: string;
+    homepage: string | null;
+    archived: boolean;
+    fork: boolean;
+    topics: string[];
+  }>;
+  const projects = repos
+    .filter((repo) => !repo.archived && !repo.fork)
+    .map((repo) => ({
+      name: repo.name,
+      desc: repo.description ?? "",
+      url: repo.html_url,
+      homepage: repo.homepage || undefined,
+      stack: repo.topics,
+    }));
+
+  return {
+    // The public REST API does not expose pinned repositories, so recent work
+    // is a stable no-token fallback for previews and deploys.
+    pinned: projects.slice(0, 6),
+    more: projects.slice(6, 6 + MORE_PROJECTS_LIMIT),
+  };
 }

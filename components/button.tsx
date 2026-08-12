@@ -1,9 +1,5 @@
-"use client";
-
-import { mergeProps } from "@base-ui/react/merge-props";
-import { useRender } from "@base-ui/react/use-render";
 import { cva, type VariantProps } from "class-variance-authority";
-import type * as React from "react";
+import { cloneElement, type ButtonHTMLAttributes, type ReactElement, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
@@ -33,9 +29,10 @@ const buttonVariants = cva(
   },
 );
 
-export interface ButtonProps extends useRender.ComponentProps<"button"> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: VariantProps<typeof buttonVariants>["variant"];
   size?: VariantProps<typeof buttonVariants>["size"];
+  render?: ReactElement<{ className?: string; children?: ReactNode }>;
 }
 
 export function Button({
@@ -44,19 +41,15 @@ export function Button({
   size,
   render,
   ...props
-}: ButtonProps): React.ReactElement {
-  const typeValue: React.ButtonHTMLAttributes<HTMLButtonElement>["type"] =
-    render ? undefined : "button";
-
-  const defaultProps = {
-    className: cn(buttonVariants({ className, size, variant })),
-    "data-slot": "button",
-    type: typeValue,
-  };
-
-  return useRender({
-    defaultTagName: "button",
-    props: mergeProps<"button">(defaultProps, props),
-    render,
-  });
+}: ButtonProps): ReactElement {
+  const classes = cn(buttonVariants({ className, size, variant }), render?.props.className);
+  if (render) {
+    return cloneElement(render, {
+      ...props,
+      className: classes,
+      "data-slot": "button",
+      children: props.children,
+    } as typeof render.props);
+  }
+  return <button {...props} type={props.type ?? "button"} className={classes} data-slot="button" />;
 }
