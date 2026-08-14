@@ -1,5 +1,5 @@
-import { expect, test } from "bun:test";
-import { splitProjects, type RepoNode } from "./projects";
+import { afterEach, expect, test } from "bun:test";
+import { getProjects, splitProjects, type RepoNode } from "./projects";
 
 function repo(name: string, extra: Partial<RepoNode> = {}): RepoNode {
   return {
@@ -25,6 +25,58 @@ test("pinned repos are excluded from more, archived dropped", () => {
   expect(pinned[0].homepage).toBe("https://binje.app");
   expect(pinned[0].stack).toEqual(["typescript"]);
   expect(more.map((p) => p.name)).toEqual(["bangs"]);
+});
+
+const realFetch = globalThis.fetch;
+const realToken = process.env.GITHUB_TOKEN;
+
+// React's fetch type carries a preconnect method, so a bare function is not
+// assignable to it.
+function stubFetch(impl: () => Promise<Response>) {
+  globalThis.fetch = Object.assign(impl, { preconnect: () => {} });
+}
+
+afterEach(() => {
+  globalThis.fetch = realFetch;
+  if (realToken === undefined) delete process.env.GITHUB_TOKEN;
+  else process.env.GITHUB_TOKEN = realToken;
+});
+
+// getProjects runs inside the production prerender: a throw here fails the
+// build instead of emptying one section.
+test("survives a GitHub outage while a token is configured", async () => {
+  process.env.GITHUB_TOKEN = "token";
+  stubFetch(() => Promise.reject(new Error("ENOTFOUND")));
+
+  expect(await getProjects()).toEqual({ pinned: [], more: [] });
+});
+
+test("falls back when an authenticated query answers without a user", async () => {
+  process.env.GITHUB_TOKEN = "token";
+  let call = 0;
+  stubFetch((): Promise<Response> => {
+    call += 1;
+    return Promise.resolve(
+      call === 1
+        ? Response.json({ data: { user: null } })
+        : Response.json([
+            {
+              name: "bangs",
+              description: null,
+              html_url: "https://github.com/kacigaya/bangs",
+              homepage: null,
+              archived: false,
+              fork: false,
+              topics: ["rust"],
+            },
+          ]),
+    );
+  });
+
+  const { pinned } = await getProjects();
+
+  expect(call).toBe(2);
+  expect(pinned.map((p) => p.name)).toEqual(["bangs"]);
 });
 
 test("empty description and homepage normalize", () => {

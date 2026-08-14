@@ -72,28 +72,47 @@ export function splitProjects(user: UserRepos) {
   return { pinned, more };
 }
 
+// This runs during the production prerender, so anything unhandled here fails
+// the build (and the Docker image build) rather than degrading the section.
+// Every failure mode falls through to the public API, then to nothing.
 export async function getProjects() {
   const token = process.env.GITHUB_TOKEN;
   if (!token) return getPublicProjects();
 
-  const res = await fetch("https://api.github.com/graphql", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ query: QUERY, variables: { login: GITHUB_LOGIN } }),
-    next: { revalidate: REVALIDATE },
-  });
-  if (!res.ok) return getPublicProjects();
+  try {
+    const res = await fetch("https://api.github.com/graphql", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ query: QUERY, variables: { login: GITHUB_LOGIN } }),
+      next: { revalidate: REVALIDATE },
+    });
+    if (!res.ok) return getPublicProjects();
 
-  const json = await res.json();
-  if (json.errors) return getPublicProjects();
+    const json = (await res.json()) as {
+      data?: { user?: UserRepos | null };
+      errors?: unknown[];
+    };
+    // a revoked token or a renamed login answers 200 with no user
+    if (json.errors || !json.data?.user) return getPublicProjects();
 
-  return splitProjects(json.data.user as UserRepos);
+    return splitProjects(json.data.user);
+  } catch {
+    return getPublicProjects();
+  }
 }
 
 async function getPublicProjects() {
+  try {
+    return await fetchPublicProjects();
+  } catch {
+    return { pinned: [], more: [] };
+  }
+}
+
+async function fetchPublicProjects() {
   const res = await fetch(
     `https://api.github.com/users/${GITHUB_LOGIN}/repos?type=owner&sort=pushed&per_page=24`,
     {
