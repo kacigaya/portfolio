@@ -13,7 +13,7 @@ export function Hero() {
       <p className="mt-2 text-sm md:text-base text-muted-foreground uppercase">
         cybersecurity student · web security researcher
       </p>
-      <p className="mt-6 max-w-2xl leading-relaxed text-pretty">
+      <p className="mt-6 max-w-2xl leading-relaxed text-pretty text-muted-foreground">
         Master&apos;s student at{" "}
         <span className="text-foreground">
           Efrei Paris Panthéon-Assas Université
@@ -34,7 +34,7 @@ export function Hero() {
           contact me
         </Button>
         <Button size="lg" variant="outline" render={<a href="#blogs" />}>
-          read research
+          read writing
         </Button>
       </div>
       <p className="mt-6 text-sm text-muted-foreground">

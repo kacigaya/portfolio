@@ -1,6 +1,13 @@
 import { describe, expect, test } from "bun:test";
 import { GET } from "@/app/feed.xml/route";
-import { getAllPosts, getPost, readingTime } from "@/lib/posts";
+import {
+  getAdjacentPosts,
+  getAllPosts,
+  getHeadings,
+  getPost,
+  readingTime,
+  slugify,
+} from "@/lib/posts";
 
 describe("posts", () => {
   test("loads valid posts once with stable metadata", () => {
@@ -18,6 +25,60 @@ describe("posts", () => {
   test("rounds reading time up to at least one minute", () => {
     expect(readingTime("")).toBe(1);
     expect(readingTime(Array(221).fill("word").join(" "))).toBe(2);
+  });
+
+  test("collects h2 and h3 headings, ignoring fenced code", () => {
+    const headings = getHeadings(
+      [
+        "intro text",
+        "## First `heading`",
+        "### Nested one",
+        "```sh",
+        "## not a heading",
+        "```",
+        "#### too deep",
+        "# also skipped",
+        "## Second",
+      ].join("\n"),
+    );
+
+    expect(headings).toEqual([
+      { id: "first-heading", text: "First heading", level: 2 },
+      { id: "nested-one", text: "Nested one", level: 3 },
+      { id: "second", text: "Second", level: 2 },
+    ]);
+  });
+
+  test("closes a fence only on a matching run", () => {
+    const headings = getHeadings(
+      [
+        "~~~md",
+        "```",
+        "## inside a nested fence",
+        "```",
+        "~~~",
+        "## After",
+      ].join("\n"),
+    );
+
+    expect(headings).toEqual([{ id: "after", text: "After", level: 2 }]);
+  });
+
+  test("slugifies heading text to anchor-safe ids", () => {
+    expect(slugify("Why TLS 1.3 / ECH?")).toBe("why-tls-1-3-ech");
+    expect(slugify("---edge---")).toBe("edge");
+  });
+
+  test("walks neighbours in date order and ends at the boundaries", () => {
+    const posts = getAllPosts();
+    const newest = getAdjacentPosts(posts[0].slug);
+    const oldest = getAdjacentPosts(posts[posts.length - 1].slug);
+
+    expect(newest.newer).toBeNull();
+    expect(newest.older?.slug).toBe(posts[1].slug);
+    expect(oldest.older).toBeNull();
+    expect(oldest.newer?.slug).toBe(posts[posts.length - 2].slug);
+    expect(getAdjacentPosts("missing")).toEqual({ older: null, newer: null });
   });
 
   test("generates an escaped RSS feed for every post", async () => {

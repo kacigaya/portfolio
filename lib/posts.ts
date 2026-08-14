@@ -51,6 +51,88 @@ export function readingTime(content: string): number {
   return Math.max(1, Math.ceil(content.trim().split(/\s+/).length / 220));
 }
 
+export type Heading = { id: string; text: string; level: 2 | 3 };
+
+// Must stay in sync with the id the rendered headings get in the post page:
+// the table of contents links to these.
+export function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+const ENTITIES: Record<string, string> = {
+  "&amp;": "&",
+  "&lt;": "<",
+  "&gt;": ">",
+  "&quot;": '"',
+  "&#39;": "'",
+};
+
+// The text a heading renders as: link syntax collapses to its label, emphasis
+// and code markers disappear, entities resolve. Must match what the rendered
+// heading contains, since ids are matched on it.
+function headingText(raw: string): string {
+  return raw
+    .replace(/!?\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/[`*_]/g, "")
+    .replace(/&(?:amp|lt|gt|quot|#39);/g, (entity) => ENTITIES[entity])
+    .trim();
+}
+
+// Headings inside fenced code are comments, not structure. A fence only closes
+// on a run of the same character at least as long as the one that opened it,
+// so a ``` line inside a ~~~ block does not end it.
+export function getHeadings(content: string): Heading[] {
+  const headings: Heading[] = [];
+  const seen = new Map<string, number>();
+  let fence: { char: string; length: number } | null = null;
+
+  for (const line of content.split("\n")) {
+    const fenceMatch = /^\s*(`{3,}|~{3,})/.exec(line);
+    if (fenceMatch) {
+      const [char, length] = [fenceMatch[1][0], fenceMatch[1].length];
+      if (!fence) fence = { char, length };
+      else if (fence.char === char && length >= fence.length) fence = null;
+      continue;
+    }
+    if (fence) continue;
+
+    const match = /^(#{2,3})\s+(.+?)\s*#*\s*$/.exec(line);
+    if (!match) continue;
+    const text = headingText(match[2]);
+    if (!text) continue;
+
+    // two headings with the same text would otherwise share an id, and every
+    // link to it would land on the first one.
+    const slug = slugify(text);
+    const count = seen.get(slug) ?? 0;
+    seen.set(slug, count + 1);
+
+    headings.push({
+      id: count === 0 ? slug : `${slug}-${count + 1}`,
+      text,
+      level: match[1].length as 2 | 3,
+    });
+  }
+  return headings;
+}
+
+// getAllPosts is newest first, so the next entry is the older post.
+export function getAdjacentPosts(slug: string): {
+  older: PostMeta | null;
+  newer: PostMeta | null;
+} {
+  const posts = getAllPosts();
+  const index = posts.findIndex((p) => p.slug === slug);
+  if (index === -1) return { older: null, newer: null };
+  return {
+    older: posts[index + 1] ?? null,
+    newer: posts[index - 1] ?? null,
+  };
+}
+
 export function getAllPosts(): PostMeta[] {
   if (!fs.existsSync(POSTS_DIR)) return [];
   return fs

@@ -1,6 +1,6 @@
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
-import { Reveal } from "@/components/reveal";
+import { Deferred } from "@/components/deferred";
 import { Separator } from "@/components/separator";
 import { Hero } from "@/sections/hero";
 import { About } from "@/sections/about";
@@ -26,24 +26,24 @@ export default function Page() {
       <Nav />
       <main id="main" className="mx-auto max-w-3xl px-6 md:px-8 pt-24 pb-32">
         <Hero />
-        <Reveal>
+        <Deferred>
           <About />
-        </Reveal>
-        <Reveal>
+        </Deferred>
+        <Deferred>
           <Projects />
-        </Reveal>
-        <Reveal>
+        </Deferred>
+        <Deferred>
           <Contributions />
-        </Reveal>
-        <Reveal>
+        </Deferred>
+        <Deferred>
           <Blogs />
-        </Reveal>
-        <Reveal>
+        </Deferred>
+        <Deferred>
           <Skills />
-        </Reveal>
-        <Reveal>
+        </Deferred>
+        <Deferred>
           <Contact />
-        </Reveal>
+        </Deferred>
       </main>
       <Separator className="mx-auto max-w-3xl" />
       <Footer />

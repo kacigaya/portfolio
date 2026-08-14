@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Rss } from "lucide-react";
 import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
 import {
@@ -16,8 +16,8 @@ export function Blogs() {
   const posts = getAllPosts();
 
   return (
-    <section id="blogs" className="mt-16">
-      <h2 className="md-h2 text-sm uppercase">writing</h2>
+    <section id="blogs" className="mt-12 border-t pt-12">
+      <h2 className="md-h2 text-base uppercase">writing</h2>
       <p className="mt-2 text-xs text-muted-foreground tabular-nums">
         {posts.length} {posts.length === 1 ? "entry" : "entries"} · notes and
         write-ups
@@ -28,7 +28,7 @@ export function Blogs() {
             {/* the title link stretches over the card, so the whole card is the hit target */}
             <Card className="transition-colors hover:bg-accent has-[a:focus-visible]:bg-accent">
               <CardHeader className="p-4">
-                <CardTitle>
+                <CardTitle as="h3">
                   <Link
                     href={`/blog/${p.slug}`}
                     className="outline-none after:absolute after:inset-0"
@@ -57,15 +57,16 @@ export function Blogs() {
           </li>
         ))}
       </ul>
-      <Button
-        variant="outline"
-        size="sm"
-        className="mt-5"
-        render={<Link href="/blog" />}
-      >
-        browse all posts
-        <ArrowUpRight aria-hidden="true" />
-      </Button>
+      <div className="mt-5 flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" render={<Link href="/blog" />}>
+          browse all posts
+          <ArrowUpRight aria-hidden="true" />
+        </Button>
+        <Button variant="outline" size="sm" render={<a href="/feed.xml" />}>
+          <Rss aria-hidden="true" />
+          rss
+        </Button>
+      </div>
     </section>
   );
 }

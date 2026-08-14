@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Rss } from "lucide-react";
+import { Button } from "@/components/button";
 import {
   Card,
   CardDescription,
@@ -7,11 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/card";
+import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
 import { getAllPosts } from "@/lib/posts";
 
 export const metadata: Metadata = {
-  title: "Blog",
+  title: "Writing",
   description: "Technical notes on browser security, automation, reverse engineering, and web development.",
   alternates: { canonical: "/blog" },
 };
@@ -23,11 +26,20 @@ export default function BlogIndex() {
     <>
       <Nav />
       <main id="main" className="mx-auto max-w-3xl px-6 pt-24 pb-32 md:px-8">
-        <h1 className="md-h1 text-2xl md:text-3xl uppercase">Technical notes</h1>
+        <h1 className="md-h1 text-2xl md:text-3xl uppercase">Writing</h1>
         <p className="mt-4 max-w-2xl text-muted-foreground">
           Browser security, automation, reverse engineering, and the things I
           learn while building.
         </p>
+        <Button
+          variant="outline"
+          size="sm"
+          className="mt-5"
+          render={<a href="/feed.xml" />}
+        >
+          <Rss aria-hidden="true" />
+          rss
+        </Button>
         <ul className="mt-10 flex flex-col gap-3">
           {posts.map((post) => (
             <li key={post.slug}>
@@ -56,6 +68,7 @@ export default function BlogIndex() {
           ))}
         </ul>
       </main>
+      <Footer className="pt-0" />
     </>
   );
 }

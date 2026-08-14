@@ -12,9 +12,9 @@ const facts = [
 
 export function About() {
   return (
-    <section id="about" className="mt-16">
-      <h2 className="md-h2 text-sm uppercase">about</h2>
-      <div className="mt-4 flex max-w-2xl flex-col gap-4 leading-relaxed text-pretty">
+    <section id="about" className="mt-12 border-t pt-12">
+      <h2 className="md-h2 text-base uppercase">about</h2>
+      <div className="mt-4 flex max-w-2xl flex-col gap-4 leading-relaxed text-pretty text-muted-foreground">
         <p>
           Cybersecurity-focused developer with a background in network and
           system administration, plus web development.
@@ -37,7 +37,7 @@ export function About() {
                 <span className="text-xs text-muted-foreground uppercase">
                   {label}
                 </span>
-                <span>{value}</span>
+                <span className="text-foreground">{value}</span>
               </div>
             ))}
           </CardPanel>

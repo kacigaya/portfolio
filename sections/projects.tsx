@@ -3,6 +3,7 @@ import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
 import {
   Card,
+  CardAction,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -19,20 +20,38 @@ export async function Projects() {
   const { pinned, more } = await getProjects();
 
   return (
-    <section id="projects" className="mt-16">
-      <h2 className="md-h2 text-sm uppercase">projects</h2>
+    <section id="projects" className="mt-12 border-t pt-12">
+      <h2 className="md-h2 text-base uppercase">projects</h2>
       <p className="mt-2 text-xs text-muted-foreground tabular-nums">
         selected open-source work · source and live demos where available
       </p>
       <ul className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
         {pinned.map((p) => (
           <li key={p.name}>
-            <Card className="h-full" as="article">
+            {/* the title link stretches over the card, so the whole card opens
+                the repo; the demo button is raised back above it */}
+            <Card
+              className="h-full transition-colors hover:bg-accent has-[a:focus-visible]:bg-accent"
+              as="article"
+            >
               <CardHeader className="p-4">
-                <CardTitle>{p.name}</CardTitle>
+                <CardTitle as="h3">
+                  <a
+                    href={p.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="outline-none after:absolute after:inset-0"
+                  >
+                    {p.name}
+                    <span className="sr-only"> (source, opens in new tab)</span>
+                  </a>
+                </CardTitle>
                 <CardDescription className="leading-relaxed">
                   {p.desc}
                 </CardDescription>
+                <CardAction>
+                  <ArrowUpRight aria-hidden="true" className="size-4 opacity-80" />
+                </CardAction>
               </CardHeader>
               <CardFooter className="mt-auto flex-col items-start gap-3 p-4">
                 <div className="flex flex-wrap gap-1">
@@ -42,30 +61,20 @@ export async function Projects() {
                     </Badge>
                   ))}
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  {p.homepage && (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      render={
-                        <a href={p.homepage} target="_blank" rel="noreferrer" />
-                      }
-                    >
-                      live demo
-                      <span className="sr-only">(opens in new tab)</span>
-                      <ArrowUpRight aria-hidden="true" />
-                    </Button>
-                  )}
+                {p.homepage && (
                   <Button
                     size="sm"
                     variant="outline"
-                    render={<a href={p.url} target="_blank" rel="noreferrer" />}
+                    className="z-10"
+                    render={
+                      <a href={p.homepage} target="_blank" rel="noreferrer" />
+                    }
                   >
-                    source
+                    live demo
                     <span className="sr-only">(opens in new tab)</span>
                     <ArrowUpRight aria-hidden="true" />
                   </Button>
-                </div>
+                )}
               </CardFooter>
             </Card>
           </li>

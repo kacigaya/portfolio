@@ -4,19 +4,49 @@ import type { Metadata } from "next";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
 import { Footer } from "@/components/footer";
+import { createMarkdownComponents } from "@/components/markdown";
 import { Nav } from "@/components/nav";
 import { Separator } from "@/components/separator";
-import { getAllPosts, getPost } from "@/lib/posts";
+import {
+  getAdjacentPosts,
+  getAllPosts,
+  getHeadings,
+  getPost,
+  type PostMeta,
+} from "@/lib/posts";
 
 export function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }));
 }
 
 export const dynamicParams = false;
+
+function AdjacentPost({
+  post,
+  direction,
+}: {
+  post: PostMeta;
+  direction: "older" | "newer";
+}) {
+  const older = direction === "older";
+  return (
+    <Link
+      href={`/blog/${post.slug}`}
+      className={`group flex flex-col gap-1 rounded-lg border p-4 transition-colors hover:bg-accent ${older ? "items-end text-right" : ""}`}
+    >
+      <span className="flex items-center gap-1 text-xs text-muted-foreground uppercase">
+        {!older && <ArrowLeft aria-hidden="true" className="size-3.5" />}
+        {older ? "older" : "newer"}
+        {older && <ArrowRight aria-hidden="true" className="size-3.5" />}
+      </span>
+      <span className="text-sm leading-snug text-pretty">{post.title}</span>
+    </Link>
+  );
+}
 
 export async function generateMetadata({
   params,
@@ -51,6 +81,9 @@ export default async function BlogPost({
   const post = getPost(slug);
   if (!post) notFound();
 
+  const headings = getHeadings(post.content);
+  const { older, newer } = getAdjacentPosts(slug);
+
   return (
     <>
       <Nav />
@@ -84,8 +117,27 @@ export default async function BlogPost({
             )}
           </div>
         </header>
+        {/* short posts do not need an index, and a two-item one is noise */}
+        {headings.length >= 3 && (
+          <nav aria-label="table of contents" className="mt-8 rounded-lg border p-4">
+            <p className="text-xs text-muted-foreground uppercase">contents</p>
+            <ul className="mt-3 flex flex-col gap-1.5 text-sm">
+              {headings.map((h) => (
+                <li key={h.id} className={h.level === 3 ? "pl-4" : undefined}>
+                  <a
+                    href={`#${h.id}`}
+                    className="text-muted-foreground underline decoration-border underline-offset-4 hover:text-foreground"
+                  >
+                    {h.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
         <article className="prose-blog mt-8">
           <ReactMarkdown
+            components={createMarkdownComponents(headings)}
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[[rehypeHighlight, { detect: true, ignoreMissing: true }]]}
           >
@@ -93,6 +145,21 @@ export default async function BlogPost({
           </ReactMarkdown>
         </article>
         <Separator className="mt-16" />
+        {(older || newer) && (
+          <nav
+            aria-label="more posts"
+            className="mt-6 grid gap-3 sm:grid-cols-2"
+          >
+            {/* the spacer only exists to push a lone older post to the right
+                column, so it must not add a row on a stacked layout */}
+            {newer ? (
+              <AdjacentPost post={newer} direction="newer" />
+            ) : (
+              <div className="hidden sm:block" />
+            )}
+            {older && <AdjacentPost post={older} direction="older" />}
+          </nav>
+        )}
         <Button
           variant="outline"
           size="sm"

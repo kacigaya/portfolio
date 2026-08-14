@@ -6,6 +6,9 @@
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-sans: var(--font-mono);
   --font-heading: var(--font-mono);
+  /* long-form article body only: mono is the site identity but costs reading
+     speed over a full write-up. Everything else stays mono. */
+  --font-prose: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 @layer base {
@@ -22,15 +25,17 @@
     -webkit-font-smoothing: antialiased;
   }
   ::selection {
-    background: #ffff00;
-    color: #000000;
+    background: color-mix(in srgb, var(--brand) 28%, transparent);
+    color: var(--foreground);
   }
   *,
   ::before,
   ::after {
     border-color: var(--border);
   }
-  :focus-visible {
+  /* buttons and badges draw their own focus ring; without this exclusion they
+     get both a ring and this outline. */
+  :focus-visible:not([data-slot="button"], [data-slot="badge"]) {
     outline: 1px solid var(--foreground);
     outline-offset: 3px;
   }
@@ -50,11 +55,19 @@ details summary::marker { color: var(--muted-foreground); }
   display: inline-block;
   width: 0.55em;
   height: 1em;
-  background: var(--foreground);
+  background: var(--brand);
   margin-left: 0.15em;
   vertical-align: -0.12em;
   animation: blink 1s steps(2) infinite;
 }
+
+/* the single accent, used by selection, the caret, and the contribution scale.
+   Steps are mixes of one hue so the scale cannot drift from the accent. */
+.level-0 { background: var(--muted); }
+.level-1 { background: color-mix(in srgb, var(--brand) 28%, transparent); }
+.level-2 { background: color-mix(in srgb, var(--brand) 50%, transparent); }
+.level-3 { background: color-mix(in srgb, var(--brand) 75%, transparent); }
+.level-4 { background: var(--brand); }
 
 /* markdown-source motif: literal heading markers, as if reading the .md file */
 .md-h1,
@@ -79,6 +92,12 @@ details summary::marker { color: var(--muted-foreground); }
    would widen the whole document on narrow screens, which drags the fixed nav
    sideways. Break inside those runs only when they cannot fit. */
 .prose-blog { line-height: 1.7; overflow-wrap: break-word; }
+/* body copy only: headings, code, tables and metadata stay mono */
+.prose-blog p,
+.prose-blog li,
+.prose-blog blockquote { font-family: var(--font-prose); }
+.prose-blog h2,
+.prose-blog h3 { scroll-margin-top: 6rem; }
 .prose-blog h2 {
   font-size: 1.25rem;
   font-weight: 700;
@@ -113,6 +132,7 @@ details summary::marker { color: var(--muted-foreground); }
 .prose-blog ol { list-style: decimal; }
 .prose-blog ol > li { margin: 0.35rem 0; padding-left: 0.25rem; }
 .prose-blog code:not(pre code) {
+  font-family: var(--font-mono);
   background: var(--muted);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -176,7 +196,25 @@ details summary::marker { color: var(--muted-foreground); }
 .prose-blog .hljs-emphasis { font-style: italic; }
 .prose-blog .hljs-strong { font-weight: 700; }
 
-/* code blocks stay dark in both themes: mocha tokens are only legible on a dark surface */
+/* catppuccin latte, so light mode gets a light code surface instead of the
+   dark block mocha requires */
+html:not(.dark) .prose-blog pre {
+  --ctp-text: #4c4f69;
+  --ctp-subtext0: #6c6f85;
+  --ctp-overlay2: #7c7f93;
+  --ctp-flamingo: #dd7878;
+  --ctp-pink: #ea76cb;
+  --ctp-mauve: #8839ef;
+  --ctp-red: #d20f39;
+  --ctp-peach: #fe640b;
+  --ctp-yellow: #df8e1d;
+  --ctp-green: #40a02b;
+  --ctp-teal: #179299;
+  --ctp-sky: #04a5e5;
+  --ctp-sapphire: #209fb5;
+  --ctp-blue: #1e66f5;
+  background: #eff1f5;
+}
 .prose-blog pre {
   background: #0a0a0a;
   border: 1px solid var(--border);
@@ -225,6 +263,7 @@ details summary::marker { color: var(--muted-foreground); }
   --border: --alpha(var(--color-black) / 8%);
   --input: --alpha(var(--color-black) / 10%);
   --ring: var(--color-neutral-400);
+  --brand: var(--color-emerald-600);
 }
 
 .dark {
@@ -245,6 +284,7 @@ details summary::marker { color: var(--muted-foreground); }
   --border: --alpha(var(--color-white) / 6%);
   --input: --alpha(var(--color-white) / 8%);
   --ring: var(--color-neutral-500);
+  --brand: var(--color-emerald-400);
 }
 
 @theme inline {
@@ -265,6 +305,7 @@ details summary::marker { color: var(--muted-foreground); }
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-brand: var(--brand);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
