@@ -1,9 +1,27 @@
 import fs from "node:fs";
 import path from "node:path";
-import matter from "gray-matter";
+import { load } from "js-yaml";
 import { utcDate } from "@/lib/utils";
 
 const POSTS_DIR = path.join(process.cwd(), "content/posts");
+
+const FRONTMATTER = /^---\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|$)/;
+
+// Replaces gray-matter, which is pinned to the js-yaml 3 API (`safeLoad`) that
+// the security override in package.json no longer provides. Every field is
+// validated below anyway, so the block only has to be split off and parsed.
+export function parseFrontmatter(raw: string): {
+  data: Record<string, unknown>;
+  content: string;
+} {
+  const match = FRONTMATTER.exec(raw);
+  if (!match) return { data: {}, content: raw };
+  const data = load(match[1]);
+  return {
+    data: data && typeof data === "object" ? (data as Record<string, unknown>) : {},
+    content: raw.slice(match[0].length),
+  };
+}
 
 export type PostMeta = {
   slug: string;
@@ -141,7 +159,7 @@ export function getAllPosts(): PostMeta[] {
     .map((f) => {
       const slug = f.replace(/\.md$/, "");
       const raw = fs.readFileSync(path.join(POSTS_DIR, f), "utf8");
-      const { data, content } = matter(raw);
+      const { data, content } = parseFrontmatter(raw);
       return metadata(slug, data, content);
     })
     .sort((a, b) => (a.date < b.date ? 1 : -1));
@@ -151,6 +169,6 @@ export function getPost(slug: string): Post | null {
   const file = path.join(POSTS_DIR, `${slug}.md`);
   if (!fs.existsSync(file)) return null;
   const raw = fs.readFileSync(file, "utf8");
-  const { data, content } = matter(raw);
+  const { data, content } = parseFrontmatter(raw);
   return { ...metadata(slug, data, content), content };
 }

@@ -5,6 +5,7 @@ import {
   getAllPosts,
   getHeadings,
   getPost,
+  parseFrontmatter,
   readingTime,
   slugify,
 } from "@/lib/posts";
@@ -20,6 +21,20 @@ describe("posts", () => {
       expect(post.minutes).toBeGreaterThan(0);
       expect(getPost(post.slug)?.minutes).toBe(post.minutes);
     }
+  });
+
+  test("splits frontmatter from body and tolerates its absence", () => {
+    expect(
+      parseFrontmatter(
+        ['---', 'title: "A"', 'tags: ["x", "y"]', '---', '', 'body ---- text'].join("\r\n"),
+      ),
+    ).toEqual({ data: { title: "A", tags: ["x", "y"] }, content: "\r\nbody ---- text" });
+
+    expect(parseFrontmatter("# no frontmatter")).toEqual({
+      data: {},
+      content: "# no frontmatter",
+    });
+    expect(parseFrontmatter("---\n42\n---\nbody").data).toEqual({});
   });
 
   test("rounds reading time up to at least one minute", () => {
