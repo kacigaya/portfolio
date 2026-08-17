@@ -6,9 +6,6 @@
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-sans: var(--font-mono);
   --font-heading: var(--font-mono);
-  /* long-form article body only: mono is the site identity but costs reading
-     speed over a full write-up. Everything else stays mono. */
-  --font-prose: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 @layer base {
@@ -92,10 +89,6 @@ details summary::marker { color: var(--muted-foreground); }
    would widen the whole document on narrow screens, which drags the fixed nav
    sideways. Break inside those runs only when they cannot fit. */
 .prose-blog { line-height: 1.7; overflow-wrap: break-word; }
-/* body copy only: headings, code, tables and metadata stay mono */
-.prose-blog p,
-.prose-blog li,
-.prose-blog blockquote { font-family: var(--font-prose); }
 .prose-blog h2,
 .prose-blog h3 { scroll-margin-top: 6rem; }
 .prose-blog h2 {
@@ -263,7 +256,7 @@ html:not(.dark) .prose-blog pre {
   --border: --alpha(var(--color-black) / 8%);
   --input: --alpha(var(--color-black) / 10%);
   --ring: var(--color-neutral-400);
-  --brand: var(--color-emerald-600);
+  --brand: var(--color-neutral-800);
 }
 
 .dark {
@@ -284,7 +277,7 @@ html:not(.dark) .prose-blog pre {
   --border: --alpha(var(--color-white) / 6%);
   --input: --alpha(var(--color-white) / 8%);
   --ring: var(--color-neutral-500);
-  --brand: var(--color-emerald-400);
+  --brand: var(--color-neutral-100);
 }
 
 @theme inline {
