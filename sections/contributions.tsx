@@ -10,11 +10,13 @@ export async function Contributions() {
   const data = await getContributions();
   if (!data || data.weeks.length === 0) return null;
 
-  // one grid: a label gutter column, then one column per week. Cells are capped
-  // near GitHub's size — the year is cut at today, so stretching the remaining
-  // weeks to fill the container would blow them up — and never shrink below a
-  // legible cell, so narrow screens scroll sideways instead of turning to dust.
-  const template = `auto repeat(${data.weeks.length}, minmax(8px, 11px))`;
+  // one grid: a label gutter column, then one column per week. Columns fill the
+  // container but the grid stops growing at a 15px cell — the year is cut at
+  // today, so a full stretch would blow the remaining weeks up — and columns
+  // never shrink below a legible cell, so narrow screens scroll sideways
+  // instead of turning to dust.
+  const template = `auto repeat(${data.weeks.length}, minmax(8px, 1fr))`;
+  const maxWidth = `calc(${data.weeks.length} * 17px + 2.5rem)`;
 
   return (
     <section id="contributions" className="mt-12 border-t pt-12">
@@ -24,9 +26,9 @@ export async function Contributions() {
       </p>
       {/* a chart, not content: the total above is the accessible summary, and
           per-cell labels would be 365 nodes of noise in a screen reader */}
-      {/* capped cells leave the grid narrower than the column, so the wrapper
-          shrinks to it and the legend below lines up with its right edge */}
-      <div className="mt-6 w-fit max-w-full">
+      {/* the capped grid can end up narrower than the column, so the wrapper
+          tracks its width and the legend below lines up with its right edge */}
+      <div className="mt-6 max-w-full" style={{ width: maxWidth }}>
         <div
           role="img"
           tabIndex={0}
