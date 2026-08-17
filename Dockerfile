@@ -5,7 +5,9 @@ WORKDIR /app
 COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 
-FROM oven/bun:1.3.14-slim AS builder
+# bun installs, node builds: bun 1.3.14 segfaults in next's TypeScript pass
+# inside this image (exit 133, SIGTRAP). Node also matches the runner below.
+FROM node:22-slim AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -14,7 +16,8 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # during the static prerender. Mounted as a BuildKit secret rather than an ARG
 # so it never lands in an image layer or in `docker history`.
 RUN --mount=type=secret,id=GITHUB_TOKEN \
-    GITHUB_TOKEN="$(cat /run/secrets/GITHUB_TOKEN)" bun run build
+    GITHUB_TOKEN="$(cat /run/secrets/GITHUB_TOKEN)" \
+    node node_modules/next/dist/bin/next build
 
 FROM node:22-alpine AS runner
 WORKDIR /app
