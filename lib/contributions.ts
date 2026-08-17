@@ -28,6 +28,15 @@ const MONTHS = [
   "Dec",
 ];
 
+// the API returns every day of the calendar year, so the rest of the year
+// renders as empty columns. Cut at today the way GitHub does.
+export function upToToday(
+  days: ContributionDay[],
+  today: string,
+): ContributionDay[] {
+  return days.filter((d) => d.date <= today);
+}
+
 // pad to whole GitHub-style weeks (Sunday-first columns), then tag the column
 // where each month first appears so labels line up over the grid.
 export function toCalendar(days: ContributionDay[]): Calendar {
@@ -58,7 +67,9 @@ export function toCalendar(days: ContributionDay[]): Calendar {
 export async function getContributions(): Promise<
   (Calendar & { total: number; year: number }) | null
 > {
-  const year = new Date().getUTCFullYear();
+  const now = new Date();
+  const year = now.getUTCFullYear();
+  const today = now.toISOString().slice(0, 10);
   try {
     const res = await fetch(
       `https://github-contributions-api.jogruber.de/v4/${GITHUB_LOGIN}?y=${year}`,
@@ -72,7 +83,7 @@ export async function getContributions(): Promise<
     return {
       year,
       total: json.total?.[year] ?? 0,
-      ...toCalendar(json.contributions ?? []),
+      ...toCalendar(upToToday(json.contributions ?? [], today)),
     };
   } catch {
     return null;

@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { toCalendar, type ContributionDay } from "./contributions";
+import { toCalendar, upToToday, type ContributionDay } from "./contributions";
 
 function days(start: string, n: number): ContributionDay[] {
   const out: ContributionDay[] = [];
@@ -31,4 +31,15 @@ test("labels the first column of each new month once", () => {
   const cal = toCalendar(days("2025-01-01", 60));
   const labels = cal.months.filter(Boolean);
   expect(labels).toEqual(["Jan", "Feb"]);
+});
+
+test("drops days after today, keeping today", () => {
+  const kept = upToToday(days("2025-01-01", 365), "2025-03-10");
+  expect(kept.at(-1)?.date).toBe("2025-03-10");
+  expect(kept).toHaveLength(69);
+});
+
+test("no month label past the current month", () => {
+  const cal = toCalendar(upToToday(days("2025-01-01", 365), "2025-03-10"));
+  expect(cal.months.filter(Boolean)).toEqual(["Jan", "Feb", "Mar"]);
 });
