@@ -58,13 +58,13 @@ details summary::marker { color: var(--muted-foreground); }
   animation: blink 1s steps(2) infinite;
 }
 
-/* the single accent, used by selection, the caret, and the contribution scale.
-   Steps are mixes of one hue so the scale cannot drift from the accent. */
+/* the contribution scale keeps GitHub's green, separate from --brand so the
+   selection and caret stay neutral. Steps are mixes of one hue. */
 .level-0 { background: var(--muted); }
-.level-1 { background: color-mix(in srgb, var(--brand) 28%, transparent); }
-.level-2 { background: color-mix(in srgb, var(--brand) 50%, transparent); }
-.level-3 { background: color-mix(in srgb, var(--brand) 75%, transparent); }
-.level-4 { background: var(--brand); }
+.level-1 { background: color-mix(in srgb, var(--contrib) 28%, transparent); }
+.level-2 { background: color-mix(in srgb, var(--contrib) 50%, transparent); }
+.level-3 { background: color-mix(in srgb, var(--contrib) 75%, transparent); }
+.level-4 { background: var(--contrib); }
 
 /* markdown-source motif: literal heading markers, as if reading the .md file */
 .md-h1,
@@ -257,6 +257,7 @@ html:not(.dark) .prose-blog pre {
   --input: --alpha(var(--color-black) / 10%);
   --ring: var(--color-neutral-400);
   --brand: var(--color-neutral-800);
+  --contrib: var(--color-emerald-600);
 }
 
 .dark {
@@ -278,6 +279,7 @@ html:not(.dark) .prose-blog pre {
   --input: --alpha(var(--color-white) / 8%);
   --ring: var(--color-neutral-500);
   --brand: var(--color-neutral-100);
+  --contrib: var(--color-emerald-400);
 }
 
 @theme inline {

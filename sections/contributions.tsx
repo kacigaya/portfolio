@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { cn } from "@/lib/utils";
 import { getContributions } from "@/lib/contributions";
 
-// mixes of the one accent token, defined in globals.css
+// mixes of the --contrib green, defined in globals.css
 const LEVEL = ["level-0", "level-1", "level-2", "level-3", "level-4"];
 const WEEKDAYS = ["", "Mon", "", "Wed", "", "Fri", ""];
 
