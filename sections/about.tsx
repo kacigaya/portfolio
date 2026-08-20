@@ -16,19 +16,19 @@ export function About() {
       <h2 className="md-h2 text-base uppercase">about</h2>
       <div className="mt-4 flex max-w-2xl flex-col gap-4 leading-relaxed text-pretty text-muted-foreground">
         <p>
-          Cybersecurity-focused developer with a background in network and
-          system administration, plus web development.
+          I build security tools and web software, backed by experience in
+          network and systems administration.
         </p>
         <p>
-          Day job at{" "}
-          <span className="text-foreground">Société Générale Assurance</span>: web
-          security research against complex web targets, reverse-engineering
-          anti-bot and bot-detection systems, and browser fingerprinting.
+          At{" "}
+          <span className="text-foreground">Société Générale Assurance</span>, I
+          research complex web targets, reverse engineer anti-bot systems, and
+          study browser fingerprinting.
         </p>
         <p>
-          Outside work, I build small CLIs, browser tools, and AI side projects.
-          Comfortable across Linux, macOS, and Windows. I usually read source
-          before docs.
+          Outside work, I build small CLIs, browser tools, and AI projects. I
+          work across Linux, macOS, and Windows, and usually read the source
+          before the docs.
         </p>
         <Card className="mt-2">
           <CardPanel className="grid grid-cols-1 gap-x-6 gap-y-3 p-4 text-sm sm:grid-cols-2">

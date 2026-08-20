@@ -1,16 +1,16 @@
 ---
-title: "Skia Graphite compositing bug: Chromium on macOS"
+title: "Skia Graphite compositing bug in Chromium on macOS"
 date: "2026-05-06"
 description: "A GPU rendering synchronization bug causing visual corruption on macOS, and how to fix it."
 tags: ["macos", "chromium", "gpu", "electron"]
 repo: "https://github.com/kacigaya/skia-graphite-openai"
 ---
 
-A rendering glitch affecting all Chromium-based browsers and Electron apps on macOS 15 (Sequoia) / 26 (Tahoe), including the Codex desktop app and ChatGPT web client.
+This rendering glitch affects Chromium-based browsers and Electron apps on macOS 15 (Sequoia) and 26 (Tahoe), including the Codex desktop app and ChatGPT web client.
 
 ## Symptom
 
-Windows fail to repaint correctly: portions of the desktop wallpaper, other apps, or stale buffer contents bleed through Chromium window surfaces. Visible as vertical bands, transparent strips, or ghosted UI fragments. Triggered by window resize, Mission Control, display sleep/wake, or external monitor switches.
+Windows fail to repaint correctly. Parts of the desktop wallpaper, other apps, or stale buffer contents bleed through Chromium surfaces as vertical bands, transparent strips, or ghosted UI fragments. Window resizing, Mission Control, display sleep and wake, and external monitor switches can trigger it.
 
 ## Root cause
 

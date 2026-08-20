@@ -7,17 +7,17 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Gaya KACI | Cybersecurity and web",
+    default: "Gaya KACI | Cybersecurity and web security",
     template: "%s | Gaya KACI",
   },
   description:
-    "Cybersecurity student at Efrei Paris Pantheon-Assas. Web development, automation, and security tooling.",
+    "Cybersecurity student and web security researcher building developer tools, browser automation, and security software.",
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: "/", types: { "application/rss+xml": "/feed.xml" } },
   openGraph: {
     title: "Gaya KACI",
     description:
-      "Cybersecurity student at Efrei Paris Pantheon-Assas. Web development, automation, and security tooling.",
+      "Cybersecurity student and web security researcher building developer tools, browser automation, and security software.",
     type: "website",
     url: "/",
   },

@@ -10,7 +10,7 @@ For authorized testing only. Do not run against systems you do not own.
 
 ## Threat model
 
-Physical access to an unlocked Windows host for under 10 seconds. Goal: interactive shell back to the attacker without dropping artifacts on disk.
+Assume less than 10 seconds of physical access to an unlocked Windows host. The goal is an interactive shell back to the attacker without writing artifacts to disk.
 
 ## Components
 

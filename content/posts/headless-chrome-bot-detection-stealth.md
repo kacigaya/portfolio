@@ -8,9 +8,9 @@ repo: "https://github.com/kacigaya/webskrap"
 
 Headed Chrome driven by [patchright](https://github.com/Kaliiiiiiiiii-Vinyzu/patchright), a CDP-leak-free Playwright fork, already clears the public bot-detection demos: reCAPTCHA v3, Cloudflare Turnstile, BrowserScan, FingerprintJS, CreepJS, Sannysoft, Incolumitas. Headless mode does not. I wanted WebSkrap to close that gap without JavaScript fingerprint spoofing, because broad JS patches register as tampering, and tampering is its own detection signal.
 
-Constraint: native only. No `Xvfb`, no `xfce`, no Docker. The host is macOS, which has no X server, so virtual-framebuffer tricks are off the table. Every fix had to happen at the browser level.
+One constraint: native browser controls only. No `Xvfb`, `xfce`, or Docker. The host is macOS, which has no X server, so virtual-framebuffer tricks are unavailable. Every fix had to happen in the browser.
 
-## The two surviving tells
+## The two remaining signals
 
 Run headless patchright against the demos and exactly two signals separate it from headed. Both are environmental, not behavioral.
 

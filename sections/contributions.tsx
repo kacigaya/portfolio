@@ -11,8 +11,8 @@ export async function Contributions() {
   if (!data || data.weeks.length === 0) return null;
 
   // one grid: a label gutter column, then one column per week. Columns fill the
-  // container but the grid stops growing at a 15px cell — the year is cut at
-  // today, so a full stretch would blow the remaining weeks up — and columns
+  // container but the grid stops growing at a 15px cell. The year is cut at
+  // today, so a full stretch would blow the remaining weeks up. Columns
   // never shrink below a legible cell, so narrow screens scroll sideways
   // instead of turning to dust.
   const template = `auto repeat(${data.weeks.length}, minmax(8px, 1fr))`;

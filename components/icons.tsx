@@ -2,7 +2,7 @@ import type { IconNode } from "morphicons/react";
 import type { SVGProps } from "react";
 
 // Lucide icon data for <MorphIcon>: lucide-react ships components, not nodes.
-// Module-level so the identity is stable — MorphIcon morphs on reference change.
+// Module-level so the identity is stable. MorphIcon morphs on reference change.
 export const MENU_ICON: IconNode = [
   ["path", { d: "M4 5h16" }],
   ["path", { d: "M4 12h16" }],

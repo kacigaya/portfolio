@@ -38,7 +38,7 @@ export function Contact() {
     <section id="contact" className="mt-12 border-t pt-12">
       <h2 className="md-h2 text-base uppercase">contact</h2>
       <p className="mt-2 text-xs text-muted-foreground">
-        mail is the reliable one
+        email works best
       </p>
       <Card className="mt-4">
         <CardPanel className="flex flex-col p-2">

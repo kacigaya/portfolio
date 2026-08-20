@@ -5,13 +5,13 @@ description: "The Android Origin gate verifies subscription credentials against 
 tags: ["brave", "voprf", "reverse-engineering", "android", "security-research"]
 ---
 
-Security research on hardware I own. This targets a payment gate, which Brave's bug bounty puts out of scope, so there is no vendor process to route it through. Published as research, not as a how-to for evading payment.
+This research was conducted on hardware I own. It concerns a payment gate, which Brave excludes from its bug bounty, so there is no vendor process for reporting it. This post documents the finding rather than explaining how to evade payment.
 
 ## The question
 
 Brave Origin is a paid tier. On desktop the gate is barely a gate: a boolean in the `Local State` JSON, `brave.origin.purchase_validated`. Flip it and Origin unlocks. That is a local pref trusting itself, which is not interesting.
 
-Android is the interesting one. The profile is sandboxed, `allowBackup="false"` blocks `adb backup`, and there is no boolean to flip. So how does the Android build decide you paid?
+Android is more interesting. The profile is sandboxed, `allowBackup="false"` blocks `adb backup`, and there is no boolean to flip. How does the Android build decide you paid?
 
 ## Two paths, one is weaker
 

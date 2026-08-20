@@ -5,19 +5,19 @@
 <h1 align="center">Portfolio</h1>
 
 <p align="center">
-   <strong>Developer portfolio with a terminal-style black and white UI.</strong><br>
+   <strong>Developer portfolio with a monochrome, terminal-inspired UI.</strong><br>
    <em>Built with Next.js 16 and Tailwind CSS 4.</em>
 </p>
 
 ## Features
 
 - Single-page scroll layout with anchor navigation
-- Terminal-inspired UI with prompt aesthetics
+- Terminal-inspired UI with prompt details
 - Blinking cursor and scroll-triggered fade-in animations
-- Curated featured projects with a browsable archive
+- Selected projects with a browsable archive
 - Markdown blog, RSS feed, sitemap, and structured metadata
-- Categorized skills from security to AI/ML
-- Fully responsive and keyboard-accessible
+- Skills grouped by field and frequency of use
+- Responsive, keyboard-accessible interface
 - Self-hosted JetBrains Nerd Font
 
 ## Tech stack
@@ -35,9 +35,9 @@
 
 - Bun 1.3.14+
 - Node 22.11.0 (see `.nvmrc`)
-- A `GITHUB_TOKEN` in the environment. The Projects section is fetched from the
-  GitHub GraphQL API at build time, and `bun run build` fails without it. A
-  classic token with `public_repo` scope is enough.
+- An optional `GITHUB_TOKEN` in the environment. The Projects section uses the
+  GitHub GraphQL API when a token is present and falls back to the public REST
+  API without one. A classic token with `public_repo` scope is enough.
 
 ### Installation
 

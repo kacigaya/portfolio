@@ -18,23 +18,23 @@ export function Hero() {
         <span className="text-foreground">
           Efrei Paris Panthéon-Assas Université
         </span>
-        . Currently working in web development and cybersecurity at{" "}
-        <span className="text-foreground">Société Générale Assurance</span> doing web
-        security research and building security tooling.
+        . I work in web development and cybersecurity at{" "}
+        <span className="text-foreground">Société Générale Assurance</span>, where I
+        research web security and build security tools.
       </p>
       <div className="mt-7 flex flex-wrap gap-2">
         <Button size="lg" render={<a href="#projects" />}>
-          view selected work
+          view projects
           <ArrowRight
             aria-hidden="true"
             className="transition-transform in-[[data-slot=button]:hover]:translate-x-0.5"
           />
         </Button>
         <Button size="lg" variant="outline" render={<a href="#contact" />}>
-          contact me
+          get in touch
         </Button>
         <Button size="lg" variant="outline" render={<a href="#blogs" />}>
-          read writing
+          read posts
         </Button>
       </div>
       <p className="mt-6 text-sm text-muted-foreground">

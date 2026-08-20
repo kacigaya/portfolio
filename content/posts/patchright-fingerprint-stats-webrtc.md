@@ -6,7 +6,7 @@ tags: ["browser-automation", "stealth", "patchright", "chromium", "webrtc"]
 repo: "https://github.com/kacigaya/webskrap"
 ---
 
-Bot-detection demos and fingerprint-statistics pages are not the same problem, and I learned that the slow way. After getting headless patchright to clear reCAPTCHA, Cloudflare, CreepJS, and the rest, I pointed it at [AmiUnique](https://amiunique.org) expecting a similar result. It does not ask "is this a bot." It asks "how rare is this exact browser," and that scores differently.
+Bot-detection demos and fingerprint-statistics pages measure different things. I learned that the slow way. After getting headless patchright to clear reCAPTCHA, Cloudflare, CreepJS, and the rest, I pointed it at [AmiUnique](https://amiunique.org) and expected a similar result. It does not ask, "Is this a bot?" It asks, "How rare is this exact browser?" That requires a different approach.
 
 Patchright's whole strategy is to expose the real browser. For a bot detector that is the winning move, because every synthetic override is a behavioral mismatch waiting to be caught. For a uniqueness scorer it cuts the other way. The honest environment is often the *unusual* one: a default-locale headless Chrome on a fresh profile looks nothing like the median visitor. So the fixes here are opt-in. The strict default stays the same.
 
@@ -57,7 +57,7 @@ config = SessionConfig(
 
 The four accepted values map to Chrome's own: `default`, `default_public_and_private_interfaces`, `default_public_interface_only`, and `disable_non_proxied_udp`. Pick the last one when a leak test should see no local or direct public candidates.
 
-Be clear about the scope, because it is easy to oversell. This controls ICE candidates and nothing else. It does not hide the page's normal remote address, and it does not touch fonts, canvas, battery, device memory, or TLS. It plugs one specific hole.
+The scope matters. This controls ICE candidates and nothing else. It does not hide the page's normal remote address or touch fonts, canvas, battery, device memory, or TLS. It plugs one specific hole.
 
 ## Reducing render entropy
 

@@ -23,7 +23,7 @@ export async function Projects() {
     <section id="projects" className="mt-12 border-t pt-12">
       <h2 className="md-h2 text-base uppercase">projects</h2>
       <p className="mt-2 text-xs text-muted-foreground tabular-nums">
-        selected open-source work · source and live demos where available
+        selected open-source work · demos where available
       </p>
       <ul className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
         {pinned.map((p) => (

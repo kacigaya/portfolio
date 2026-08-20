@@ -15,7 +15,7 @@ import { getAllPosts } from "@/lib/posts";
 
 export const metadata: Metadata = {
   title: "Writing",
-  description: "Technical notes on browser security, automation, reverse engineering, and web development.",
+  description: "Notes on browser security, automation, reverse engineering, and web development.",
   alternates: { canonical: "/blog" },
 };
 
@@ -28,8 +28,8 @@ export default function BlogIndex() {
       <main id="main" className="mx-auto max-w-3xl px-6 pt-24 pb-32 md:px-8">
         <h1 className="md-h1 text-2xl md:text-3xl uppercase">Writing</h1>
         <p className="mt-4 max-w-2xl text-muted-foreground">
-          Browser security, automation, reverse engineering, and the things I
-          learn while building.
+          Notes from my work on browser security, automation, reverse
+          engineering, and web development.
         </p>
         <Button
           variant="outline"

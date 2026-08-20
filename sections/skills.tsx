@@ -1,7 +1,7 @@
 import { Badge } from "@/components/badge";
 
 // `core` is what gets used regularly; `rest` is real but occasional. The split
-// is what makes this section readable — a flat list of fifty tools claims
+// is what makes this section readable. A flat list of fifty tools claims
 // nothing. Keep core short.
 type Group = { label: string; core: string[]; rest: string[] };
 
@@ -48,7 +48,7 @@ export function Skills() {
     <section id="skills" className="mt-12 border-t pt-12">
       <h2 className="md-h2 text-base uppercase">skills</h2>
       <p className="mt-2 text-xs text-muted-foreground">
-        filled · daily · outlined · occasional
+        filled: regular use · outlined: occasional use
       </p>
       <dl className="mt-6 flex flex-col gap-5">
         {groups.map((g) => (
