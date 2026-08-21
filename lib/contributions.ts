@@ -28,8 +28,8 @@ const MONTHS = [
   "Dec",
 ];
 
-// the API returns every day of the calendar year, so the rest of the year
-// renders as empty columns. Cut at today the way GitHub does.
+// the API pads the window out to whole weeks, so trailing days can sit in the
+// future. Cut at today the way GitHub does.
 export function upToToday(
   days: ContributionDay[],
   today: string,
@@ -65,14 +65,14 @@ export function toCalendar(days: ContributionDay[]): Calendar {
 }
 
 export async function getContributions(): Promise<
-  (Calendar & { total: number; year: number }) | null
+  (Calendar & { total: number }) | null
 > {
-  const now = new Date();
-  const year = now.getUTCFullYear();
-  const today = now.toISOString().slice(0, 10);
+  const today = new Date().toISOString().slice(0, 10);
   try {
+    // y=last is the rolling 12-month window GitHub shows on a profile, not the
+    // calendar year. Its total lands under a "lastYear" key instead of a year.
     const res = await fetch(
-      `https://github-contributions-api.jogruber.de/v4/${GITHUB_LOGIN}?y=${year}`,
+      `https://github-contributions-api.jogruber.de/v4/${GITHUB_LOGIN}?y=last`,
       { next: { revalidate: REVALIDATE } },
     );
     if (!res.ok) return null;
@@ -81,8 +81,7 @@ export async function getContributions(): Promise<
       contributions?: ContributionDay[];
     };
     return {
-      year,
-      total: json.total?.[year] ?? 0,
+      total: json.total?.lastYear ?? 0,
       ...toCalendar(upToToday(json.contributions ?? [], today)),
     };
   } catch {

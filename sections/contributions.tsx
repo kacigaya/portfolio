@@ -11,18 +11,17 @@ export async function Contributions() {
   if (!data || data.weeks.length === 0) return null;
 
   // one grid: a label gutter column, then one column per week. Columns fill the
-  // container but the grid stops growing at a 15px cell. The year is cut at
-  // today, so a full stretch would blow the remaining weeks up. Columns
-  // never shrink below a legible cell, so narrow screens scroll sideways
-  // instead of turning to dust.
-  const template = `auto repeat(${data.weeks.length}, minmax(8px, 1fr))`;
-  const maxWidth = `calc(${data.weeks.length} * 17px + 2.5rem)`;
+  // container and stop growing at an 11px cell, GitHub's size. They have no
+  // floor, so all 53 weeks stay on screen at any width instead of scrolling
+  // sideways; cells just get small on a phone.
+  const template = `auto repeat(${data.weeks.length}, minmax(0, 1fr))`;
+  const maxWidth = `calc(${data.weeks.length} * 13px + 2.5rem)`;
 
   return (
     <section id="contributions" className="mt-12 border-t pt-12">
       <h2 className="md-h2 text-base uppercase">contributions</h2>
       <p className="mt-2 text-xs text-muted-foreground tabular-nums">
-        {data.total} contributions in {data.year} · via github
+        {data.total} contributions in the last year · via github
       </p>
       {/* a chart, not content: the total above is the accessible summary, and
           per-cell labels would be 365 nodes of noise in a screen reader */}
@@ -31,12 +30,11 @@ export async function Contributions() {
       <div className="mt-6 max-w-full" style={{ width: maxWidth }}>
         <div
           role="img"
-          tabIndex={0}
-          aria-label={`Contribution calendar: ${data.total} contributions in ${data.year}`}
-          className="overflow-x-auto rounded-sm"
+          aria-label={`Contribution calendar: ${data.total} contributions in the last year`}
+          className="rounded-sm"
         >
           <div
-            className="grid gap-[2px] text-[11px] text-muted-foreground"
+            className="grid gap-px sm:gap-[2px] text-[10px] sm:text-[11px] text-muted-foreground"
             style={{ gridTemplateColumns: template }}
           >
             <div />
