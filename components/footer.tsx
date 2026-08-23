@@ -1,5 +1,6 @@
 import { socials } from "@/lib/socials";
 import { cn } from "@/lib/utils";
+import { cacheLife } from "next/cache";
 
 const links = [
   { href: socials.github, label: "github", external: true },
@@ -8,7 +9,10 @@ const links = [
   { href: "/feed.xml", label: "rss", external: false },
 ];
 
-export function Footer({ className }: { className?: string }) {
+export async function Footer({ className }: { className?: string }) {
+  "use cache";
+  cacheLife("days");
+
   return (
     <footer
       className={cn(

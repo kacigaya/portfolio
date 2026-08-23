@@ -1,5 +1,5 @@
+import { cacheLife } from "next/cache";
 import { GITHUB_LOGIN } from "@/lib/socials";
-import { REVALIDATE } from "@/lib/site";
 
 const MORE_PROJECTS_LIMIT = 18;
 
@@ -52,12 +52,23 @@ const QUERY = `
   }
 `;
 
+function normalizeHomepage(homepage: string | null): string | undefined {
+  if (!homepage) return undefined;
+  const alreadyAbsolute = URL.canParse(homepage);
+  const value = alreadyAbsolute ? homepage : `https://${homepage}`;
+  if (!URL.canParse(value)) return undefined;
+  const url = new URL(value);
+  return url.protocol === "http:" || url.protocol === "https:"
+    ? alreadyAbsolute ? homepage : url.toString()
+    : undefined;
+}
+
 function toProject(repo: RepoNode): Project {
   return {
     name: repo.name,
     desc: repo.description ?? "",
     url: repo.url,
-    homepage: repo.homepageUrl || undefined,
+    homepage: normalizeHomepage(repo.homepageUrl),
     stack: repo.repositoryTopics.nodes.map((n) => n.topic.name),
   };
 }
@@ -76,6 +87,13 @@ export function splitProjects(user: UserRepos) {
 // the build (and the Docker image build) rather than degrading the section.
 // Every failure mode falls through to the public API, then to nothing.
 export async function getProjects() {
+  "use cache";
+  cacheLife("days");
+
+  return loadProjects();
+}
+
+export async function loadProjects() {
   const token = process.env.GITHUB_TOKEN;
   if (!token) return getPublicProjects();
 
@@ -87,7 +105,6 @@ export async function getProjects() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ query: QUERY, variables: { login: GITHUB_LOGIN } }),
-      next: { revalidate: REVALIDATE },
     });
     if (!res.ok) return getPublicProjects();
 
@@ -117,7 +134,6 @@ async function fetchPublicProjects() {
     `https://api.github.com/users/${GITHUB_LOGIN}/repos?type=owner&sort=pushed&per_page=24`,
     {
       headers: { Accept: "application/vnd.github+json" },
-      next: { revalidate: REVALIDATE },
     },
   );
   if (!res.ok) return { pinned: [], more: [] };
@@ -137,7 +153,7 @@ async function fetchPublicProjects() {
       name: repo.name,
       desc: repo.description ?? "",
       url: repo.html_url,
-      homepage: repo.homepage || undefined,
+      homepage: normalizeHomepage(repo.homepage),
       stack: repo.topics,
     }));
 

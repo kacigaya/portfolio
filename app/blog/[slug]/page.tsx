@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
@@ -22,8 +23,6 @@ import {
 export function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }));
 }
-
-export const dynamicParams = false;
 
 function AdjacentPost({
   post,
@@ -72,7 +71,29 @@ export async function generateMetadata({
   };
 }
 
-export default async function BlogPost({
+function BlogPostSkeleton() {
+  return (
+    <main
+      id="main"
+      aria-busy="true"
+      className="mx-auto max-w-3xl px-6 pt-24 pb-32 md:px-8"
+    >
+      <span className="sr-only" role="status">Loading post</span>
+      <div className="h-4 w-40 rounded bg-muted" />
+      <div className="mt-6 border-b pb-6">
+        <div className="h-8 max-w-xl rounded bg-muted" />
+        <div className="mt-3 h-4 w-48 rounded bg-muted" />
+      </div>
+      <div className="mt-8 space-y-3">
+        <div className="h-4 rounded bg-muted" />
+        <div className="h-4 rounded bg-muted" />
+        <div className="h-4 w-4/5 rounded bg-muted" />
+      </div>
+    </main>
+  );
+}
+
+async function BlogPostContent({
   params,
 }: {
   params: Promise<{ slug: string }>;
@@ -85,9 +106,7 @@ export default async function BlogPost({
   const { older, newer } = getAdjacentPosts(slug);
 
   return (
-    <>
-      <Nav />
-      <main id="main" className="mx-auto max-w-3xl px-6 md:px-8 pt-24 pb-32">
+    <main id="main" className="mx-auto max-w-3xl px-6 md:px-8 pt-24 pb-32">
         <p className="text-sm text-muted-foreground">/blog/{post.slug}.md</p>
         <header className="mt-6 border-b pb-6">
           <h1 className="md-h1 text-2xl md:text-3xl leading-tight text-balance">
@@ -168,7 +187,21 @@ export default async function BlogPost({
         >
           <span className="bracketed">back to /blog</span>
         </Button>
-      </main>
+    </main>
+  );
+}
+
+export default function BlogPost({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  return (
+    <>
+      <Nav />
+      <Suspense fallback={<BlogPostSkeleton />}>
+        <BlogPostContent params={params} />
+      </Suspense>
       <Footer className="pt-0" />
     </>
   );

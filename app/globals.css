@@ -194,7 +194,7 @@ details summary::marker { color: var(--muted-foreground); }
 html:not(.dark) .prose-blog pre {
   --ctp-text: #4c4f69;
   --ctp-subtext0: #6c6f85;
-  --ctp-overlay2: #7c7f93;
+  --ctp-overlay2: #686b80;
   --ctp-flamingo: #dd7878;
   --ctp-pink: #ea76cb;
   --ctp-mauve: #8839ef;
@@ -205,7 +205,7 @@ html:not(.dark) .prose-blog pre {
   --ctp-teal: #179299;
   --ctp-sky: #04a5e5;
   --ctp-sapphire: #209fb5;
-  --ctp-blue: #1e66f5;
+  --ctp-blue: #1a5edb;
   background: #eff1f5;
 }
 .prose-blog pre {

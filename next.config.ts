@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  cacheComponents: true,
+  partialPrefetching: true,
   // Ship a self-contained server.js so the runtime image carries no bun/npm and
   // no dev dependencies.
   output: "standalone",

@@ -1,4 +1,4 @@
-import { REVALIDATE } from "@/lib/site";
+import { cacheLife } from "next/cache";
 import { GITHUB_LOGIN } from "@/lib/socials";
 import { utcDate } from "@/lib/utils";
 
@@ -67,13 +67,15 @@ export function toCalendar(days: ContributionDay[]): Calendar {
 export async function getContributions(): Promise<
   (Calendar & { total: number }) | null
 > {
+  "use cache";
+  cacheLife("days");
+
   const today = new Date().toISOString().slice(0, 10);
   try {
     // y=last is the rolling 12-month window GitHub shows on a profile, not the
     // calendar year. Its total lands under a "lastYear" key instead of a year.
     const res = await fetch(
       `https://github-contributions-api.jogruber.de/v4/${GITHUB_LOGIN}?y=last`,
-      { next: { revalidate: REVALIDATE } },
     );
     if (!res.ok) return null;
     const json = (await res.json()) as {

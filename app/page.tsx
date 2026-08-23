@@ -10,10 +10,6 @@ import { Blogs } from "@/sections/blogs";
 import { Skills } from "@/sections/skills";
 import { Contact } from "@/sections/contact";
 
-// Next requires a literal here. It can't be imported from REVALIDATE in
-// lib/site.ts, so keep the two in sync.
-export const revalidate = 86400;
-
 export default function Page() {
   return (
     <>

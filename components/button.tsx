@@ -30,6 +30,7 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  "data-slot"?: string;
   variant?: VariantProps<typeof buttonVariants>["variant"];
   size?: VariantProps<typeof buttonVariants>["size"];
   render?: ReactElement<{ className?: string; children?: ReactNode }>;
@@ -40,6 +41,7 @@ export function Button({
   variant,
   size,
   render,
+  "data-slot": dataSlot,
   ...props
 }: ButtonProps): ReactElement {
   const classes = cn(buttonVariants({ className, size, variant }), render?.props.className);
@@ -47,9 +49,16 @@ export function Button({
     return cloneElement(render, {
       ...props,
       className: classes,
-      "data-slot": "button",
+      "data-slot": dataSlot ?? "button",
       children: props.children,
     } as typeof render.props);
   }
-  return <button {...props} type={props.type ?? "button"} className={classes} data-slot="button" />;
+  return (
+    <button
+      {...props}
+      type={props.type ?? "button"}
+      className={classes}
+      data-slot={dataSlot ?? "button"}
+    />
+  );
 }

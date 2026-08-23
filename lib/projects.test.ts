@@ -1,5 +1,5 @@
 import { afterEach, expect, test } from "bun:test";
-import { getProjects, splitProjects, type RepoNode } from "./projects";
+import { loadProjects, splitProjects, type RepoNode } from "./projects";
 
 function repo(name: string, extra: Partial<RepoNode> = {}): RepoNode {
   return {
@@ -48,7 +48,7 @@ test("survives a GitHub outage while a token is configured", async () => {
   process.env.GITHUB_TOKEN = "token";
   stubFetch(() => Promise.reject(new Error("ENOTFOUND")));
 
-  expect(await getProjects()).toEqual({ pinned: [], more: [] });
+  expect(await loadProjects()).toEqual({ pinned: [], more: [] });
 });
 
 test("falls back when an authenticated query answers without a user", async () => {
@@ -73,18 +73,26 @@ test("falls back when an authenticated query answers without a user", async () =
     );
   });
 
-  const { pinned } = await getProjects();
+  const { pinned } = await loadProjects();
 
   expect(call).toBe(2);
   expect(pinned.map((p) => p.name)).toEqual(["bangs"]);
 });
 
-test("empty description and homepage normalize", () => {
+test("description and homepage normalize", () => {
   const { pinned } = splitProjects({
-    pinnedItems: { nodes: [repo("x", { description: null, homepageUrl: "" })] },
+    pinnedItems: {
+      nodes: [
+        repo("empty", { description: null, homepageUrl: "" }),
+        repo("bare", { homepageUrl: "binje.duckdns.org" }),
+        repo("unsafe", { homepageUrl: "javascript:alert(1)" }),
+      ],
+    },
     repositories: { nodes: [] },
   });
 
   expect(pinned[0].desc).toBe("");
   expect(pinned[0].homepage).toBeUndefined();
+  expect(pinned[1].homepage).toBe("https://binje.duckdns.org/");
+  expect(pinned[2].homepage).toBeUndefined();
 });
