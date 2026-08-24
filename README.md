@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/logo_light.svg" alt="Logo" width="120">
+  <img src="app/icon.svg" alt="Portfolio logo" width="140">
 </p>
 
 <h1 align="center">Portfolio</h1>
@@ -7,6 +7,13 @@
 <p align="center">
    <strong>Developer portfolio with a monochrome, terminal-inspired UI.</strong><br>
    <em>Built with Next.js 16 and Tailwind CSS 4.</em>
+</p>
+
+<p align="center">
+  <a href="https://nextjs.org"><img alt="Next.js 16.3.0" src="https://shieldcn.dev/badge/Next.js-16.3.0-171717.svg?variant=secondary&amp;logo=nextdotjs"></a>
+  <a href="https://bun.sh"><img alt="Bun 1.3.14" src="https://shieldcn.dev/badge/Bun-1.3.14-fbf0df.svg?variant=secondary&amp;logo=bun&amp;logoColor=171717"></a>
+  <a href="https://tailwindcss.com"><img alt="Tailwind CSS 4.3.3" src="https://shieldcn.dev/badge/Tailwind_CSS-4.3.3-06b6d4.svg?variant=secondary&amp;logo=tailwindcss"></a>
+  <a href="https://www.typescriptlang.org"><img alt="TypeScript 5.9.3" src="https://shieldcn.dev/badge/TypeScript-5.9.3-3178c6.svg?variant=secondary&amp;logo=typescript"></a>
 </p>
 
 ## Features
