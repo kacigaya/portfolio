@@ -34,21 +34,50 @@ function useActiveSection(): string {
       .filter((el): el is HTMLElement => el !== null);
     if (sections.length === 0) return;
 
+    const lastId = sections[sections.length - 1].id;
     const visible = new Set<string>();
+    // The last section is short enough to stay below the observer band even at
+    // maximum scroll, so the end of the page marks it active on its own.
+    let atBottom = false;
+
+    function update() {
+      if (atBottom) {
+        setActive(lastId);
+        return;
+      }
+      // links order is document order, so the first match is the topmost
+      // visible section.
+      setActive(links.find((l) => visible.has(l.id))?.id ?? "");
+    }
+
+    function onScroll() {
+      const next =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 2;
+      if (next === atBottom) return;
+      atBottom = next;
+      update();
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) visible.add(entry.target.id);
           else visible.delete(entry.target.id);
         }
-        // links order is document order, so the first match is the topmost
-        // visible section.
-        setActive(links.find((l) => visible.has(l.id))?.id ?? "");
+        update();
       },
       { rootMargin: "-96px 0px -66% 0px" },
     );
     for (const section of sections) observer.observe(section);
-    return () => observer.disconnect();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    onScroll();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   return active;
