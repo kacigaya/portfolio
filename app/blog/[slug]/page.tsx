@@ -19,6 +19,7 @@ import {
   getPost,
   type PostMeta,
 } from "@/lib/posts";
+import "./prose.css";
 
 export function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }));
