@@ -1,0 +1,147 @@
+/* Long-form post styles. Only /blog/[slug] renders `.prose-blog`, so they load
+   with that route instead of blocking the first paint of every page. */
+
+/* long inline code (file paths, symbol names) has no space to break at and
+   would widen the whole document on narrow screens, which drags the fixed nav
+   sideways. Break inside those runs only when they cannot fit. */
+.prose-blog { line-height: 1.7; overflow-wrap: break-word; }
+.prose-blog h2,
+.prose-blog h3 { scroll-margin-top: 6rem; }
+.prose-blog h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  text-wrap: balance;
+}
+.prose-blog h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+.prose-blog h2::before,
+.prose-blog h3::before {
+  color: var(--muted-foreground);
+}
+.prose-blog h2::before { content: "## "; }
+.prose-blog h3::before { content: "### "; }
+.prose-blog a::before { content: "["; }
+.prose-blog a::after { content: "]"; }
+.prose-blog p { margin-top: 1rem; margin-bottom: 1rem; text-wrap: pretty; }
+.prose-blog a { color: var(--foreground); text-decoration: underline; text-underline-offset: 3px; }
+.prose-blog a:hover { background: var(--foreground); color: var(--background); }
+.prose-blog strong { color: var(--foreground); font-weight: 700; }
+.prose-blog ul, .prose-blog ol { margin: 1rem 0; padding-left: 1.25rem; }
+.prose-blog ul { list-style: none; }
+.prose-blog ul > li { position: relative; padding-left: 1.25rem; margin: 0.35rem 0; }
+.prose-blog ul > li::before {
+  content: "-"; position: absolute; left: 0; color: var(--muted-foreground);
+}
+.prose-blog ol { list-style: decimal; }
+.prose-blog ol > li { margin: 0.35rem 0; padding-left: 0.25rem; }
+.prose-blog code:not(pre code) {
+  font-family: var(--font-mono);
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.05rem 0.35rem;
+  font-size: 0.9em;
+}
+/* catppuccin mocha, mapped onto highlight.js token classes */
+.prose-blog pre {
+  --ctp-text: #cdd6f4;
+  --ctp-subtext0: #a6adc8;
+  --ctp-overlay2: #9399b2;
+  --ctp-flamingo: #f2cdcd;
+  --ctp-pink: #f5c2e7;
+  --ctp-mauve: #cba6f7;
+  --ctp-red: #f38ba8;
+  --ctp-peach: #fab387;
+  --ctp-yellow: #f9e2af;
+  --ctp-green: #a6e3a1;
+  --ctp-teal: #94e2d5;
+  --ctp-sky: #89dceb;
+  --ctp-sapphire: #74c7ec;
+  --ctp-blue: #89b4fa;
+}
+.prose-blog .hljs { color: var(--ctp-text); background: transparent; }
+.prose-blog .hljs-keyword,
+.prose-blog .hljs-variable { color: var(--ctp-mauve); }
+.prose-blog .hljs-built_in,
+.prose-blog .hljs-doctag,
+.prose-blog .hljs-deletion,
+.prose-blog .hljs-variable.language_ { color: var(--ctp-red); }
+.prose-blog .hljs-type,
+.prose-blog .hljs-attribute,
+.prose-blog .hljs-attr,
+.prose-blog .hljs-title.class_ { color: var(--ctp-yellow); }
+.prose-blog .hljs-number,
+.prose-blog .hljs-literal,
+.prose-blog .hljs-meta,
+.prose-blog .hljs-variable.constant_ { color: var(--ctp-peach); }
+.prose-blog .hljs-string,
+.prose-blog .hljs-addition,
+.prose-blog .hljs-code { color: var(--ctp-green); }
+.prose-blog .hljs-quote { color: var(--ctp-green); font-style: italic; }
+.prose-blog .hljs-regexp,
+.prose-blog .hljs-char.escape_ { color: var(--ctp-pink); }
+.prose-blog .hljs-symbol { color: var(--ctp-flamingo); }
+.prose-blog .hljs-operator { color: var(--ctp-sky); }
+.prose-blog .hljs-property,
+.prose-blog .hljs-bullet,
+.prose-blog .hljs-formula { color: var(--ctp-teal); }
+.prose-blog .hljs-link { color: var(--ctp-sapphire); font-style: italic; }
+.prose-blog .hljs-title,
+.prose-blog .hljs-title.function_,
+.prose-blog .hljs-section,
+.prose-blog .hljs-name,
+.prose-blog .hljs-selector-tag { color: var(--ctp-blue); }
+.prose-blog .hljs-params,
+.prose-blog .hljs-tag { color: var(--ctp-text); }
+.prose-blog .hljs-subst,
+.prose-blog .hljs-punctuation { color: var(--ctp-subtext0); }
+.prose-blog .hljs-comment { color: var(--ctp-overlay2); font-style: italic; }
+.prose-blog .hljs-emphasis { font-style: italic; }
+.prose-blog .hljs-strong { font-weight: 700; }
+
+/* catppuccin latte, so light mode gets a light code surface instead of the
+   dark block mocha requires */
+html:not(.dark) .prose-blog pre {
+  --ctp-text: #4c4f69;
+  --ctp-subtext0: #6c6f85;
+  --ctp-overlay2: #686b80;
+  --ctp-flamingo: #dd7878;
+  --ctp-pink: #ea76cb;
+  --ctp-mauve: #8839ef;
+  --ctp-red: #d20f39;
+  --ctp-peach: #fe640b;
+  --ctp-yellow: #df8e1d;
+  --ctp-green: #40a02b;
+  --ctp-teal: #179299;
+  --ctp-sky: #04a5e5;
+  --ctp-sapphire: #209fb5;
+  --ctp-blue: #1a5edb;
+  background: #eff1f5;
+}
+.prose-blog pre {
+  background: #0a0a0a;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  margin: 1.25rem 0;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+.prose-blog pre code { background: transparent; border: 0; padding: 0; }
+.prose-blog blockquote {
+  border-left: 2px solid var(--border);
+  padding-left: 1rem;
+  color: var(--muted-foreground);
+  margin: 1.25rem 0;
+}
+.prose-blog hr { border: 0; border-top: 1px solid var(--border); margin: 2rem 0; }
+.prose-blog table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.9rem; border-radius: var(--radius-md); overflow: hidden; }
+.prose-blog th, .prose-blog td { border: 1px solid var(--border); padding: 0.45rem 0.75rem; text-align: left; }
+.prose-blog th { background: var(--muted); }
