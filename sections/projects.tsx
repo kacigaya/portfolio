@@ -71,7 +71,10 @@ export async function Projects() {
                     }
                   >
                     live demo
-                    <span className="sr-only">(opens in new tab)</span>
+                    <span className="sr-only">
+                      {" "}
+                      for {p.name} (opens in new tab)
+                    </span>
                     <ArrowUpRight aria-hidden="true" />
                   </Button>
                 )}
