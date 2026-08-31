@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/button";
 import { Caret } from "@/components/caret";
@@ -6,6 +7,26 @@ import { socials } from "@/lib/socials";
 export function Hero() {
   return (
     <section id="top" className="pt-8 md:pt-12">
+      {/* decorative: the heading right below already carries the name. Both
+          variants ship so the swap costs no repaint on theme change. */}
+      <div className="mb-8 flex justify-center md:mb-10">
+        <Image
+          src="/logo_dark.svg"
+          alt=""
+          width={951}
+          height={851}
+          priority
+          className="hidden h-16 w-auto md:h-20 dark:block"
+        />
+        <Image
+          src="/logo_light.svg"
+          alt=""
+          width={951}
+          height={851}
+          priority
+          className="block h-16 w-auto md:h-20 dark:hidden"
+        />
+      </div>
       <h1 className="md-h1 text-2xl md:text-3xl uppercase leading-[1.15] text-balance">
         Gaya KACI
         <Caret />
