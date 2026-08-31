@@ -2,11 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/badge";
 import { Card, CardPanel } from "@/components/card";
 import { Separator } from "@/components/separator";
-import {
-  certifications,
-  foundational,
-  formatIssued,
-} from "@/lib/certifications";
+import { certifications, foundational } from "@/lib/certifications";
 import { cn } from "@/lib/utils";
 
 export function Certifications() {
@@ -53,22 +49,12 @@ export function Certifications() {
                     {cert.issuer}
                   </span>
                 </div>
-                <div className="flex shrink-0 items-center gap-2">
-                  {cert.issued && (
-                    <time
-                      dateTime={cert.issued}
-                      className="text-xs text-muted-foreground tabular-nums"
-                    >
-                      {formatIssued(cert.issued)}
-                    </time>
-                  )}
-                  {cert.url && (
-                    <ArrowUpRight
-                      aria-hidden="true"
-                      className="size-4 opacity-80"
-                    />
-                  )}
-                </div>
+                {cert.url && (
+                  <ArrowUpRight
+                    aria-hidden="true"
+                    className="size-4 shrink-0 opacity-80"
+                  />
+                )}
               </div>
             </div>
           ))}
