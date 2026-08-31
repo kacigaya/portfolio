@@ -8,6 +8,7 @@ import { Projects } from "@/sections/projects";
 import { Contributions } from "@/sections/contributions";
 import { Blogs } from "@/sections/blogs";
 import { Skills } from "@/sections/skills";
+import { Certifications } from "@/sections/certifications";
 import { Contact } from "@/sections/contact";
 
 export default function Page() {
@@ -36,6 +37,9 @@ export default function Page() {
         </Deferred>
         <Deferred>
           <Skills />
+        </Deferred>
+        <Deferred>
+          <Certifications />
         </Deferred>
         <Deferred>
           <Contact />
