@@ -61,6 +61,14 @@
   }
 }
 
+/* a stretched link covers its whole card, so it hides its own outline and the
+   card carries the indicator instead. The accent tint alone is a 4% alpha wash,
+   far below the 3:1 a focus indicator needs. */
+.stretched-focus:has(a:focus-visible) {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+}
+
 .deferred-section {
   content-visibility: auto;
   contain-intrinsic-size: auto 700px;

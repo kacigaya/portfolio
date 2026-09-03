@@ -31,7 +31,7 @@ export async function Projects() {
             {/* the title link stretches over the card, so the whole card opens
                 the repo; the demo button is raised back above it */}
             <Card
-              className="h-full transition-colors hover:bg-accent has-[a:focus-visible]:bg-accent"
+              className="stretched-focus h-full transition-colors hover:bg-accent has-[a:focus-visible]:bg-accent"
               as="article"
             >
               <CardHeader className="p-4">

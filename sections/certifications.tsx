@@ -23,7 +23,7 @@ export function Certifications() {
                 className={cn(
                   "relative flex items-center justify-between gap-3 rounded-lg px-3 py-2.5",
                   cert.url &&
-                    "transition-colors hover:bg-accent has-[a:focus-visible]:bg-accent",
+                    "stretched-focus transition-colors hover:bg-accent has-[a:focus-visible]:bg-accent",
                 )}
               >
                 <div className="flex flex-col gap-0.5">

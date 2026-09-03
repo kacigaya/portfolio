@@ -26,7 +26,7 @@ export function Blogs() {
         {posts.map((p) => (
           <li key={p.slug}>
             {/* the title link stretches over the card, so the whole card is the hit target */}
-            <Card className="transition-colors hover:bg-accent has-[a:focus-visible]:bg-accent">
+            <Card className="stretched-focus transition-colors hover:bg-accent has-[a:focus-visible]:bg-accent">
               <CardHeader className="p-4">
                 <CardTitle as="h3">
                   <Link
