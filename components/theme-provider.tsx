@@ -78,7 +78,11 @@ export function ThemeToggle() {
       aria-label={`switch to ${theme === "dark" ? "light" : "dark"} theme, shortcut d`}
     >
       {hydrated ? (
-        <MorphIcon icon={theme === "dark" ? SUN_ICON : MOON_ICON} spring="snappy" />
+        <MorphIcon
+          icon={theme === "dark" ? SUN_ICON : MOON_ICON}
+          spring="snappy"
+          reducedMotion="user"
+        />
       ) : (
         <>
           <Sun aria-hidden="true" className="hidden dark:block" />

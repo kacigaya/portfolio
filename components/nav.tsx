@@ -165,7 +165,11 @@ export function Nav() {
               className="md:hidden"
               render={
                 <Button variant="ghost" size="icon">
-                  <MorphIcon icon={open ? CLOSE_ICON : MENU_ICON} spring="snappy" />
+                  <MorphIcon
+                    icon={open ? CLOSE_ICON : MENU_ICON}
+                    spring="snappy"
+                    reducedMotion="user"
+                  />
                 </Button>
               }
             />
