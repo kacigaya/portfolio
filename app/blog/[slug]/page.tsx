@@ -20,6 +20,7 @@ import {
   getPost,
   type PostMeta,
 } from "@/lib/posts";
+import { formatDate } from "@/lib/utils";
 import "./prose.css";
 
 export function generateStaticParams() {
@@ -115,7 +116,10 @@ async function BlogPostContent({
             {post.title}
           </h1>
           <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
-            <span className="tabular-nums">{post.date} · {post.minutes} min read</span>
+            <span className="tabular-nums">
+              <time dateTime={post.date}>{formatDate(post.date)}</time> ·{" "}
+              {post.minutes} min read
+            </span>
             {post.tags && post.tags.length > 0 && (
               <span className="flex flex-wrap gap-1">
                 {post.tags.map((t) => (

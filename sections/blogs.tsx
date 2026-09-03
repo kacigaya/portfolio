@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/card";
 import { getAllPosts } from "@/lib/posts";
+import { formatDate } from "@/lib/utils";
 
 export function Blogs() {
   const posts = getAllPosts();
@@ -45,7 +46,8 @@ export function Blogs() {
               </CardHeader>
               <CardFooter className="flex-wrap items-center gap-2 p-4">
                 <span className="text-xs text-muted-foreground tabular-nums">
-                  {p.date} · {p.minutes} min
+                  <time dateTime={p.date}>{formatDate(p.date)}</time> ·{" "}
+                  {p.minutes} min
                 </span>
                 {p.tags?.map((t) => (
                   <Badge key={t} variant="secondary">

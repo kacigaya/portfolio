@@ -13,6 +13,7 @@ import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
 import { SkipLink } from "@/components/skip-link";
 import { getAllPosts } from "@/lib/posts";
+import { formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Writing",
@@ -62,7 +63,8 @@ export default function BlogIndex() {
                 </CardHeader>
                 <CardFooter className="p-4">
                   <span className="text-xs text-muted-foreground tabular-nums">
-                    {post.date} · {post.minutes} min read
+                    <time dateTime={post.date}>{formatDate(post.date)}</time> ·{" "}
+                    {post.minutes} min read
                   </span>
                 </CardFooter>
               </Card>

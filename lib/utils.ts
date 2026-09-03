@@ -10,3 +10,17 @@ export function cn(...inputs: ClassValue[]) {
 export function utcDate(iso: string): Date {
   return new Date(`${iso}T00:00:00Z`);
 }
+
+// Both the locale and the zone are pinned: the server and the browser would
+// otherwise disagree and the rendered date would not survive hydration. The
+// site is served in English, so en-US is the format it should read in.
+const DATE_FORMAT = new Intl.DateTimeFormat("en-US", {
+  timeZone: "UTC",
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+
+export function formatDate(iso: string): string {
+  return DATE_FORMAT.format(utcDate(iso));
+}
