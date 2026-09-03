@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { MorphIcon } from "morphicons/react";
 import { useEffect, useRef, useState } from "react";
 import { CLOSE_ICON, MENU_ICON } from "@/components/icons";
 import { Button } from "@/components/button";
+import { Logo } from "@/components/logo";
 import {
   Collapsible,
   CollapsiblePanel,
@@ -135,20 +135,7 @@ export function Nav() {
             onClick={() => setOpen(false)}
             className="flex items-center gap-2"
           >
-            <Image
-              src="/logo_dark.svg"
-              alt=""
-              width={24}
-              height={24}
-              className="size-6 hidden dark:block"
-            />
-            <Image
-              src="/logo_light.svg"
-              alt=""
-              width={24}
-              height={24}
-              className="size-6 block dark:hidden"
-            />
+            <Logo className="h-6 w-auto" />
           </Link>
           <div className="flex items-center gap-1">
             <nav aria-label="primary" className="hidden md:block">

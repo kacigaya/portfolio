@@ -147,6 +147,8 @@ details summary::marker { color: var(--muted-foreground); }
   --ring: var(--color-neutral-400);
   --brand: var(--color-neutral-800);
   --contrib: var(--color-emerald-600);
+  --logo-ink: #000;
+  --logo-bg: #d9d9d9;
 }
 
 .dark {
@@ -169,6 +171,8 @@ details summary::marker { color: var(--muted-foreground); }
   --ring: var(--color-neutral-500);
   --brand: var(--color-neutral-100);
   --contrib: var(--color-emerald-400);
+  --logo-ink: #d9d9d9;
+  --logo-bg: #000;
 }
 
 @theme inline {
