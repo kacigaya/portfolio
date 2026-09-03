@@ -38,14 +38,16 @@ function AdjacentPost({
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className={`group flex flex-col gap-1 rounded-lg border p-4 transition-colors hover:bg-accent ${older ? "items-end text-right" : ""}`}
+      className={`group flex min-w-0 flex-col gap-1 rounded-lg border p-4 transition-colors hover:bg-accent ${older ? "items-end text-right" : ""}`}
     >
       <span className="flex items-center gap-1 text-xs text-muted-foreground uppercase">
         {!older && <ArrowLeft aria-hidden="true" className="size-3.5" />}
         {older ? "older" : "newer"}
         {older && <ArrowRight aria-hidden="true" className="size-3.5" />}
       </span>
-      <span className="text-sm leading-snug text-pretty">{post.title}</span>
+      <span className="text-sm leading-snug text-pretty wrap-anywhere">
+        {post.title}
+      </span>
     </Link>
   );
 }
