@@ -147,7 +147,7 @@ export function Nav() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      aria-current={active === l.id ? "true" : undefined}
+                      aria-current={active === l.id ? "location" : undefined}
                       className={cn(
                         "text-muted-foreground hover:text-foreground",
                         active === l.id && "text-foreground bg-accent",
@@ -184,7 +184,7 @@ export function Nav() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    aria-current={active === l.id ? "true" : undefined}
+                    aria-current={active === l.id ? "location" : undefined}
                     className={cn(
                       "w-full justify-start text-muted-foreground hover:text-foreground",
                       active === l.id && "text-foreground bg-accent",
