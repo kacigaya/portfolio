@@ -56,7 +56,7 @@ export function Contact() {
                     // the email is a single unbreakable run and the button is
                     // nowrap by default, which pushed the card past the
                     // viewport on a narrow phone. Let the row grow instead.
-                    "h-auto min-h-9 flex-wrap justify-start gap-x-3 gap-y-1 whitespace-normal py-2 text-left sm:min-h-8",
+                    "h-auto min-h-9 flex-wrap justify-start gap-x-3 gap-y-1 whitespace-normal py-2 text-left sm:h-auto sm:min-h-8",
                     !primary && "text-muted-foreground",
                   )}
                   render={
