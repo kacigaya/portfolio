@@ -13,6 +13,10 @@
     scroll-behavior: smooth;
     background: var(--background);
     color: var(--foreground);
+    /* the default is an opaque blue block that ignores the theme. A tint of the
+       foreground keeps tap feedback for plain links, which have no pressed
+       state of their own, without fighting the palette. */
+    -webkit-tap-highlight-color: color-mix(in srgb, var(--foreground) 12%, transparent);
   }
   /* scrollbars, form controls and date pickers are painted by the UA, which
      only reads color-scheme. The class below is the theme's source of truth. */
@@ -46,6 +50,14 @@
   }
   section {
     scroll-margin-top: 5rem;
+  }
+  /* every control here acts on a single tap, so the 300ms window the browser
+     otherwise holds open for a double-tap zoom is pure latency. */
+  a,
+  button,
+  summary,
+  [role="button"] {
+    touch-action: manipulation;
   }
 }
 
