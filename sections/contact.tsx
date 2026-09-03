@@ -53,7 +53,10 @@ export function Contact() {
                 <Button
                   variant={primary ? "default" : "ghost"}
                   className={cn(
-                    "justify-start gap-3",
+                    // the email is a single unbreakable run and the button is
+                    // nowrap by default, which pushed the card past the
+                    // viewport on a narrow phone. Let the row grow instead.
+                    "h-auto min-h-9 flex-wrap justify-start gap-x-3 gap-y-1 whitespace-normal py-2 text-left sm:min-h-8",
                     !primary && "text-muted-foreground",
                   )}
                   render={
@@ -76,7 +79,7 @@ export function Contact() {
                   </span>
                   <span
                     className={cn(
-                      "underline underline-offset-4 decoration-muted-foreground",
+                      "min-w-0 wrap-anywhere underline underline-offset-4 decoration-muted-foreground",
                       !primary && "text-foreground",
                     )}
                   >
