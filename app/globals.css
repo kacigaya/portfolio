@@ -108,6 +108,12 @@ details summary::marker { color: var(--muted-foreground); }
 @media (prefers-reduced-motion: reduce) {
   .caret { animation: none; }
   html { scroll-behavior: auto; }
+  /* the panel still has to emit transitionend: Base UI waits for it before it
+     unmounts the closed panel, so this collapses the duration instead of
+     removing the transition. */
+  [data-slot="collapsible-panel"] {
+    transition-duration: 0.01ms;
+  }
 }
 
 /* coss ui tokens, matching the ghostpwn site theme:
