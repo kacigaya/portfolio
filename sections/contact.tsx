@@ -82,6 +82,7 @@ export function Contact() {
                       "min-w-0 wrap-anywhere underline underline-offset-4 decoration-muted-foreground",
                       !primary && "text-foreground",
                     )}
+                    translate="no"
                   >
                     {value}
                   </span>

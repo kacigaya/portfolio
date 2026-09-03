@@ -54,7 +54,7 @@ export function Skills() {
         {groups.map((g) => (
           <div key={g.label} className="flex flex-col gap-2">
             <dt className="md-h3 text-sm uppercase">{g.label}</dt>
-            <dd className="flex flex-wrap gap-1">
+            <dd className="flex flex-wrap gap-1" translate="no">
               {g.core.map((s) => (
                 <Badge key={s} variant="secondary">
                   {s}

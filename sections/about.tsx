@@ -21,7 +21,9 @@ export function About() {
         </p>
         <p>
           At{" "}
-          <span className="text-foreground">Société Générale Assurance</span>, I
+          <span className="text-foreground" translate="no">
+            Société Générale Assurance
+          </span>, I
           research complex web targets, reverse engineer anti-bot systems, and
           study browser fingerprinting.
         </p>
@@ -37,7 +39,7 @@ export function About() {
                 <span className="text-xs text-muted-foreground uppercase">
                   {label}
                 </span>
-                <span className="text-foreground">{value}</span>
+<span className="text-foreground">{value}</span>
               </div>
             ))}
           </CardPanel>

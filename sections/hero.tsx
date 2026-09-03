@@ -36,11 +36,13 @@ export function Hero() {
       </p>
       <p className="mt-6 max-w-2xl leading-relaxed text-pretty text-muted-foreground">
         Master’s student at{" "}
-        <span className="text-foreground">
+        <span className="text-foreground" translate="no">
           Efrei Paris Panthéon-Assas Université
         </span>
         . I work in web development and cybersecurity at{" "}
-        <span className="text-foreground">Société Générale Assurance</span>, where I
+        <span className="text-foreground" translate="no">
+          Société Générale Assurance
+        </span>, where I
         research web security and build security tools.
       </p>
       <div className="mt-7 flex flex-wrap gap-2">
