@@ -16,15 +16,13 @@ export default function Error({
   }, [error]);
 
   return (
-    <main
-      id="main"
-      className="mx-auto max-w-3xl px-6 pt-32 pb-32 md:px-8"
-      role="alert"
-    >
+    <main id="main" className="mx-auto max-w-3xl px-6 pt-32 pb-32 md:px-8">
       <h1 className="md-h1 text-2xl md:text-3xl uppercase">
         500: something broke
       </h1>
-      <p className="mt-6 max-w-2xl text-muted-foreground">
+      {/* scoped to the message: on <main> the whole page, buttons included,
+          becomes an assertive live region. */}
+      <p className="mt-6 max-w-2xl text-muted-foreground" role="alert">
         This page failed to render. Retry it, or head back home.
         {error.digest && (
           <>
