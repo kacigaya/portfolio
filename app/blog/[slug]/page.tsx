@@ -12,6 +12,7 @@ import { Footer } from "@/components/footer";
 import { createMarkdownComponents } from "@/components/markdown";
 import { Nav } from "@/components/nav";
 import { Separator } from "@/components/separator";
+import { SkipLink } from "@/components/skip-link";
 import {
   getAdjacentPosts,
   getAllPosts,
@@ -199,6 +200,7 @@ export default function BlogPost({
 }) {
   return (
     <>
+      <SkipLink />
       <Nav />
       <Suspense fallback={<BlogPostSkeleton />}>
         <BlogPostContent params={params} />

@@ -11,6 +11,7 @@ import {
 } from "@/components/card";
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
+import { SkipLink } from "@/components/skip-link";
 import { getAllPosts } from "@/lib/posts";
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function BlogIndex() {
 
   return (
     <>
+      <SkipLink />
       <Nav />
       <main id="main" className="mx-auto max-w-3xl px-6 pt-24 pb-32 md:px-8">
         <h1 className="md-h1 text-2xl md:text-3xl uppercase">Writing</h1>
