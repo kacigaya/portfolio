@@ -35,7 +35,7 @@ export function Hero() {
         cybersecurity student · web security researcher
       </p>
       <p className="mt-6 max-w-2xl leading-relaxed text-pretty text-muted-foreground">
-        Master&apos;s student at{" "}
+        Master’s student at{" "}
         <span className="text-foreground">
           Efrei Paris Panthéon-Assas Université
         </span>
