@@ -16,7 +16,9 @@ export async function Footer({ className }: { className?: string }) {
   return (
     <footer
       className={cn(
-        "mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-6 pt-6 pb-10 text-xs text-muted-foreground md:px-8",
+        // last element on the page, so it is what a notch or a home indicator
+        // lands on in landscape and at the end of the scroll.
+        "mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-x-6 gap-y-2 pt-6 pb-[calc(env(safe-area-inset-bottom)+2.5rem)] pl-[calc(env(safe-area-inset-left)+1.5rem)] pr-[calc(env(safe-area-inset-right)+1.5rem)] text-xs text-muted-foreground md:pl-[calc(env(safe-area-inset-left)+2rem)] md:pr-[calc(env(safe-area-inset-right)+2rem)]",
         className,
       )}
     >
