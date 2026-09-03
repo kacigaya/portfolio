@@ -81,7 +81,7 @@ function BlogPostSkeleton() {
       aria-busy="true"
       className="mx-auto max-w-3xl px-6 pt-24 pb-32 md:px-8"
     >
-      <span className="sr-only" role="status">Loading post</span>
+      <span className="sr-only" role="status">Loading post…</span>
       <div className="h-4 w-40 rounded bg-muted" />
       <div className="mt-6 border-b pb-6">
         <div className="h-8 max-w-xl rounded bg-muted" />
