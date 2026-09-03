@@ -51,13 +51,21 @@ function useActiveSection(): string {
       setActive(links.find((l) => visible.has(l.id))?.id ?? "");
     }
 
+    // scrollHeight forces a layout, so it is read when the document resizes
+    // rather than on every scroll event. Sections render lazily under
+    // content-visibility, which the observer picks up as a resize.
+    let docHeight = document.documentElement.scrollHeight;
+
     function onScroll() {
-      const next =
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 2;
+      const next = window.innerHeight + window.scrollY >= docHeight - 2;
       if (next === atBottom) return;
       atBottom = next;
       update();
+    }
+
+    function measure() {
+      docHeight = document.documentElement.scrollHeight;
+      onScroll();
     }
 
     const observer = new IntersectionObserver(
@@ -71,13 +79,16 @@ function useActiveSection(): string {
       { rootMargin: "-96px 0px -66% 0px" },
     );
     for (const section of sections) observer.observe(section);
+    const resize = new ResizeObserver(measure);
+    resize.observe(document.documentElement);
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    window.addEventListener("resize", measure);
     onScroll();
     return () => {
       observer.disconnect();
+      resize.disconnect();
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("resize", measure);
     };
   }, []);
 
