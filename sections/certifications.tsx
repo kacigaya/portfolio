@@ -26,8 +26,8 @@ export function Certifications() {
                     "stretched-focus transition-colors hover:bg-accent has-[a:focus-visible]:bg-accent",
                 )}
               >
-                <div className="flex flex-col gap-0.5">
-                  <span className="text-sm text-foreground">
+                <div className="flex min-w-0 flex-col gap-0.5">
+                  <span className="text-sm text-foreground wrap-anywhere">
                     {cert.url ? (
                       <a
                         href={cert.url}
