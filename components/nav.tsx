@@ -126,7 +126,7 @@ export function Nav() {
       <Collapsible
         open={open}
         onOpenChange={setOpen}
-        className="mx-auto max-w-3xl rounded-xl border bg-background text-sm shadow-xs/5"
+        className="mx-auto max-w-3xl rounded-xl border bg-background text-sm shadow-xs/5 lg:max-w-4xl"
       >
         <div className="flex h-12 items-center justify-between gap-2 px-3 md:px-4">
           <Link
@@ -138,7 +138,7 @@ export function Nav() {
             <Logo className="h-6 w-auto" />
           </Link>
           <div className="flex items-center gap-1">
-            <nav aria-label="primary" className="hidden md:block">
+            <nav aria-label="primary" className="hidden lg:block">
               <ul className="flex items-center gap-0.5">
                 {links.map((l) => (
                   <li key={l.href}>
@@ -160,7 +160,7 @@ export function Nav() {
             </nav>
             <CollapsibleTrigger
               aria-label={open ? "close menu" : "open menu"}
-              className="md:hidden"
+              className="lg:hidden"
               render={
                 <Button variant="ghost" size="icon">
                   <MorphIcon
@@ -174,7 +174,7 @@ export function Nav() {
             <ThemeToggle />
           </div>
         </div>
-        <CollapsiblePanel className="md:hidden">
+        <CollapsiblePanel className="lg:hidden">
           <nav aria-label="primary mobile" className="px-3 pb-3">
             <ul className="flex flex-col gap-0.5 border-t pt-2">
               {links.map((l) => (
