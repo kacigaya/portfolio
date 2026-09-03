@@ -41,5 +41,12 @@ export function createMarkdownComponents(headings: Heading[]): Components {
   return {
     h2: ({ children }) => <h2 id={idFor(children)}>{children}</h2>,
     h3: ({ children }) => <h3 id={idFor(children)}>{children}</h3>,
+    // code is identifiers and syntax; browser auto-translate rewrites it into
+    // something that no longer runs. className carries the highlight tokens.
+    code: ({ children, className }) => (
+      <code className={className} translate="no">
+        {children}
+      </code>
+    ),
   };
 }

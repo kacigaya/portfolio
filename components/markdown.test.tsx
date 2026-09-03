@@ -57,3 +57,15 @@ describe("markdown headings", () => {
     expect(render("## Heading")).not.toContain("node=");
   });
 });
+
+describe("markdown code", () => {
+  test("marks code untranslatable and keeps the highlight class", () => {
+    const html = render("```js\nconst a = 1;\n```");
+    expect(html).toContain('translate="no"');
+    expect(html).toContain("language-js");
+  });
+
+  test("marks inline code untranslatable", () => {
+    expect(render("use `navigator.languages`")).toContain('translate="no"');
+  });
+});
