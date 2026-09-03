@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { getContributions } from "@/lib/contributions";
 
 // mixes of the --contrib green, defined in globals.css
@@ -53,7 +53,11 @@ export async function Contributions() {
                   return (
                     <div
                       key={wi}
-                      title={day ? `${day.count} on ${day.date}` : undefined}
+                      title={
+                        day
+                          ? `${day.count} on ${formatDate(day.date)}`
+                          : undefined
+                      }
                       className={cn(
                         "aspect-square rounded-[2px]",
                         // level comes straight from a third-party API: an
