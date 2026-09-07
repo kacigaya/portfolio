@@ -85,7 +85,12 @@ function startRenderer(canvas: HTMLCanvasElement): () => void {
   function resize() {
     if (disposed || !gl || !program) return;
     const bounds = canvas.getBoundingClientRect();
-    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    // Supersample the shader's internal edges, which WebGL MSAA cannot smooth.
+    // Honor retina/zoom density; cap total dimensions rather than pixel ratio.
+    const ratio = Math.min(
+      Math.max(window.devicePixelRatio || 1, 1) * 2,
+      1024 / Math.max(bounds.width, bounds.height, 1),
+    );
     const width = Math.max(1, Math.round(bounds.width * ratio));
     const height = Math.max(1, Math.round(bounds.height * ratio));
     // A new program needs this even when a reused canvas is already sized.
@@ -143,7 +148,7 @@ function startRenderer(canvas: HTMLCanvasElement): () => void {
     timeUniform = gl.getUniformLocation(program, "u_time");
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
@@ -153,6 +158,8 @@ function startRenderer(canvas: HTMLCanvasElement): () => void {
       if (disposed) return;
       try {
         context.texImage2D(context.TEXTURE_2D, 0, context.RGBA, context.RGBA, context.UNSIGNED_BYTE, image);
+        // Average the large bevel mask when rendering the small hero logo.
+        context.generateMipmap(context.TEXTURE_2D);
         if (context.getError() !== context.NO_ERROR) throw new Error("Cannot upload logo texture");
         loaded = true;
         syncPlayback();

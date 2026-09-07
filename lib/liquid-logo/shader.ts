@@ -2,7 +2,8 @@
 // Source: https://github.com/paper-design/liquid-logo
 // License: /licenses/paper-liquid-logo.txt (PolyForm Shield 1.0.0).
 export const liquidFragSource = /* glsl */ `#version 300 es
-precision mediump float;
+// Keep noise and animated refraction smooth on mobile GPUs too.
+precision highp float;
 
 in vec2 vUv;
 out vec4 fragColor;

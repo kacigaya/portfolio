@@ -16,10 +16,10 @@ function replaceGlobal(name: string, value: unknown) {
   });
 }
 
-function setup(reduced = false, webgl = true) {
+function setup(reduced = false, webgl = true, size = { width: 89.4, height: 80 }, density = 3) {
   const media = Object.assign(new EventTarget(), { matches: reduced });
   const document = Object.assign(new EventTarget(), { hidden: false });
-  const window = Object.assign(new EventTarget(), { devicePixelRatio: 3, matchMedia: () => media });
+  const window = Object.assign(new EventTarget(), { devicePixelRatio: density, matchMedia: () => media });
   const frames = new Map<number, FrameRequestCallback>();
   let nextFrame = 0;
   let intersect: (entries: { isIntersecting: boolean }[]) => void = () => {};
@@ -58,7 +58,7 @@ function setup(reduced = false, webgl = true) {
     width: 300, height: 150,
     dataset: {} as Record<string, string>,
     getContext: () => webgl ? gl : null,
-    getBoundingClientRect: () => ({ width: 89.4, height: 80 }),
+    getBoundingClientRect: () => size,
     hasAttribute: () => "ready" in canvas.dataset,
   });
   replaceGlobal("window", window);
@@ -98,12 +98,12 @@ test("reduced motion avoids initialization and restart initializes an already si
   s.intersection(true);
   s.tick(100);
   expect(s.canvas.dataset.ready).toBe("");
-  expect([s.canvas.width, s.canvas.height]).toEqual([179, 160]);
+  expect([s.canvas.width, s.canvas.height]).toEqual([536, 480]);
   s.motion(true);
   expect(s.canvas.dataset.ready).toBeUndefined();
   expect(s.frames.size).toBe(0);
   s.motion(false);
-  expect(s.uniforms.get("u_ratio")).toBe(179 / 160);
+  expect(s.uniforms.get("u_ratio")).toBe(536 / 480);
   s.images[1].onload?.();
   s.intersection(true);
   s.tick(200);
@@ -159,4 +159,15 @@ test("unavailable WebGL keeps the static logo", () => {
   expect(s.canvas.dataset.ready).toBeUndefined();
   expect(s.frames.size).toBe(0);
   expect(s.draw).not.toHaveBeenCalled();
+});
+
+test("supersamples standard density displays", () => {
+  const s = setup(false, true, { width: 89.4, height: 80 }, 1);
+  expect([s.canvas.width, s.canvas.height]).toEqual([179, 160]);
+});
+
+test("bounds GPU allocation at high zoom without stretching the logo", () => {
+  const s = setup(false, true, { width: 894, height: 800 }, 4);
+  expect([s.canvas.width, s.canvas.height]).toEqual([1024, 916]);
+  expect(s.uniforms.get("u_ratio")).toBeCloseTo(894 / 800, 3);
 });
