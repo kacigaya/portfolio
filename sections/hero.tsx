@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/button";
 import { Caret } from "@/components/caret";
-import { LiquidLogo } from "@/components/liquid-logo";
+import { Logo } from "@/components/logo";
 import { socials } from "@/lib/socials";
 
 export function Hero() {
@@ -9,7 +9,7 @@ export function Hero() {
     <section id="top" className="pt-8 md:pt-12">
       {/* decorative: the heading right below already carries the name */}
       <div className="mb-8 flex justify-center md:mb-10">
-        <LiquidLogo className="h-16 md:h-20" />
+        <Logo className="h-16 w-auto md:h-20" />
       </div>
       <h1 className="md-h1 text-2xl md:text-3xl leading-[1.15] text-balance uppercase">
         Gaya KACI
