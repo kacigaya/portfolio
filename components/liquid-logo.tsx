@@ -7,13 +7,13 @@ import { cn } from "@/lib/utils";
 
 // The caller sets the height; the aspect ratio and the static fallback stay
 // fixed. Each instance owns a WebGL context, so keep the count on a page low.
-export function LiquidLogo({ className }: { className?: string }) {
+export function LiquidLogo({ className, fps }: { className?: string; fps?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (canvas) return mountLiquidLogo(canvas);
-  }, []);
+    if (canvas) return mountLiquidLogo(canvas, fps);
+  }, [fps]);
 
   return (
     <span

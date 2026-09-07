@@ -16,7 +16,7 @@ function replaceGlobal(name: string, value: unknown) {
   });
 }
 
-function setup(reduced = false, webgl = true, size = { width: 89.4, height: 80 }, density = 3) {
+function setup(reduced = false, webgl = true, size = { width: 89.4, height: 80 }, density = 3, fps?: number) {
   const media = Object.assign(new EventTarget(), { matches: reduced });
   const document = Object.assign(new EventTarget(), { hidden: false });
   const window = Object.assign(new EventTarget(), { devicePixelRatio: density, matchMedia: () => media });
@@ -35,6 +35,7 @@ function setup(reduced = false, webgl = true, size = { width: 89.4, height: 80 }
   const uniforms = new Map<string, number>();
   const draw = mock(() => {});
   const release = mock(() => {});
+  const loseContext = mock(() => {});
   const explicit = {
     NO_ERROR: 0,
     createProgram: () => { uniforms.clear(); return {}; },
@@ -49,6 +50,7 @@ function setup(reduced = false, webgl = true, size = { width: 89.4, height: 80 }
     isContextLost: () => false,
     drawArrays: draw,
     deleteProgram: release,
+    getExtension: (name: string) => name === "WEBGL_lose_context" ? { loseContext } : null,
   };
   // Only browser plumbing is stubbed; exercise the real renderer lifecycle.
   const gl = new Proxy(explicit, {
@@ -56,6 +58,7 @@ function setup(reduced = false, webgl = true, size = { width: 89.4, height: 80 }
   });
   const canvas = Object.assign(new EventTarget(), {
     width: 300, height: 150,
+    isConnected: true,
     dataset: {} as Record<string, string>,
     getContext: () => webgl ? gl : null,
     getBoundingClientRect: () => size,
@@ -75,10 +78,10 @@ function setup(reduced = false, webgl = true, size = { width: 89.4, height: 80 }
     observe() {} disconnect = disconnect;
   });
   // This test double implements the canvas methods used by the renderer.
-  const cleanup = mountLiquidLogo(canvas as unknown as HTMLCanvasElement);
+  const cleanup = mountLiquidLogo(canvas as unknown as HTMLCanvasElement, fps);
   restore.push(cleanup);
   return {
-    canvas, uniforms, images, frames, draw, release, disconnect, cleanup,
+    canvas, uniforms, images, frames, draw, release, disconnect, cleanup, loseContext,
     motion(matches: boolean) { media.matches = matches; media.dispatchEvent(new Event("change")); },
     visibility(hidden: boolean) { document.hidden = hidden; document.dispatchEvent(new Event("visibilitychange")); },
     intersection(visible: boolean) { intersect([{ isIntersecting: visible }]); },
@@ -170,4 +173,66 @@ test("bounds GPU allocation at high zoom without stretching the logo", () => {
   const s = setup(false, true, { width: 894, height: 800 }, 4);
   expect([s.canvas.width, s.canvas.height]).toEqual([1024, 916]);
   expect(s.uniforms.get("u_ratio")).toBeCloseTo(894 / 800, 3);
+});
+
+const flush = () => new Promise((resolve) => setTimeout(resolve));
+
+test("unmounting releases the WebGL context instead of waiting for collection", async () => {
+  const s = setup();
+  s.images[0].onload?.();
+  s.intersection(true);
+  s.tick(100);
+  s.cleanup();
+  s.canvas.isConnected = false;
+  await flush();
+  expect(s.loseContext).toHaveBeenCalledTimes(1);
+});
+
+// A lost context cannot be re-acquired on the same element, so the paths that
+// rebuild on this canvas -- the reduced-motion restart and the StrictMode
+// remount -- must leave it intact.
+test("teardown that reuses the canvas keeps the context", async () => {
+  const s = setup();
+  s.images[0].onload?.();
+  s.intersection(true);
+  s.tick(100);
+  s.motion(true);
+  s.motion(false);
+  s.images[1].onload?.();
+  s.intersection(true);
+  s.tick(200);
+  await flush();
+  expect(s.loseContext).not.toHaveBeenCalled();
+  expect(s.canvas.dataset.ready).toBe("");
+  // The canvas React keeps on a StrictMode remount is still in the document.
+  s.cleanup();
+  await flush();
+  expect(s.loseContext).not.toHaveBeenCalled();
+});
+
+test("a frame cap skips redraws while keeping animation speed", () => {
+  const s = setup(false, true, { width: 89.4, height: 80 }, 3, 30);
+  s.images[0].onload?.();
+  s.intersection(true);
+  s.tick(0);
+  expect(s.draw).toHaveBeenCalledTimes(1);
+  // Inside the 33.3ms gap: the frame is rescheduled but nothing is redrawn.
+  s.tick(20);
+  expect(s.draw).toHaveBeenCalledTimes(1);
+  expect(s.frames.size).toBe(1);
+  // Past the gap: one redraw, advanced by the whole elapsed time rather than
+  // by the portion since the last skipped frame.
+  s.tick(40);
+  expect(s.draw).toHaveBeenCalledTimes(2);
+  expect(s.uniforms.get("u_time")).toBe(12);
+});
+
+test("an uncapped instance redraws every frame", () => {
+  const s = setup();
+  s.images[0].onload?.();
+  s.intersection(true);
+  s.tick(0);
+  s.tick(20);
+  expect(s.draw).toHaveBeenCalledTimes(2);
+  expect(s.uniforms.get("u_time")).toBe(6);
 });

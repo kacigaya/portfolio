@@ -135,7 +135,9 @@ export function Nav() {
             onClick={() => setOpen(false)}
             className="flex items-center gap-2"
           >
-            <LiquidLogo className="h-6" />
+            {/* The header is fixed, so this instance never scrolls out of view and
+                would otherwise redraw every frame for the whole session. */}
+            <LiquidLogo className="h-6" fps={30} />
           </Link>
           <div className="flex items-center gap-1">
             <nav aria-label="primary" className="hidden lg:block">
