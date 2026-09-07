@@ -9,7 +9,7 @@ export function Hero() {
     <section id="top" className="pt-8 md:pt-12">
       {/* decorative: the heading right below already carries the name */}
       <div className="mb-8 flex justify-center md:mb-10">
-        <LiquidLogo />
+        <LiquidLogo className="h-16 md:h-20" />
       </div>
       <h1 className="md-h1 text-2xl md:text-3xl leading-[1.15] text-balance uppercase">
         Gaya KACI

@@ -5,7 +5,7 @@ import { MorphIcon } from "morphicons/react";
 import { useEffect, useRef, useState } from "react";
 import { CLOSE_ICON, MENU_ICON } from "@/components/icons";
 import { Button } from "@/components/button";
-import { Logo } from "@/components/logo";
+import { LiquidLogo } from "@/components/liquid-logo";
 import {
   Collapsible,
   CollapsiblePanel,
@@ -135,7 +135,7 @@ export function Nav() {
             onClick={() => setOpen(false)}
             className="flex items-center gap-2"
           >
-            <Logo className="h-6 w-auto" />
+            <LiquidLogo className="h-6" />
           </Link>
           <div className="flex items-center gap-1">
             <nav aria-label="primary" className="hidden lg:block">
