@@ -26,7 +26,7 @@ export function LiquidLogo({ className }: { className?: string }) {
       <Logo className="block h-full w-full" />
       {/* The shader paints near-white chrome, which washes out on the light page.
           Darken it there so it reads as the black --logo-ink the SVG falls back to. */}
-      <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 h-full w-full invisible brightness-30 dark:brightness-100 motion-safe:data-ready:visible" />
+      <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 h-full w-full invisible brightness-10 dark:brightness-100 motion-safe:data-ready:visible" />
     </span>
   );
 }
