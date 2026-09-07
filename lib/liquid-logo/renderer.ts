@@ -10,7 +10,7 @@ void main() {
   gl_Position = vec4(a_position, 0., 1.);
 }`;
 
-function startRenderer(canvas: HTMLCanvasElement, fps?: number): () => void {
+function startRenderer(canvas: HTMLCanvasElement): () => void {
   const shaders: WebGLShader[] = [];
   let gl: WebGL2RenderingContext | null = null;
   let program: WebGLProgram | null = null;
@@ -26,7 +26,6 @@ function startRenderer(canvas: HTMLCanvasElement, fps?: number): () => void {
   let previousTime: number | undefined;
   let elapsed = 0;
   let timeUniform: WebGLUniformLocation | null = null;
-  const minFrameGap = fps ? 1000 / fps : 0;
 
   function stop() {
     cancelAnimationFrame(frame);
@@ -60,13 +59,6 @@ function startRenderer(canvas: HTMLCanvasElement, fps?: number): () => void {
   function draw(now: number) {
     frame = 0;
     if (disposed || !gl || !loaded || !visible || document.hidden) return;
-    // Skipping a draw leaves the canvas layer untouched, so the compositor stays
-    // idle too. Time still advances by the whole gap, which keeps the animation
-    // speed independent of the cap.
-    if (previousTime !== undefined && now - previousTime < minFrameGap) {
-      frame = requestAnimationFrame(draw);
-      return;
-    }
     if (previousTime !== undefined) elapsed += (now - previousTime) * 0.3;
     previousTime = now;
     gl.uniform1f(timeUniform, elapsed);
@@ -194,14 +186,12 @@ function startRenderer(canvas: HTMLCanvasElement, fps?: number): () => void {
   return dispose;
 }
 
-// fps caps the redraw rate. Pass it for an instance that stays on screen for the
-// whole session; leave it off for one that scrolls away on its own.
-export function mountLiquidLogo(canvas: HTMLCanvasElement, fps?: number): () => void {
+export function mountLiquidLogo(canvas: HTMLCanvasElement): () => void {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let cleanup: (() => void) | undefined;
   function updateMotion() {
     cleanup?.();
-    cleanup = reducedMotion.matches ? undefined : startRenderer(canvas, fps);
+    cleanup = reducedMotion.matches ? undefined : startRenderer(canvas);
   }
   updateMotion();
   reducedMotion.addEventListener("change", updateMotion);

@@ -16,7 +16,7 @@ function replaceGlobal(name: string, value: unknown) {
   });
 }
 
-function setup(reduced = false, webgl = true, size = { width: 89.4, height: 80 }, density = 3, fps?: number) {
+function setup(reduced = false, webgl = true, size = { width: 89.4, height: 80 }, density = 3) {
   const media = Object.assign(new EventTarget(), { matches: reduced });
   const document = Object.assign(new EventTarget(), { hidden: false });
   const window = Object.assign(new EventTarget(), { devicePixelRatio: density, matchMedia: () => media });
@@ -78,7 +78,7 @@ function setup(reduced = false, webgl = true, size = { width: 89.4, height: 80 }
     observe() {} disconnect = disconnect;
   });
   // This test double implements the canvas methods used by the renderer.
-  const cleanup = mountLiquidLogo(canvas as unknown as HTMLCanvasElement, fps);
+  const cleanup = mountLiquidLogo(canvas as unknown as HTMLCanvasElement);
   restore.push(cleanup);
   return {
     canvas, uniforms, images, frames, draw, release, disconnect, cleanup, loseContext,
@@ -208,31 +208,4 @@ test("teardown that reuses the canvas keeps the context", async () => {
   s.cleanup();
   await flush();
   expect(s.loseContext).not.toHaveBeenCalled();
-});
-
-test("a frame cap skips redraws while keeping animation speed", () => {
-  const s = setup(false, true, { width: 89.4, height: 80 }, 3, 30);
-  s.images[0].onload?.();
-  s.intersection(true);
-  s.tick(0);
-  expect(s.draw).toHaveBeenCalledTimes(1);
-  // Inside the 33.3ms gap: the frame is rescheduled but nothing is redrawn.
-  s.tick(20);
-  expect(s.draw).toHaveBeenCalledTimes(1);
-  expect(s.frames.size).toBe(1);
-  // Past the gap: one redraw, advanced by the whole elapsed time rather than
-  // by the portion since the last skipped frame.
-  s.tick(40);
-  expect(s.draw).toHaveBeenCalledTimes(2);
-  expect(s.uniforms.get("u_time")).toBe(12);
-});
-
-test("an uncapped instance redraws every frame", () => {
-  const s = setup();
-  s.images[0].onload?.();
-  s.intersection(true);
-  s.tick(0);
-  s.tick(20);
-  expect(s.draw).toHaveBeenCalledTimes(2);
-  expect(s.uniforms.get("u_time")).toBe(6);
 });
