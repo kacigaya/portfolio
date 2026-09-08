@@ -9,7 +9,24 @@ const links = [
   { href: "/feed.xml", label: "rss", external: false },
 ];
 
+async function getCurrentYear() {
+  "use cache";
+  cacheLife("days");
+
+  return new Date().getFullYear();
+}
+
 export async function Footer({ className }: { className?: string }) {
+  return <CachedFooter className={className} year={await getCurrentYear()} />;
+}
+
+async function CachedFooter({
+  className,
+  year,
+}: {
+  className?: string;
+  year: number;
+}) {
   "use cache";
   cacheLife("days");
 
@@ -22,9 +39,7 @@ export async function Footer({ className }: { className?: string }) {
         className,
       )}
     >
-      <span>
-        © Gaya KACI · built with next.js · {new Date().getFullYear()}
-      </span>
+      <span>© Gaya KACI · built with next.js · {year}</span>
       <ul className="flex flex-wrap items-center gap-x-4 gap-y-1">
         {links.map(({ href, label, external }) => (
           <li key={label}>

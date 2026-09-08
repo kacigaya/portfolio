@@ -64,13 +64,25 @@ export function toCalendar(days: ContributionDay[]): Calendar {
   return { weeks, months };
 }
 
-export async function getContributions(): Promise<
-  (Calendar & { total: number }) | null
-> {
+async function getToday() {
   "use cache";
   cacheLife("days");
 
-  const today = new Date().toISOString().slice(0, 10);
+  return new Date().toISOString().slice(0, 10);
+}
+
+export async function getContributions(): Promise<
+  (Calendar & { total: number }) | null
+> {
+  return getContributionsForDate(await getToday());
+}
+
+async function getContributionsForDate(
+  today: string,
+): Promise<(Calendar & { total: number }) | null> {
+  "use cache";
+  cacheLife("days");
+
   try {
     // y=last is the rolling 12-month window GitHub shows on a profile, not the
     // calendar year. Its total lands under a "lastYear" key instead of a year.

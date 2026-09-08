@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { Suspense } from "react";
+import { cache, Suspense } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
@@ -22,6 +22,8 @@ import {
 } from "@/lib/posts";
 import { formatDate } from "@/lib/utils";
 import "./prose.css";
+
+const getCachedPost = cache(getPost);
 
 export function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }));
@@ -58,7 +60,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = getCachedPost(slug);
   if (!post) return {};
   return {
     title: post.title,
@@ -104,7 +106,7 @@ async function BlogPostContent({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = getCachedPost(slug);
   if (!post) notFound();
 
   const headings = getHeadings(post.content);
