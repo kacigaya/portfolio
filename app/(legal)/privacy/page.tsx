@@ -39,10 +39,19 @@ export default function PrivacyPolicy() {
       <h2 className="md-h2 mt-10 text-base uppercase">server logs</h2>
       <p>
         The web server in front of this site writes an access log entry for
-        every request. Each entry holds your IP address, the time of the
-        request, the method and path requested, the response status and size,
-        the request duration, and the <code>User-Agent</code> and{" "}
-        <code>Referer</code> headers your browser sent.
+        every request. Each entry holds a truncated form of your IP address,
+        the time of the request, the method and path requested, the response
+        status and size, the request duration, and the <code>User-Agent</code>{" "}
+        and <code>Referer</code> headers your browser sent.
+      </p>
+      <p>
+        The truncation happens in the web server, before anything reaches the
+        disk, so the full address is never written down. An IPv4 address loses
+        its last octet and an IPv6 address is cut to its first 48 bits:{" "}
+        <code>203.0.113.47</code> is stored as <code>203.0.113.0</code>. That
+        is enough to tell one network&rsquo;s traffic from another when
+        something is being hammered, and not enough to pick you out of the
+        network you share it with.
       </p>
       <p>
         These logs exist to keep the site running and to investigate abuse:
@@ -53,8 +62,9 @@ export default function PrivacyPolicy() {
         measure audience.
       </p>
       <p>
-        Log files rotate automatically and old ones are deleted, so an entry
-        lives at most 90 days.
+        Log files rotate on a fixed size and the rotation deletes the oldest
+        ones, so no entry survives longer than 30 days and in practice most are
+        gone sooner.
       </p>
 
       <h2 className="md-h2 mt-10 text-base uppercase">
@@ -85,9 +95,11 @@ export default function PrivacyPolicy() {
       <h2 className="md-h2 mt-10 text-base uppercase">who else sees anything</h2>
       <ul>
         <li>
-          <strong>The hosting provider</strong> that operates the server this
-          site runs on, which necessarily carries the traffic and stores the
-          logs described above.
+          <strong>Oracle Cloud Infrastructure</strong>, which operates the
+          virtual server this site runs on, in its Paris region. The machine is
+          mine to administer, but Oracle owns the hardware underneath it, so the
+          traffic and the logs described above sit on their infrastructure.
+          Nothing leaves the EU.
         </li>
         <li>
           <strong>addy.io and my mail provider</strong>, and only for mail you
@@ -117,10 +129,13 @@ export default function PrivacyPolicy() {
         answer within a month.
       </p>
       <p>
-        Be aware that server logs are keyed to IP addresses and nothing else, so
-        a request about them has to include the address and rough time window
-        you used. Without that I cannot find your entries, and I will not
-        collect more data about you in order to try.
+        One honest limit: because the logs keep only a truncated address and no
+        identifier of any kind, I cannot tell which entries are yours, and I am
+        not going to collect more data about you in order to find out. GDPR
+        article 11 covers this, and the practical effect is that there is
+        nothing in the logs to hand over or single out for erasure. Mail you
+        have sent me is a different matter, and I can find and delete that on
+        request.
       </p>
       <p>
         If my answer does not satisfy you, you can complain to your national
