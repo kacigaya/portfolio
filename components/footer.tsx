@@ -7,6 +7,8 @@ const links = [
   { href: socials.linkedin, label: "linkedin", external: true },
   { href: socials.x, label: "x", external: true },
   { href: "/feed.xml", label: "rss", external: false },
+  { href: "/privacy", label: "privacy", external: false },
+  { href: "/cookies", label: "cookies", external: false },
 ];
 
 async function getCurrentYear() {
